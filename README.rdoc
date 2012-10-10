@@ -4,8 +4,8 @@ This is a class project for CS 169, Software Engineering, at UC Berkeley in Fall
 
 The goal of the project is to build a user-friendly web application for Fruitful Minds, Inc. which is a non-profit organization whose mission is to combat childhood obesity by delivering a customized nutrition program to communities in need.
 
-* SaaS Website: http://beta.saasbook.info/
-* Fruitful Minds current website: http://www.fruitfulminds.org/
+* SaaS Website: http://beta.saasbook.info
+* Fruitful Minds current website: http://www.fruitfulminds.org
 * Project description: http://cs169-fa12-project.herokuapp.com/projects/11
 
 == Developers
@@ -13,17 +13,16 @@ Group 25: Felix Wong, Jeff Crane, Justin Sung, Amir Khodaei, Mihir Joshi
 
 == Getting Started
 
-1. Clone this repository by typing:
+1. Clone the repository with the following command at the command prompt
        git clone git@github.com:khodaei/fruitfulminds.git
-at the command prompt.
 
-2. Change directory to <tt>fruitfulminds</tt>:
+2. Change the working directory
        cd fruitfulminds
 
-3. Run the following command to install necessary <tt>gems</tt>:
+3. Install the necessary <tt>gems</tt>
        bundle install --without production
 
-4. If built successfully, you can start developing your application.
+4. If built successfully, you can start developing on the application.
 
 The following resources may come in handy:
 * The Getting Started Guide: http://guides.rubyonrails.org/getting_started.html
