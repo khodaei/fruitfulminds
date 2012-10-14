@@ -31,12 +31,12 @@ Note: You have to be added to the list of collaborators of the git repo to push 
 
 Note: You have to be added to the collaborators of the fruitful-minds heroku app before doing any of the following.
 
-#1. Clone the heroku app
-#      git clone -o heroku git@heroku.com:fruitful-minds.git
+/*1. Clone the heroku app
+      git clone -o heroku git@heroku.com:fruitful-minds.git
 
 2. If you get "permission denied error", do the following first, then repeat step 1
       heroku keys:add
-
+*/
 3. Verify you have access to both git repo and heroku app by running
       git remote -v
 which should return something like this
