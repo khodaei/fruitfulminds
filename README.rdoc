@@ -36,7 +36,7 @@ Note: You have to be added to the collaborators of the fruitful-minds heroku app
 
 2. Verify you have access to both git repo and heroku app by running
       git remote -v
-  which should return something like this
+    which should return something like this
       heroku  git@heroku.com:fruitful-minds.git (fetch)
       heroku  git@heroku.com:fruitful-minds.git (push)
       origin  git@github.com:khodaei/fruitfulminds.git (fetch)
