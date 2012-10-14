@@ -13,10 +13,15 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails'
+  gem 'railroady'
+  gem 'haml-rails'
 end
 group :test do
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'
+  gem 'railroady'
+  gem 'haml-rails'
+  gem 'autotest-rails'
 end
 group :production do
 #  gem 'pg'
