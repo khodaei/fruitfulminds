@@ -7,6 +7,6 @@ class PostsurveysController < ApplicationController
     school = School.find_by_name(params[:school])
     @survey = school.postsurveys.create!(params[:presurvey])
     flash[:notice] = "Results successfully added."
-    redirect_to presurvey_path
+    redirect_to presurveys_path
   end
 end

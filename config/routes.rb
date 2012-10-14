@@ -1,7 +1,7 @@
 Fruitfulminds::Application.routes.draw do
 
-  resource :presurvey
-  resource :postsurvey
+  resource :presurveys
+  resource :postsurveys
   get 'home' => 'presurveys#show'
 
   # The priority is based upon order of creation:
