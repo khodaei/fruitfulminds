@@ -1,0 +1,21 @@
+%h2 Add new post-survey results
+
+= form_tag postsurvey_path do
+
+  = label :postsurvey, :school, 'School'
+  %select{:name => "school_id"}
+    - @all_schools.each do |school|
+      %option{:name => "postsurvey[22323]", :id => "postsurvey[aaa]", :value => school.name}= school.name
+
+  <br />
+  - 6.times do |i|
+    = label :postsurvey, "s#{i + 1}_label", "Section #{i + 1}"
+    = text_field :postsurvey, "s#{i + 1}"
+    <br />
+
+  - 10.times do |i|
+    = label :postsurvey, "e#{i + 1}_label", "Efficacy #{i + 1}"
+    = text_field :postsurvey, "e#{i + 1}"
+    <br />
+
+  = submit_tag 'Save Changes'
