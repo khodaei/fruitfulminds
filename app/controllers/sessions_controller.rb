@@ -6,7 +6,8 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to '/'
     else
-      render :new
+      flash[:warning] = "Incorrect #{user.nil? ? 'email/' : ''}password! Please try again."
+      redirect_to login_path
     end
   end
 

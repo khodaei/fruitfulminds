@@ -9,29 +9,30 @@ Background: users have been added to database
   Given the following users exist:
   | email              | password | name         | type |
   | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |
-  | felix1@gmail.com   | 342adsf  | felix wong   | 2    |
 
-  And I am on the FruitfulMinds homepage
+  And I am on the login page
 
-Scenario: ambassador logs in
-  Given I enter "amirk88" as my username
-  And I enter "12345" as my password
-  And I press "Login"
-  Then I should be on "Ambassador Portal"
-  And I should see "Add Survey Results"
+Scenario: ambassador/administrator logs in
+  Given I fill in "Email" with "amirk88@gmail.com"
+  And I fill in "Pass" with "123f5"
+  And I press "Sign In"
+  Then I should be on the portal page
+  And I should see "Add Pre-Survey Results"
+  And I should see "Add Post-Survey Results"
   And I should see "Generate Report"
 
-Scenario: administrator logs in
-  Given I enter "felix1" as my username
-  And I enter "342adsf" as my password
-  And I press "Login"
-  Then I should be on "Administrator Protal"
-  And I should see "Add Survey Results"
-  And I should see "Generate Report"
+# Scenario: administrator logs in
 
-Scenario: user does not exists
-  Given I enter "someone" as my username
-  And I enter "2442j3" as my password
-  And I press "Login"
-  Then I should be on homepage
-  And I should see "user does not exist"
+Scenario: Incorrect password is entered
+  Given I fill in "Email" with "amirk88@gmail.com"
+  And I fill in "Pass" with "password"
+  And I press "Sign In"
+  Then I should be on the login page
+  And I should see "Incorrect password! Please try again."
+
+Scenario: Incorrect username is entered
+  Given I fill in "Email" with "felix@wong.com"
+  And I fill in "Pass" with "password"
+  And I press "Sign In"
+  Then I should be on the login page
+  And I should see "Incorrect email/password! Please try again."
