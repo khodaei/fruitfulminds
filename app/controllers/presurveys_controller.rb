@@ -4,8 +4,9 @@ class PresurveysController < ApplicationController
   end
 
   def create
-    @survey = Presurvey.create!(params[:presurvey])
+    school = School.find_by_name(params[:school])
+    @survey = school.presurveys.create!(params[:presurvey])
     flash[:notice] = "Results successfully added."
-    redirect_to presurvey_path
+    redirect_to presurveys_path
   end
 end

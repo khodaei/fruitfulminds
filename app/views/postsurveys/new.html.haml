@@ -1,11 +1,11 @@
-%h2 Add new pre-survey results
+%h2 Add new post-survey results
 
-= form_tag presurvey_path do
+= form_tag presurveys_path do
 
   = label :presurvey, :school, 'School'
-  %select{:name => "school_id"}
+  %select{:name => "school"}
     - @all_schools.each do |school|
-      %option{:name => "presurvey[22323]", :id => "presurvey[aaa]", :value => school.name}= school.name
+      %option= school.name
 
   <br />
   - 6.times do |i|
