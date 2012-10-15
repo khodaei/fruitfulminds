@@ -17,7 +17,8 @@ module NavigationHelpers
     when /^the Add new pre-survey results page$/ then new_presurveys_path
     when /^the Add new post-survey results page$/ then new_postsurveys_path
     when /^the surveys page$/ then '/surveys'
-
+    when /^the reports page$/
+      '/reports'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

@@ -3,7 +3,7 @@ Fruitfulminds::Application.routes.draw do
 
   resource :users
   resource :sessions
-  resource :report
+  resource :reports
   resource :presurveys
   resource :postsurveys
 

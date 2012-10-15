@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014215629) do
+ActiveRecord::Schema.define(:version => 20121015024258) do
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_id"
@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(:version => 20121014215629) do
     t.integer  "efficacy_8"
     t.integer  "efficacy_9"
     t.integer  "efficacy_10"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reports", :force => true do |t|
+    t.string   "school_id"
+    t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
