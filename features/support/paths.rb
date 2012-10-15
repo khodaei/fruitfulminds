@@ -8,8 +8,8 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-    when /^the Add new pre-survey results page$/ then new_presurvey_path
-    when /^the Add new post-survey results page$/ then new_postsurvey_path
+    when /^the Add new pre-survey results page$/ then new_presurveys_path
+    when /^the Add new post-survey results page$/ then new_postsurveys_path
     when /^the (Fruitful Minds )?home\s?page$/ then '/home'
     when /^the surveys page$/ then '/surveys'
     # Add more mappings here.
