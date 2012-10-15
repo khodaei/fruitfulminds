@@ -20,7 +20,7 @@ Then /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   select(value, :from => field)
 end 
 
-And /I am logged in/ do
+Given /\s*I am logged in$/ do
   steps %Q{
 And I am on the login page
 And I fill in "Email" with "amirk88@gmail.com"
