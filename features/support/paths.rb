@@ -10,7 +10,9 @@ module NavigationHelpers
 
     when /^the Add new pre-survey results page$/ then new_presurvey_path
     when /^the Add new post-survey results page$/ then new_postsurvey_path
-    when /^the (Fruitful Minds )?home\s?page$/ then '/home'
+    when /^the FruitfulMinds home\s?page$/
+      '/'
+#  when /^the (Fruitful Minds )?home\s?page$/ then '/home'
     when /^the surveys page$/ then '/surveys'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

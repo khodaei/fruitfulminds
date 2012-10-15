@@ -7,9 +7,9 @@ Feature: user logs into his/her portal
 Background: users have been added to database
 
   Given the following users exist:
-  | username | password | name         | type |
-  | amirk88  | 12345    | amir khodaei | 1    |
-  | felix1   | 342adsf  | felix wong   | 2    |
+  | email              | password | name         | type |
+  | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |
+  | felix1@gmail.com   | 342adsf  | felix wong   | 2    |
 
   And I am on the FruitfulMinds homepage
 

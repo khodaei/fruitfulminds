@@ -1,0 +1,8 @@
+=flash[:notice]
+
+=form_tag sessions_path do
+  =label :user, :email, "Email"
+  =text_field :user, :email
+  =label :user, :password
+  =password_field :user, :password
+  =submit_tag "Sign In"
