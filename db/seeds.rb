@@ -6,5 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+User.create!({:name => "test account", :email => "user@fruitfulminds.org", :password => "password", :type => 1})
 School.create!({:name => 'school name', :state => 'state', :county => 'county', :district => 'district'})
 School.create!({:name => 'another school name', :state => 'another state', :county => 'another county', :district => 'another district'})
