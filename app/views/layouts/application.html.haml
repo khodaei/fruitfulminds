@@ -5,12 +5,42 @@
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
+  :css
+    #header span{
+      font-weight: 500;
+      position: relative;
+    }
+    #title{
+      font-size: x-large;
+      top: -10px;
+    }
+    #subtitle{
+      font-size: large;
+      top: -10px;
+    }
+    #survey_options p{
+      margin-bottom: -8px;
+    }
 
   %body
-    %h2.title Fruitful Minds
+    %span#header
+      %span
+        = image_tag("fm_icon.jpg", :height => "45", :alt => "image not found")
+      %span
+        %span#title Fruitful Minds: 
+        %span#subtitle 
+          =@subtitle
+    %div#survey_options
+      %p County:
+      %p City:
+      %p School Name:
+      %p Survey Period:
+    %br
+    %br
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
       - elsif flash[:warning]
         #warning.message= flash[:warning]
       = yield
+    
