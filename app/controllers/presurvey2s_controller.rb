@@ -1,18 +1,18 @@
-class PostsurveysController < ApplicationController
+class Presurvey2sController < ApplicationController
   def new
     @all_schools = School.all
-    @postsurvey_fields = Postsurvey.new(params[:postsurvey])
+    @presurvey2_fields = Presurvey.new(params[:presurvey])
   end
 
   def create
     school = School.find_by_name(params[:school])
     begin
-      @survey = school.postsurveys.create!(params[:postsurvey])
+      @survey = school.presurveys.create!(params[:presurvey])
       flash[:notice] = "Results successfully added."
-      redirect_to new_postsurveys_path
+      redirect_to new_presurvey2s_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
-      redirect_to new_postsurveys_path(:postsurvey => params[:postsurvey])
+      redirect_to new_presurvey2s_path(:presurvey => params[:presurvey])
     end
   end
 end

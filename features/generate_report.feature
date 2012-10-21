@@ -13,9 +13,9 @@ Background: Generate report based on survey results
     | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |
 
   Given the following schools exist:
-    | name    | state | county  | district |
-    | school1 | CA    | Alameda | Berkeley |
-    | school2 | CA    | Rowland | Rowland  |
+    | name    | county  | city     |
+    | school1 | Alameda | Berkeley |
+    | school2 | Rowland | Rowland  |
 
   Given the following pre-results exist:
     | school_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |

@@ -1,0 +1,15 @@
+%h2 Add new pre-survey part 1 results
+
+= form_for @presurvey1_fields, :url => {:action => :create} do |f|
+
+  - 6.times do |i|
+    = label :presurvey1s, "section_#{i + 1}", "Section #{i + 1}"
+    = f.text_field "section_#{i + 1}"
+    <br />
+
+  - 10.times do |i|
+    = label :presurvey1s, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
+    = f.text_field "efficacy_#{i + 1}"
+    <br />
+
+  = submit_tag 'Save Changes'

@@ -16,8 +16,8 @@ Background: results are to be added to database
     |     8     | 8  | 1  | 7  | 7  | 7  | 5  | 4  | 4  | 7  | 6  | 5  | 7  | 9  | 9  | 6  | 3   |
     |     9     | 3  | 2  | 2  | 2  | 2  | 6  | 4  | 6  | 8  | 5  | 6  | 9  | 3  | 1  | 5  | 2   |
   Given the following schools exist:
-    | name | state | county | district | 
-    | "school1" | "CA" | "Alameda" | "Berkeley" |
+    | name | county | city | 
+    | "school1" | "Alameda" | "Berkeley" |
 
   And   I am logged in
   And   I am on the portal page

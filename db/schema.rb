@@ -66,9 +66,8 @@ ActiveRecord::Schema.define(:version => 20121015024258) do
 
   create_table "schools", :force => true do |t|
     t.string   "name"
-    t.string   "state"
+    t.string   "city"
     t.string   "county"
-    t.string   "district"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
