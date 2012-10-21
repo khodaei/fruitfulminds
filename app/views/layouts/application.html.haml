@@ -7,18 +7,6 @@
     = csrf_meta_tags
 
   %body
-    %h1.title Fruitful Minds
-    - if current_user
-      - school = session[:school]
-      County:
-      = school.county
-      <br />
-      City:
-      = school.city
-      <br />
-      School Name:
-      = school.name
-
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
