@@ -1,8 +1,9 @@
 Fruitfulminds::Application.routes.draw do
-  root :to => "home#index"
+
+  root :to => "home#portal"
 
   resource :users
-  resource :sessions
+  resource :sessions, :only => [:create, :destroy, :new]
   resource :reports
   resource :presurveys
   resource :postsurveys
