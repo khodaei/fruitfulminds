@@ -17,9 +17,10 @@ Scenario: ambassador/administrator logs in
   And I fill in "Pass" with "123f5"
   And I press "Sign In"
   Then I should be on the portal page
-  And I should see "Add Pre-Survey Results"
+  And I should see "Add Pre-Survey Part 1 Results"
+  And I should see "Add Pre-Survey Part 2 Results"
   And I should see "Add Post-Survey Results"
-  And I should see "Generate Report"
+  And I should see "Preview Report/Add Ambassador Comments"
 
 # Scenario: administrator logs in
 
