@@ -12,6 +12,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
+  gem 'rspec-rails'
   gem 'railroady'
   gem 'haml-rails'
 end
@@ -23,7 +24,7 @@ group :test do
   gem 'autotest-rails'
 end
 group :production do
-#  gem 'pg'
+#gem 'pg'
 end
 
 # Gems used only for assets and not required

@@ -37,6 +37,18 @@
       %p Survey Period:
     %br
     %br
+
+    - if current_user
+      - school = session[:school]
+      County:
+      = school.county
+      <br />
+      City:
+      = school.city
+      <br />
+      School Name:
+      = school.name
+
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]

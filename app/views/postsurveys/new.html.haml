@@ -1,21 +1,21 @@
 - @subtitle = "Add New Post-Survey Results"
 
-= form_tag presurveys_path do
+= form_for @postsurvey_fields do |f|
 
-  = label :presurvey, :school, 'School'
+  = label :postsurvey, :school, 'School'
   %select{:name => "school"}
     - @all_schools.each do |school|
       %option= school.name
 
   <br />
   - 6.times do |i|
-    = label :presurvey, "section_#{i + 1}", "Section #{i + 1}"
-    = text_field :presurvey, "section_#{i + 1}"
+    = label :postsurvey, "section_#{i + 1}", "Section #{i + 1}"
+    = f.text_field "section_#{i + 1}"
     <br />
 
   - 10.times do |i|
-    = label :presurvey, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
-    = text_field :presurvey, "efficacy_#{i + 1}"
+    = label :postsurvey, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
+    = f.text_field "efficacy_#{i + 1}"
     <br />
 
   = submit_tag 'Save Changes'
