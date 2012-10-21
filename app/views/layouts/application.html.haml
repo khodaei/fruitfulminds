@@ -8,6 +8,8 @@
 
   %body
     %h2.title Fruitful Minds
+    - if @current_user
+      = link_to "Log Out", logout_path
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]

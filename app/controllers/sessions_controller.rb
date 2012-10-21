@@ -1,9 +1,10 @@
 class SessionsController < ApplicationController
+  skip_before_filter :current_user
 
   def create
     user = User.where(:email => params[:user][:email]).first
     if user && user.authenticate(params[:user][:password])
-#session[:user_id] = user.id
+      session[:user_id] = user.id
       redirect_to '/portal'
     else
       flash[:warning] = "Incorrect #{user.nil? ? 'email/' : ''}password! Please try again."
@@ -12,8 +13,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-#   session[:user_id] = nil
-    redirect_to "/"
+    session[:user_id] = nil
+    redirect_to '/'
   end
 
 end
