@@ -14,8 +14,8 @@ module NavigationHelpers
       '/login'
     when /^the portal page$/
       '/portal'
-    when /^the Add new pre-survey part 1 results page$/ then new_presurvey1s_path
-    when /^the Add new pre-survey part 2 results page$/ then new_presurvey2s_path
+    when /^the Add new pre-survey part 1 results page$/ then new_presurveys_part1_path
+    when /^the Add new pre-survey part 2 results page$/ then new_presurveys_part2_path
     when /^the Add new post-survey results page$/ then new_postsurveys_path
     when /^the surveys page$/ then '/surveys'
     when /^the reports page$/

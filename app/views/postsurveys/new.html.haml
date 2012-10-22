@@ -1,21 +1,17 @@
-- @subtitle = "Add New Post-Survey Results"
+- @subtitle =  "Add New Post-Survey Results (Part 1)"
 
 = form_for @postsurvey_fields do |f|
 
-  = label :postsurvey, :school, 'School'
-  %select{:name => "school"}
-    - @all_schools.each do |school|
-      %option= school.name
-
-  <br />
   - 6.times do |i|
-    = label :postsurvey, "section_#{i + 1}", "Section #{i + 1}"
+    = label :postsurveys, "section_#{i + 1}", "Section #{i + 1}"
     = f.text_field "section_#{i + 1}"
-    <br />
+    %br
 
   - 10.times do |i|
-    = label :postsurvey, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
+    = label :postsurveys, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
     = f.text_field "efficacy_#{i + 1}"
-    <br />
+    %br
 
-  = submit_tag 'Save Changes'
+  = submit_tag 'Add More Results'
+
+= button_to 'Previous', :portal, :method => :get

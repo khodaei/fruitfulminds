@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :presurveys
+  has_many :postsurveys
   has_and_belongs_to_many :school_infos
   belongs_to :school
 

@@ -7,8 +7,12 @@ Feature: user logs into his/her portal
 Background: users have been added to database
 
   Given the following users exist:
-  | email              | password | name         | type |
-  | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |
+  | email              | password | name         | type | school_id |
+  | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |     1     |
+
+  Given the following schools exist:
+    | name    | county  | city     |
+    | school1 | Alameda | Berkeley |
 
   And I am on the login page
 

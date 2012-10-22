@@ -5,9 +5,11 @@ class PostsurveysController < ApplicationController
   end
 
   def create
-    school = School.find_by_name(params[:school])
+    school = School.find(@school)
     begin
-      @survey = school.postsurveys.create!(params[:postsurvey])
+      ps = @current_user.postsurveys.new
+      ps.school_info_id = SchoolInfo.find(school)
+      ps.update_attributes!(params[:postsurvey])
       flash[:notice] = "Results successfully added."
       redirect_to new_postsurveys_path
     rescue ActiveRecord::RecordInvalid

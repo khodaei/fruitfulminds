@@ -7,8 +7,8 @@ Feature: add pre-survey results
 Background: results are to be added to database
 
   Given the following users exist:
-    | email              | password | name         | type |
-    | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |
+    | email              | password | name         | type | school_id |
+    | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |     1     |
 
   Given the following pre-results exist:
     | user_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
@@ -20,7 +20,11 @@ Background: results are to be added to database
     | name | county | city | 
     | "school1" | "Alameda" | "Berkeley" |
     
-  And   I am logged in
+  Given the following school_infos exist:
+    | school_id | semester | year |
+    |     1     |   Fall   | 2011 |
+
+  And   I am logged in as amir
   And   I am on the portal page
 
 Scenario: add new pre-results to database

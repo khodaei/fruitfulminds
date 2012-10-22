@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
 
   def create
     school = School.find(params[:school])
-    if school.presurveys.size > 0 and school.postsurveys.size > 0
+    if @current_user.presurveys.size > 0 and @current_user.postsurveys.size > 0
       @report = Report.create!(:school_id => params[:school])
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       #generate
