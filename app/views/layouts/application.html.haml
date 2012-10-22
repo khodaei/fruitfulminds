@@ -38,7 +38,7 @@
     %br
     %br
 
-    - if current_user
+    - if @current_user
       - school = session[:school]
       County:
       = school.county
@@ -49,6 +49,8 @@
       School Name:
       = school.name
 
+    - if @current_user
+      = link_to "Log Out", logout_path
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
