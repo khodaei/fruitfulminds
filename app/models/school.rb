@@ -1,5 +1,6 @@
 class School < ActiveRecord::Base
-  has_many :presurveys
-  has_many :postsurveys
-  has_many :reports
+  has_many :presurveys, :through => :survey_info
+  has_many :postsurveys, :through => :survey_info
+  has_many :school_info
+  has_one :report
 end

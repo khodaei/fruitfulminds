@@ -1,7 +1,8 @@
 class CreatePresurveys < ActiveRecord::Migration
   def change
     create_table :presurveys do |t|
-      t.references 'school'
+      t.references 'school_info'
+      t.references 'user'
       t.integer :section_1
       t.integer :section_2
       t.integer :section_3

@@ -7,7 +7,7 @@ class Presurvey1sController < ApplicationController
   def create
     school = School.find(session[:school])
     begin
-      school.presurveys.create!(params[:presurvey])
+      school.school_info.presurvey.create!(params[:presurvey])
       flash[:notice] = "Results successfully added."
       redirect_to new_presurvey1s_path
     rescue ActiveRecord::RecordInvalid

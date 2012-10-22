@@ -15,6 +15,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'railroady'
   gem 'haml-rails'
+  gem 'simplecov'
 end
 group :test do
   gem 'cucumber-rails', :require => false
@@ -24,7 +25,7 @@ group :test do
   gem 'autotest-rails'
 end
 group :production do
-#gem 'pg'
+  gem 'pg'
 end
 
 # Gems used only for assets and not required

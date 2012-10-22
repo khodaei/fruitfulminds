@@ -25,7 +25,6 @@ Background: results are to be added to database
 Scenario: add new post-results to database
   When  I follow "Add Post-Survey Results"
   Then  I should be on the Add new post-survey results page
-  And 	I select "school1" from "school"
   And   I fill in "Section 1" with "7"
   And   I fill in "Section 2" with "7"
   And   I fill in "Section 3" with "7"
