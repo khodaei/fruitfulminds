@@ -12,7 +12,7 @@ class ReportsController < ApplicationController
       redirect_to portal_path
     else
       flash[:warning] = "#{school.name} does not have pre/post surveys"
-      redirect_to new_reports_path
+      redirect_to new_report_path
     end
   end
   
