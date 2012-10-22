@@ -2,15 +2,15 @@ Fruitfulminds::Application.routes.draw do
 
   root :to => "home#portal"
 
-  resource :users
-  resource :sessions, :only => [:create, :destroy, :new]
-  resource :reports
+  resources :users
+  resources :sessions, :only => [:create, :destroy, :new]
+  resources :reports
   resource :presurveys do
-    resource :part1, :to => "presurveys"
-    resource :part2, :to => "presurveys"
+    resources :part1, :to => "presurveys"
+    resources :part2, :to => "presurveys"
   end
-  resource :postsurveys
-  resource :foodjournals
+  resources :postsurveys
+  resources :foodjournals
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

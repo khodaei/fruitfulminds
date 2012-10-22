@@ -2,12 +2,38 @@
 
 =link_to "Add Pre-Survey Part 1 Results", new_presurveys_part1_path
 =link_to "Add Pre-Survey Part 2 Results", new_presurveys_part2_path
-=link_to "Add Post-Survey Results", new_postsurveys_path
-=link_to "Add Food Journal", new_foodjournals_path
-=link_to "Preview Report/Add Ambassador Comments", new_reports_path
+=link_to "Add Post-Survey Results", new_postsurvey_path
+=link_to "Add Food Journal", new_foodjournal_path
+=link_to "Preview Report/Add Ambassador Comments", new_report_path
+%br
+%br
 
-- Presurvey.all.each do |s|
-  - s.attributes.each do |a,b|
-    = a
-    =b
-    <br />
+%h3 Pre-Surveys
+%table
+  %tbody
+    %tr
+    - @current_user.presurveys.each do |survey|
+      %td
+        - survey.attributes.each do |k,v|
+          - if k[/section/]
+            = "Section #{k.split('_')[1]}: #{v}"
+            %br
+          - if k[/efficacy/]
+            = "Efficacy #{k.split('_')[1]}: #{v}"
+            %br
+        = button_to "Edit Pre-Survey", edit_presurveys_part1_path(survey), :method => :get
+
+%h3 Post-Surveys
+%table
+  %tbody
+    %tr
+    - @current_user.postsurveys.each do |survey|
+      %td
+        - survey.attributes.each do |k,v|
+          - if k[/section/]
+            = "Section #{k.split('_')[1]}: #{v}"
+            %br
+          - if k[/efficacy/]
+            = "Efficacy #{k.split('_')[1]}: #{v}"
+            %br
+        = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get
