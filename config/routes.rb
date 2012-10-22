@@ -5,8 +5,10 @@ Fruitfulminds::Application.routes.draw do
   resource :users
   resource :sessions, :only => [:create, :destroy, :new]
   resource :reports
-  resource :presurvey1s
-  resource :presurvey2s
+  resource :presurveys do
+    resource :part1, :to => "presurveys"
+    resource :part2, :to => "presurveys"
+  end
   resource :postsurveys
   resource :foodjournals
 

@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(:version => 20121021223404) do
   end
 
   create_table "presurveys", :force => true do |t|
-    t.integer  "surveyinfos_id"
+    t.integer  "school_info_id"
     t.integer  "user_id"
     t.integer  "section_1"
     t.integer  "section_2"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20121021223404) do
 
   create_table "school_infos", :force => true do |t|
     t.integer  "school_id"
+    t.integer  "user_id"
     t.integer  "year"
     t.string   "semester"
     t.datetime "created_at"
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20121021223404) do
   end
 
   create_table "users", :force => true do |t|
+    t.integer  "school_info_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
