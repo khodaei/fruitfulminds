@@ -30,24 +30,13 @@
         %span#title Fruitful Minds: 
         %span#subtitle 
           =@subtitle
-    %div#survey_options
-      %p County:
-      %p City:
-      %p School Name:
-      %p Survey Period:
-    %br
-    %br
-
     - if @current_user
-      - school = session[:school]
-      County:
-      = school.county
-      <br />
-      City:
-      = school.city
-      <br />
-      School Name:
-      = school.name
+      %div#survey_options
+        %p= "County: #{@school.county}"
+        %p= "City: #{@school.city}"
+        %p= "School Name: #{@school.name}"
+    %br
+    %br
 
     - if @current_user
       = link_to "Log Out", logout_path

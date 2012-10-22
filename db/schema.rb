@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20121021223404) do
   end
 
   create_table "users", :force => true do |t|
-    t.integer  "school_info_id"
+    t.integer  "school_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
