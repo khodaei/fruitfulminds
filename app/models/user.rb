@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  belongs_to :school
 
   has_secure_password
   validate :name, :presence => true

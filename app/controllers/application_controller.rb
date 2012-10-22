@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   protected
   def current_user
     @current_user ||= User.find_by_id(session[:user_id])
-    redirect_to login_path unless @current_user
+    if @current_user
+      @school = @current_user.school
+    else
+      redirect_to login_path unless @current_user
+    end
   end
 end

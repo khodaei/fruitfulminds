@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015024258) do
+ActiveRecord::Schema.define(:version => 20121021223404) do
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_id"
@@ -36,7 +36,8 @@ ActiveRecord::Schema.define(:version => 20121015024258) do
   end
 
   create_table "presurveys", :force => true do |t|
-    t.integer  "school_id"
+    t.integer  "school_info_id"
+    t.integer  "user_id"
     t.integer  "section_1"
     t.integer  "section_2"
     t.integer  "section_3"
@@ -64,16 +65,24 @@ ActiveRecord::Schema.define(:version => 20121015024258) do
     t.datetime "updated_at"
   end
 
+  create_table "school_infos", :force => true do |t|
+    t.integer  "school_id"
+    t.integer  "year"
+    t.string   "semester"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "schools", :force => true do |t|
     t.string   "name"
-    t.string   "state"
+    t.string   "city"
     t.string   "county"
-    t.string   "district"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
+    t.integer  "school_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
