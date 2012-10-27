@@ -1,0 +1,2 @@
+class FoodJournalsController < ApplicationController
+end

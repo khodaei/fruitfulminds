@@ -38,8 +38,6 @@
     %br
     %br
 
-    - if @current_user
-      = link_to "Log Out", logout_path, :id => "log_out"
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
@@ -47,3 +45,5 @@
         #warning.message= flash[:warning]
       = yield
     
+    - if @current_user
+      = link_to "Log Out", logout_path, :id => "log_out"

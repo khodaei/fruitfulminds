@@ -21,20 +21,19 @@
           - if k[/efficacy/]
             = "Efficacy #{k.split('_')[1]}: #{v}"
             %br
-        = button_to "Edit Pre-Survey", edit_presurveys_part1_path(survey), :method => :get
+        = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_presurvey_#{survey.id}"
 
-/  %h3 Post-Surveys
-
-/  %table
-/    %tbody
-/      %tr
-/      - @current_user.postsurveys.each do |survey|
-/        %td
-/          - survey.attributes.each do |k,v|
-/            - if k[/section/]
-/              = "Section #{k.split('_')[1]}: #{v}"
-/              %br
-/            - if k[/efficacy/]
-/              = "Efficacy #{k.split('_')[1]}: #{v}"
-/              %br
-/          = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get
+%h3 Post-Surveys
+%table
+  %tbody
+    %tr
+    - @current_user.postsurveys.each do |survey|
+      %td
+        - survey.attributes.each do |k,v|
+          - if k[/section/]
+            = "Section #{k.split('_')[1]}: #{v}"
+            %br
+          - if k[/efficacy/]
+            = "Efficacy #{k.split('_')[1]}: #{v}"
+            %br
+        = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_postsurvey_#{survey.id}"
