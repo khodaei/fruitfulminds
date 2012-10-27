@@ -12,11 +12,11 @@ School.create!({:name => 'school name', :county => 'county', :city => 'city'})
 School.create!({:name => 'another school', :county => 'another county', :city => 'another city'})
 SchoolInfo.create!({:school_id => 1, :semester => "Fall", :year => 2012, :user_id => 1})
 StaticContent.create!({
-                   :intro_title => "Intro to Fruitful Minds"
-                   :introduction => "Fruitful Minds is a start up, non-profit organization providing nutrition education to youth at greatest risk for obesity and related illnesses.  The program recruits young people with a passion for health and education from local colleges and universities like UC Berkeley to develop curriculum and instruct children through classroom presentation, after school sports programs and summer camps.  While many nutrition programs exist today, Fruitful Minds is unique in its targeting of at-risk youth, customized approach and use of college students to deliver the program.  Fruitful Minds goal is to identify elementary schools, middle schools, and community centers where a nutrition education component is lacking and partner with existing sports, cooking or gardening programs to form a complete education focused on ending the escalating rate of obesity among at-risk youth."
-                   :objective_title => "Fruitful Minds 7-Week Lesson Objectives"
-                   #:objectives =>
-                   :strength_intro => "Based on the pre- and post-curriculum surveys, as well as feedback from the ambassadors, we identified areas of strength and weaknesses. Below is a list of strengths and weaknesses of the class series:"
-                   :eval_title => "Curriculum Evaluations"
+                   :intro_title => "Intro to Fruitful Minds",
+                   :introduction => "Fruitful Minds is a start up, non-profit organization providing nutrition education to youth at greatest risk for obesity and related illnesses.  The program recruits young people with a passion for health and education from local colleges and universities like UC Berkeley to develop curriculum and instruct children through classroom presentation, after school sports programs and summer camps.  While many nutrition programs exist today, Fruitful Minds is unique in its targeting of at-risk youth, customized approach and use of college students to deliver the program.  Fruitful Minds goal is to identify elementary schools, middle schools, and community centers where a nutrition education component is lacking and partner with existing sports, cooking or gardening programs to form a complete education focused on ending the escalating rate of obesity among at-risk youth.",
+                   :objectives_title => "Fruitful Minds 7-Week Lesson Objectives",
+                   :objectives => "Placeholder",
+                   :strength_intro => "Based on the pre- and post-curriculum surveys, as well as feedback from the ambassadors, we identified areas of strength and weaknesses. Below is a list of strengths and weaknesses of the class series:",
+                   :eval_title => "Curriculum Evaluations",
                    :summary => "Based on our evaluation, we plan to spend more time developing the concepts that proved to be incompletely understood at the completion of the lesson series, and include more in-class activities that reinforce these learning objectives."
                   })
