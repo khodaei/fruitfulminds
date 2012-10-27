@@ -21,6 +21,13 @@
       font-size: large;
       top: -10px;
     }
+    #user_control{
+      float: right;
+      position: relative;
+    }
+    .user_action{
+      margin: 0px 0px 0px 10px;
+    }
     #survey_options{
       padding: 20px 0px 0px 0px;
     }
@@ -29,11 +36,17 @@
     %div.background
       %span#header
         %span
-          = image_tag("fm_icon.jpg", :height => "45", :alt => "image not found")
+          = image_tag("fm_icon.jpg", :height => "40", :alt => "image not found")
         %span
           %span#title Fruitful Minds: 
           %span#subtitle 
             =@subtitle
+          %span#user_control
+            - if @current_user
+              %span.user_action
+                = link_to "Previous", :portal, :method => :get
+              %span.user_action
+                = link_to "Log Out", logout_path, :id => "log_out"
       - if @current_user
         %div#survey_options
           %p= "County: #{@school.county}"
@@ -47,6 +60,3 @@
         #warning.message= flash[:warning]
       = yield
 
-    %div.background
-      - if @current_user
-        = link_to "Log Out", logout_path, :id => "log_out"
