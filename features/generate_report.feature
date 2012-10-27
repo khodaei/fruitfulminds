@@ -33,11 +33,13 @@ Background: Generate report based on survey results
     |     1     |   Fall   | 2011 |
 
 Scenario: Generate Report
-  Given   I am logged in as amir
-  And   I am on the generate report page
+  Given I am logged in as amir
+  And I am on the generate report page
   And I select "school1" from "school"
   And I press "Generate Report"
-  Then I should be on the portal page
+  Then I should be on the generate reprt page
+  And I should see the content for school1
+  And I should see the download link
   And I should see "Report generated successfully for school1"
 
 Scenario: Generate Report Failure

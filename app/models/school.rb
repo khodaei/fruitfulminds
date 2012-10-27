@@ -4,4 +4,5 @@ class School < ActiveRecord::Base
   has_many :reports
   has_many :school_infos
   has_many :users
+  has_many :reports
 end

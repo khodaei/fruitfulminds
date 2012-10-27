@@ -61,9 +61,29 @@ ActiveRecord::Schema.define(:version => 20121021223404) do
 
   create_table "reports", :force => true do |t|
     t.string   "school_id"
-    t.string   "content"
+    #t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+  
+  create_table "static_content", :force => true do |t|
+    t.text     "introduction"
+    t.text     "objectives"
+    t.text     "strength_intro"
+    t.text     "intro_title"
+    t.text     "objective_title"
+    t.text     "eval_title"
+  
+  end
+  
+  create_table "dynamic_content", :force => true do |t|
+    t.string   "school_id"
+    t.text     "header"
+    t.text     "school_intro"
+    t.text     "school_evaluations"
+    t.text     "weaknesses"
+    t.text     "school_intro_title"
+    t.text     "strength_weakness_title"  
   end
 
   create_table "school_infos", :force => true do |t|

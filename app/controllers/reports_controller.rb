@@ -9,7 +9,7 @@ class ReportsController < ApplicationController
       @report = Report.create!(:school_id => params[:school])
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       #generate
-      redirect_to portal_path
+      redirect_to new_report_path
     else
       flash[:warning] = "#{school.name} does not have pre/post surveys"
       redirect_to new_report_path
