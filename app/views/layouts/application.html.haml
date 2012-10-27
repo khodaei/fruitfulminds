@@ -6,6 +6,9 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   :css
+    .background, #main{
+      padding: 10px 20px 10px 20px;
+    }
     #header span{
       font-weight: 500;
       position: relative;
@@ -18,25 +21,37 @@
       font-size: large;
       top: -10px;
     }
-    #survey_options p{
-      margin-bottom: -8px;
+    #user_control{
+      float: right;
+      position: relative;
+    }
+    .user_action{
+      margin: 0px 0px 0px 10px;
+    }
+    #survey_options{
+      padding: 20px 0px 0px 0px;
     }
 
   %body
-    %span#header
-      %span
-        = image_tag("fm_icon.jpg", :height => "45", :alt => "image not found")
-      %span
-        %span#title Fruitful Minds: 
-        %span#subtitle 
-          =@subtitle
-    - if @current_user
-      %div#survey_options
-        %p= "County: #{@school.county}"
-        %p= "City: #{@school.city}"
-        %p= "School Name: #{@school.name}"
-    %br
-    %br
+    %div.background
+      %span#header
+        %span
+          = image_tag("fm_icon.jpg", :height => "40", :alt => "image not found")
+        %span
+          %span#title Fruitful Minds: 
+          %span#subtitle 
+            =@subtitle
+          %span#user_control
+            - if @current_user
+              %span.user_action
+                = link_to "Previous", :portal, :method => :get
+              %span.user_action
+                = link_to "Log Out", logout_path, :id => "log_out"
+      - if @current_user
+        %div#survey_options
+          %p= "County: #{@school.county}"
+          %p= "City: #{@school.city}"
+          %p= "School Name: #{@school.name}"
 
     #main
       - if flash[:notice]
@@ -44,6 +59,3 @@
       - elsif flash[:warning]
         #warning.message= flash[:warning]
       = yield
-    
-    - if @current_user
-      = link_to "Log Out", logout_path, :id => "log_out"
