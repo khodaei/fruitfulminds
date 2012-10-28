@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   def new
     @schools = School.all
+    @report_created = false
   end
 
   def create
@@ -17,7 +18,6 @@ class ReportsController < ApplicationController
       puts @static_contents[:eval_title]
       puts @static_contents[:summary]
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
-      flash[:notice] = "Now should be true"
       redirect_to new_report_path
     else
       flash[:warning] = "#{school.name} does not have pre/post surveys"

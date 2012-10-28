@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   def new
     @schools = School.all
+    @report_created = false
   end
 
   def create
