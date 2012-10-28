@@ -30,7 +30,7 @@
         %span#title Fruitful Minds: 
         %span#subtitle 
           =@subtitle
-    - if @current_user
+    - if @current_user and @school
       %div#survey_options
         %p= "County: #{@school.county}"
         %p= "City: #{@school.city}"
@@ -46,4 +46,3 @@
       - elsif flash[:warning]
         #warning.message= flash[:warning]
       = yield
-    
