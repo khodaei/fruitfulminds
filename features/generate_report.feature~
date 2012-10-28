@@ -38,7 +38,7 @@ Scenario: Generate Report
   And I select "school1" from "school"
   And I press "Generate Report"
   Then I should be on the generate report page
-  And I should see the content for school1
+  And I should see the static content for school1
   And I should see the download link
   And I should see "Report generated successfully for school1"
 
