@@ -4,5 +4,8 @@
   =label :school, "School"
   =select_tag :school, options_from_collection_for_select(@schools, "id", "name")
   =submit_tag "Generate Report"
-  
- 
+
+-if @report_created
+  %table
+    %td= @report.static_content[:intro_title]
+    
