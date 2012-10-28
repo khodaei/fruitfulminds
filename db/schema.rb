@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20121027224131) do
   end
 
   create_table "static_contents", :force => true do |t|
+    t.integer  "report_id"
     t.text     "intro_title"
     t.text     "introduction"
     t.text     "objectives_title"
