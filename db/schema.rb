@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121027211153) do
+ActiveRecord::Schema.define(:version => 20121027222901) do
+
+  create_table "food_journals", :force => true do |t|
+    t.integer  "school_info_id"
+    t.integer  "user_id"
+    t.integer  "week_num"
+    t.string   "student_name"
+    t.integer  "fruit"
+    t.integer  "vegetable"
+    t.integer  "sugary_drink"
+    t.integer  "water"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_info_id"
@@ -32,13 +45,6 @@ ActiveRecord::Schema.define(:version => 20121027211153) do
     t.integer  "efficacy_8"
     t.integer  "efficacy_9"
     t.integer  "efficacy_10"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "presurvey_parts", :force => true do |t|
-    t.integer  "presurveys_id"
-    t.integer  "part_num"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
