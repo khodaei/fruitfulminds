@@ -33,7 +33,7 @@ Background: Generate report based on survey results
   And I am logged in as amir
   And I am on the generate report page
 
-Scenario: add comments to a report
+Scenario: add ambassador note to a report
   Given I select "school1" from "school"
   And I press "Generate Report"
   And I fill "Ambassador Note" with "some comments to explain the report being generated"
