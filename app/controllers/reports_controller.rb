@@ -11,12 +11,12 @@ class ReportsController < ApplicationController
       @report = Report.create!(:school_id => params[:school])
       @report_created = true
       @static_contents = StaticContent.first
-      @static_content_intro = @static_contents[:intro_title]
-      #puts @static_contents[:introduction]
-      #puts @static_contents[:objectives_title]
-      #puts @static_contents[:strength_intro]
-      #puts @static_contents[:eval_title]
-      #puts @static_contents[:summary]
+      session[:intro_title] = @static_contents[:intro_title]
+      session[:introduction] = @static_contents[:introduction]
+      session[:objectives_title] = @static_contents[:objectives_title]
+      session[:strength_title] = @static_contents[:strength_title]
+      session[:eval_title] = @static_contents[:eval_title]
+      session[:summary] = @static_contents[:summary]
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       redirect_to new_report_path
     else

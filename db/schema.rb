@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121027224131) do
+ActiveRecord::Schema.define(:version => 20121028170323) do
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_info_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20121027224131) do
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "note"
   end
 
   create_table "school_infos", :force => true do |t|
