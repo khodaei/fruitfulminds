@@ -14,7 +14,7 @@ class PostsurveysController < ApplicationController
       redirect_to new_postsurvey_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
-      redirect_to new_postsurvey_part1_path(:postsurvey => params[:postsurvey])
+      redirect_to new_postsurvey_path(:postsurvey => params[:postsurvey])
     end
   end
 
@@ -29,7 +29,7 @@ class PostsurveysController < ApplicationController
       redirect_to portal_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
-      redirect_to edit_postsurvey_part1_path(:id => params[:id], :postsurvey => params[:postsurvey])
+      redirect_to edit_postsurvey_path(:id => params[:id], :postsurvey => params[:postsurvey])
     end
   end
 end

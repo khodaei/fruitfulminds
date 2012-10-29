@@ -8,7 +8,7 @@ Fruitfulminds::Application.routes.draw do
     resources :part2, :to => "presurveys"
   end
   resources :postsurveys
-  resources :foodjournals
+  resources :foodjournals, :to => "food_journals"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

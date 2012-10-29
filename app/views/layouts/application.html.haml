@@ -47,7 +47,7 @@
                 = link_to "Previous", :portal, :method => :get
               %span.user_action
                 = link_to "Log Out", logout_path, :id => "log_out"
-      - if @current_user
+      - if @current_user and @school
         %div#survey_options
           %p= "County: #{@school.county}"
           %p= "City: #{@school.city}"

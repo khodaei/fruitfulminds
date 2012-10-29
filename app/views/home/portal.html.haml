@@ -21,7 +21,7 @@
           - if k[/efficacy/]
             = "Efficacy #{k.split('_')[1]}: #{v}"
             %br
-        = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_presurvey_#{survey.id}"
+        = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_pre_survey_#{survey.id}"
 
 %h3 Post-Surveys
 %table
@@ -36,4 +36,4 @@
           - if k[/efficacy/]
             = "Efficacy #{k.split('_')[1]}: #{v}"
             %br
-        = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_postsurvey_#{survey.id}"
+        = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
