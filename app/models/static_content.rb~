@@ -1,0 +1,6 @@
+class StaticContent < ActiveRecord::Base
+<<<<<<< HEAD
+  belongs_to :report
+=======
+>>>>>>> f3f8125c1ad8544a707d326e7385cb9b0a2ddd18
+end

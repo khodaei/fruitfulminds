@@ -11,20 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121028033603) do
-
-  create_table "food_journals", :force => true do |t|
-    t.integer  "school_info_id"
-    t.integer  "user_id"
-    t.integer  "week_num"
-    t.string   "student_name"
-    t.integer  "fruit"
-    t.integer  "vegetable"
-    t.integer  "sugary_drink"
-    t.integer  "water"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20121027224131) do
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_info_id"
@@ -72,10 +59,6 @@ ActiveRecord::Schema.define(:version => 20121028033603) do
     t.datetime "updated_at"
   end
 
-  create_table "profiles", :force => true do |t|
-    t.string "label"
-  end
-
   create_table "reports", :force => true do |t|
     t.string   "school_id"
     t.string   "content"
@@ -100,6 +83,19 @@ ActiveRecord::Schema.define(:version => 20121028033603) do
     t.datetime "updated_at"
   end
 
+  create_table "static_content", :force => true do |t|
+    t.integer  "report_id"
+    t.text     "intro_title"
+    t.text     "introduction"
+    t.text     "objectives_title"
+    t.text     "objectives"
+    t.text     "eval_title"
+    t.text     "strength_intro"
+    t.text     "summary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.integer  "school_id"
     t.string   "name"
@@ -107,7 +103,7 @@ ActiveRecord::Schema.define(:version => 20121028033603) do
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "profile_id"
+    t.integer  "type"
   end
 
 end
