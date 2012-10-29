@@ -39,7 +39,9 @@ Scenario: Generate Report
   And I press "Generate Report"
   Then I should be on the generate report page
   And I should see the static content for school1
-  And I should see the download link
+  And I should see the dynamic content for school1
+  And I should see "Add Note"
+  And I should see "Generate pdf"
   And I should see "Report generated successfully for school1"
 
 Scenario: Generate Report Failure
@@ -49,5 +51,7 @@ Scenario: Generate Report Failure
   And I press "Generate Report"
   Then I should be on the generate report page
   And I should not see the static content for school1
-  And I should not see the download link
+  And I should not see the dynamic content for school1
+  And I should not see "Add Note"
+  And I should not see "Generate pdf"
   And I should see "school2 does not have pre/post surveys"
