@@ -17,11 +17,6 @@ class ReportsController < ApplicationController
       session[:strength_title] = @static_contents[:strength_title]
       session[:eval_title] = @static_contents[:eval_title]
       session[:summary] = @static_contents[:summary]
-      #puts @static_contents[:introduction]
-      #puts @static_contents[:objectives_title]
-      #puts @static_contents[:strength_intro]
-      #puts @static_contents[:eval_title]
-      #puts @static_contents[:summary]
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       redirect_to new_report_path
     else

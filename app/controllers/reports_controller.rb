@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
       session[:intro_title] = @static_contents[:intro_title]
       session[:introduction] = @static_contents[:introduction]
       session[:objectives_title] = @static_contents[:objectives_title]
-      session[:strength_title] = @static_contents[:strength_title]
+      session[:strength_intro] = @static_contents[:strength_intro]
       session[:eval_title] = @static_contents[:eval_title]
       session[:summary] = @static_contents[:summary]
       flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
