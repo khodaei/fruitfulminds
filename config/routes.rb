@@ -1,7 +1,5 @@
 Fruitfulminds::Application.routes.draw do
 
-  root :to => "home#portal"
-
   resources :users
   resources :sessions, :only => [:create, :destroy, :new]
   resources :reports
@@ -19,4 +17,7 @@ Fruitfulminds::Application.routes.draw do
   match "logout" => "sessions#destroy", :as => "logout"
   match "signup" => "users#new", :as => "signup"
   match "portal" => "home#portal", :as => "portal", :via => :get
+
+  root :to => redirect('/portal')
+
 end

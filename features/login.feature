@@ -18,7 +18,7 @@ Background: users have been added to database
 
 Scenario: ambassador/administrator logs in
   Given I fill in "Email" with "amirk88@gmail.com"
-  And I fill in "Pass" with "123f5"
+  And I fill in "Password" with "123f5"
   And I press "Sign In"
   Then I should be on the portal page
   And I should see "Add Pre-Survey Part 1 Results"
