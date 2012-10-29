@@ -6,7 +6,9 @@
   =submit_tag "Generate Report"
   
 
--if @report_created
-  %table
-    %td= @static_content_intro
-   
+%h4= session[:intro_title] 
+%p= session[:introduction]
+%h4= session[:objectives_title]
+%p= session[:strength_intro]
+%h4= session[:eval_title]
+%p= session[:summary]
