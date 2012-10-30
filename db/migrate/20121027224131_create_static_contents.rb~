@@ -7,7 +7,9 @@ class CreateStaticContents < ActiveRecord::Migration
       t.text "objectives_title"
       t.text "objectives"
       t.text "eval_title"
+      t.text "strength_weakness_intro"
       t.text "strength_intro"
+      t.text "weakness_intro"
       t.text "summary"
 
       t.timestamps

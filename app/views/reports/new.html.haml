@@ -5,10 +5,21 @@
   =select_tag :school, options_from_collection_for_select(@schools, "id", "name")
   =submit_tag "Generate Report"
   
-
+%h2= session[:main_title]
 %h4= session[:intro_title] 
 %p= session[:introduction]
+%h4= session[:school_intro_title] 
+%p= session[:school_introduction]
 %h4= session[:objectives_title]
-%p= session[:strength_intro]
+%p= session[:objectives]
 %h4= session[:eval_title]
+%p= session[:eval_intro]
+%h4= session[:strength_weakness_title] 
+%p= session[:strength_weakness_intro] 
+%p= session[:strength_intro] 
+%p= session[:strengths]
+%p= session[:weakness_intro]  
+%p= session[:weaknesses] 
 %p= session[:summary]
+
+
