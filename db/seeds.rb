@@ -8,12 +8,16 @@
 
 Profile.create!(:label => "admin")
 Profile.create!(:label => "ambassador")
-User.create!({:name => "fm account", :email => "user@fruitfulminds.org", :password => "password", :school_id => 1, :profile_id => 1})
-User.create!({:name => "test account", :email => "admin@fruitfulminds.org", :password => "password", :school_id => 1, :profile_id => 1})
-User.create!({:name => "ambassador", :email => "amb@fruitfulminds.org", :password => "password", :school_id => 1, :profile_id => 2})
+
+User.create!({:name => "fm account", :email => "user@fruitfulminds.org", :password => "password", :school_semester_id => 1, :profile_id => 1})
+User.create!({:name => "test account", :email => "admin@fruitfulminds.org", :password => "password", :school_semester_id => 1, :profile_id => 1})
+User.create!({:name => "ambassador", :email => "amb@fruitfulminds.org", :password => "password", :school_semester_id => 1, :profile_id => 2})
+
 School.create!({:name => 'school name', :county => 'county', :city => 'city'})
 School.create!({:name => 'another school', :county => 'another county', :city => 'another city'})
-SchoolInfo.create!({:school_id => 1, :semester => "Fall", :year => 2012, :user_id => 1})
+
+SchoolSemester.create!({:school_id => 1, :name => "Fall", :year => 2012})
+
 StaticContent.create!({
                    :intro_title => "Intro to Fruitful Minds",
                    :introduction => "Fruitful Minds is a start up, non-profit organization providing nutrition education to youth at greatest risk for obesity and related illnesses.  The program recruits young people with a passion for health and education from local colleges and universities like UC Berkeley to develop curriculum and instruct children through classroom presentation, after school sports programs and summer camps.  While many nutrition programs exist today, Fruitful Minds is unique in its targeting of at-risk youth, customized approach and use of college students to deliver the program.  Fruitful Minds goal is to identify elementary schools, middle schools, and community centers where a nutrition education component is lacking and partner with existing sports, cooking or gardening programs to form a complete education focused on ending the escalating rate of obesity among at-risk youth.",

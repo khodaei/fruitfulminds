@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
   belongs_to :profile
+  belongs_to :school_semester
 
-  has_many :presurveys
+  has_many :presurvey1s
+  has_many :presurvey2s
   has_many :postsurveys
   has_many :food_journals
-  belongs_to :school
-  has_and_belongs_to_many :school_infos
 
   delegate :label, :to => :profile, :prefix => true
 
@@ -22,4 +22,7 @@ class User < ActiveRecord::Base
     profile_label == Profile::AMBASSADOR
   end
 
+  def school
+    school_semester.school if school_semester
+  end
 end

@@ -15,6 +15,10 @@ Background: users have been added to database
     | name    | county  | city     |
     | school1 | Alameda | Berkeley |
 
+  And the following school_semesters exist:
+    | school_id | name | year |
+    | 1         | fall | 2012 |
+
 Scenario: user follows registration page
   Given I am on the login page
   And I follow "Register"

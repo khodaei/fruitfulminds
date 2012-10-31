@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         elsif not password.eql? confirm
             flash[:warning] = "Passwords did not match"
         else
-            @user = User.create(:name => name, :email => email, :password => password, :profile_id => 2)
+            @user = User.create(:name => name, :email => email, :password => password, :profile_id => Profile.find_by_label("ambassador").id)
             if @user
                 session[:user_id] = @user.id
                 flash[:notice] = "Registration completed successfully"

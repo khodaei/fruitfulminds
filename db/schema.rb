@@ -11,63 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121028170323) do
+ActiveRecord::Schema.define(:version => 20121031105508) do
+
+  create_table "efficacies", :id => false, :force => true do |t|
+    t.integer  "efficacy_num"
+    t.integer  "survey_id"
+    t.integer  "num_agrees"
+    t.integer  "num_dont_knows"
+    t.integer  "num_disagrees"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "efficacies", ["efficacy_num", "survey_id"], :name => "index_efficacies_on_efficacy_num_and_survey_id", :unique => true
 
   create_table "food_journals", :force => true do |t|
-    t.integer  "school_info_id"
+    t.integer  "school_id"
     t.integer  "user_id"
+    t.integer  "semester_id"
     t.integer  "week_num"
     t.string   "student_name"
     t.integer  "fruit"
     t.integer  "vegetable"
     t.integer  "sugary_drink"
     t.integer  "water"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "postsurveys", :force => true do |t|
-    t.integer  "school_info_id"
-    t.integer  "user_id"
-    t.integer  "section_1"
-    t.integer  "section_2"
-    t.integer  "section_3"
-    t.integer  "section_4"
-    t.integer  "section_5"
-    t.integer  "section_6"
-    t.integer  "efficacy_1"
-    t.integer  "efficacy_2"
-    t.integer  "efficacy_3"
-    t.integer  "efficacy_4"
-    t.integer  "efficacy_5"
-    t.integer  "efficacy_6"
-    t.integer  "efficacy_7"
-    t.integer  "efficacy_8"
-    t.integer  "efficacy_9"
-    t.integer  "efficacy_10"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "presurveys", :force => true do |t|
-    t.integer  "school_info_id"
-    t.integer  "user_id"
-    t.integer  "section_1"
-    t.integer  "section_2"
-    t.integer  "section_3"
-    t.integer  "section_4"
-    t.integer  "section_5"
-    t.integer  "section_6"
-    t.integer  "efficacy_1"
-    t.integer  "efficacy_2"
-    t.integer  "efficacy_3"
-    t.integer  "efficacy_4"
-    t.integer  "efficacy_5"
-    t.integer  "efficacy_6"
-    t.integer  "efficacy_7"
-    t.integer  "efficacy_8"
-    t.integer  "efficacy_9"
-    t.integer  "efficacy_10"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -84,13 +51,10 @@ ActiveRecord::Schema.define(:version => 20121028170323) do
     t.text     "note"
   end
 
-  create_table "school_infos", :force => true do |t|
-    t.integer  "school_id"
-    t.integer  "user_id"
-    t.integer  "year"
-    t.string   "semester"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "school_semesters", :force => true do |t|
+    t.integer "school_id"
+    t.string  "name"
+    t.integer "year"
   end
 
   create_table "schools", :force => true do |t|
@@ -114,14 +78,28 @@ ActiveRecord::Schema.define(:version => 20121028170323) do
     t.datetime "updated_at"
   end
 
+  create_table "surveys", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "school_semester_id"
+    t.string   "type"
+    t.integer  "section_1"
+    t.integer  "section_2"
+    t.integer  "section_3"
+    t.integer  "section_4"
+    t.integer  "section_5"
+    t.integer  "section_6"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
-    t.integer  "school_id"
+    t.integer  "profile_id"
+    t.integer  "school_semester_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "profile_id"
   end
 
 end
