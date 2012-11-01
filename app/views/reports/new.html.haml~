@@ -1,12 +1,5 @@
-- @subtitle =  "Generate Report"
+= render :partial => 'generate_report'
 
-=form_tag reports_path do
-  =label :school, "School"
-  =select_tag :school, options_from_collection_for_select(@schools, "id", "name")
-  =submit_tag "Generate Report"
-  
-
-  
 %h2= session[:main_title]
 %h4= session[:intro_title] 
 %p= session[:introduction]
