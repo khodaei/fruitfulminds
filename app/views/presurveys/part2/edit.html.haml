@@ -1,0 +1,7 @@
+- @subtitle = "Edit Pre-Survey Results (Part 2)"
+- section_and_num_questions = {4 => 2, 5 => 4}
+
+= form_for @presurvey_part2_fields, :url => {:action => :update} do |f|
+  = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
+  #submit
+    = submit_tag 'Save Changes'

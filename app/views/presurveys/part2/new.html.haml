@@ -1,9 +1,9 @@
-- @subtitle = "Add Postsurvey Results"
-- section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+- @subtitle = "Add New Pre-Survey Results (Part 2)"
+- section_and_num_questions = {4 => 2, 5 => 4}
 
 %span
   %p Enter the correct number for each section.
-  = form_for @postsurvey_fields, :url => {:action => :create} do |f|
+  = form_for @presurvey_part2_fields, :url => {:action => :create} do |f|
     = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
     #submit
       = submit_tag 'Save Changes'

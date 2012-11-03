@@ -1,15 +1,8 @@
-- @subtitle =  "Add New Post-Survey Results (Part 1)"
+- @subtitle = "Edit Postsurvey Results"
+- section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
 
-= form_for @postsurvey_fields, :url => {:action => :update} do |f|
-
-  - 6.times do |i|
-    = label :postsurveys, "section_#{i + 1}", "Section #{i + 1}"
-    = f.text_field "section_#{i + 1}"
-    %br
-
-  - 10.times do |i|
-    = label :postsurveys, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
-    = f.text_field "efficacy_#{i + 1}"
-    %br
-
-  = submit_tag 'Save Changes'
+%span
+  = form_for @postsurvey_fields, :url => {:action => :update} do |f|
+    = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
+    #submit
+      = submit_tag 'Save Changes'
