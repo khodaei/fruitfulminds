@@ -1,6 +1,5 @@
 %p Enter the number of surveys where students selected ‘agree’ or ‘strongly agree’ only
-- num_questions.each do |questions|
-  - questions.times do |i|
-    = label :surveys, "efficacy_#{i + 1}", "Number #{i + 1}"
-    = f.text_field "efficacy_#{i + 1}"
-    %br
+- num_questions.times do |i|
+  = label :surveys, "efficacy_#{i + 1}", "Number #{i + 1}"
+  = text_field "efficacy", "efficacy_#{i + 1}"
+  %br

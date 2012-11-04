@@ -2,14 +2,19 @@ class CreateEfficacies < ActiveRecord::Migration
   def change
     create_table :efficacies, :id => false do |t|
       t.references :postsurvey
-      t.integer :efficacy_num
-      t.integer :num_agrees
-      t.integer :num_dont_knows
-      t.integer :num_disagrees
+      t.references :presurvey_part2
+      t.integer :efficacy_1
+      t.integer :efficacy_2
+      t.integer :efficacy_3
+      t.integer :efficacy_4
+      t.integer :efficacy_5
+      t.integer :efficacy_6
+      t.integer :efficacy_7
+      t.integer :efficacy_8
+      t.integer :efficacy_9
+      t.integer :efficacy_10
 
       t.timestamps
     end
-    add_index :efficacies, [:efficacy_num, :survey_id], :unique => true
   end
-
 end

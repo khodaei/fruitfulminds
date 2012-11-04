@@ -11,26 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121101171610) do
+ActiveRecord::Schema.define(:version => 20121102344844) do
 
   create_table "efficacies", :id => false, :force => true do |t|
-    t.integer  "efficacy_num"
-    t.integer  "survey_id"
-    t.integer  "num_agrees"
-    t.integer  "num_dont_knows"
-    t.integer  "num_disagrees"
+    t.integer  "postsurvey_id"
+    t.integer  "presurvey_part2_id"
+    t.integer  "efficacy_1"
+    t.integer  "efficacy_2"
+    t.integer  "efficacy_3"
+    t.integer  "efficacy_4"
+    t.integer  "efficacy_5"
+    t.integer  "efficacy_6"
+    t.integer  "efficacy_7"
+    t.integer  "efficacy_8"
+    t.integer  "efficacy_9"
+    t.integer  "efficacy_10"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "efficacies", ["efficacy_num", "survey_id"], :name => "index_efficacies_on_efficacy_num_and_survey_id", :unique => true
-
   create_table "food_journals", :force => true do |t|
-    t.integer  "school_id"
-    t.integer  "user_id"
-    t.integer  "semester_id"
-    t.integer  "week_num"
+    t.integer  "semester_school_id"
     t.string   "student_name"
+    t.integer  "week_num"
     t.integer  "fruit"
     t.integer  "vegetable"
     t.integer  "sugary_drink"
