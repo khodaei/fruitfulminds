@@ -1,4 +1,4 @@
- class PresurveysController < ApplicationController
+class PresurveysController < ApplicationController
   def new
     @all_schools = School.all
     @presurvey_fields = Presurvey.new(params[:presurvey])

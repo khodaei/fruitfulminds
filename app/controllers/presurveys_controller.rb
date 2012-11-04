@@ -9,6 +9,7 @@ class PresurveysController < ApplicationController
     begin
       ps = @current_user.presurveys.new
       ps.school_info_id = SchoolInfo.find(school)
+      ps.school_id = school
       ps.update_attributes!(params[:presurvey])
       flash[:notice] = "Results successfully added."
       redirect_to new_presurveys_path
