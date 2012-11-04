@@ -5,10 +5,12 @@ class ReportsController < ApplicationController
 
   def create
     @schools = School.all
+    schoolname = params[:school]
     school = School.find(params[:school])
 
-    if @current_user.presurveys.size > 0 and @current_user.postsurveys.size > 0
+    if @current_user.school.presurveys.size > 0 and @current_user.postsurveys.size > 0
       @report = Report.create!(:school_id => params[:school])
+      p @current_user.school.presurveys
       @report_created = true
       
       #static content
@@ -21,8 +23,8 @@ class ReportsController < ApplicationController
       @school_intro = "School Intro Placeholder"
       @eval_intro = "School Eval Placeholder"
       @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{school.name}"
-      @strengths = "Strengths Placeholder"
-      @weaknesses = "Weaknesses Placeholder"
+      generate_strengths
+      generate_weaknesses
       
       @objectives = {
                 "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
@@ -41,6 +43,36 @@ class ReportsController < ApplicationController
     end
   end
   
+  def generate_strengths
+    @strengths = { 
+                   "Q1 Strengths" => "S1 Placeholder",
+                   "Q2 Strengths" => "S2 Placeholder",
+                   "Q3 Strengths" => "S3 Placeholder",
+                   "Q4 Strengths" => "S4 Placeholder",
+                   "Q5 Strengths" => "S5 Placeholder",
+                   "Q6 Strengths" => "S6 Placeholder",
+                   "Q7 Strengths" => "S7 Placeholder",
+                   "Q8 Strengths" => "S8 Placeholder",
+                   "Q9 Strengths" => "S9 Placeholder",
+                   "Q10 Strengths" => "S10 Placeholder"
+                 }
+  end
+
+  def generate_weaknesses
+    @weaknesses = {
+                    "Q1 Weaknesses" => "W1 Placeholder",
+                    "Q2 Weaknesses" => "W2 Placeholder",
+                    "Q3 Weaknesses" => "W3 Placeholder",
+                    "Q4 Weaknesses" => "W4 Placeholder",
+                    "Q5 Weaknesses" => "W5 Placeholder",
+                    "Q6 Weaknesses" => "W6 Placeholder",
+                    "Q7 Weaknesses" => "W7 Placeholder",
+                    "Q8 Weaknesses" => "W8 Placeholder",
+                    "Q9 Weaknesses" => "W9 Placeholder",
+                    "Q10 Weaknesses" => "W10 Placeholder",
+                  }
+  end
+
   def generate
     #populate report
   end

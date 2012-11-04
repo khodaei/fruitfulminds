@@ -25,7 +25,7 @@
 %table
   %tr
     %th Strengths
-  - @strengths.each do |key, strength|
+  - @strengths.each do |strength|
     %tr
       %td= strength
 
@@ -34,7 +34,7 @@
 %table
   %tr
     %th Weaknesses
-  - @weaknesses.each do |key, weakness|
+  - @weaknesses.each do |weakness|
     %tr
       %td= weakness
 
