@@ -5,11 +5,11 @@ class ReportsController < ApplicationController
 
   def create
     @schools = School.all
-    schoolname = params[:school]
     school = School.find(params[:school])
 
-    if @current_user.school.presurveys.size > 0 and @current_user.postsurveys.size > 0
+    if @current_user.school == school and school.presurveys.size > 0 and school.postsurveys.size > 0
       @report = Report.create!(:school_id => params[:school])
+      p @current_user.school
       p @current_user.school.presurveys
       @report_created = true
       

@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20121028170323) do
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_info_id"
+    t.integer  "school_id"
     t.integer  "user_id"
     t.integer  "section_1"
     t.integer  "section_2"
