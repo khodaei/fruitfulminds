@@ -19,6 +19,7 @@ Background: Generate report based on survey results
     | school1 | Alameda | Berkeley |
     | school2 | Rowland | Rowland  |
 
+
   Given the following pre-results exist:
     | school_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
     |    1    |     1     | 2  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 5  | 2   |

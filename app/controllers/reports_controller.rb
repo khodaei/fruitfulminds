@@ -113,6 +113,7 @@ class ReportsController < ApplicationController
   end
 
 
+
   def calculate_efficacy
     @ps = @school.presurveys[0]
     @efficacy_pre = 0

@@ -24,4 +24,5 @@ StaticContent.create!({
                    :weakness_intro => "Weaknesses:",
                    :eval_title => "Curriculum Evaluations",
                    :summary => "Based on our evaluation, we plan to spend more time developing the concepts that proved to be incompletely understood at the completion of the lesson series, and include more in-class activities that reinforce these learning objectives."
+                   
                   })

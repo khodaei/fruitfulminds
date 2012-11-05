@@ -11,6 +11,7 @@ Given /^the following school_infos exist/ do |table|
 end
 
 
+
 Given /^the following static content exists/ do |table|
   table.hashes.each do |info|
     StaticContent.create!(info)
