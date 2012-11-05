@@ -1,19 +1,10 @@
-- @subtitle =  "Add New Post-Survey Results"
+- @subtitle = "Add Postsurvey Results"
+- section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
 
-= form_for @postsurvey_fields do |f|
-
-  - 21.times do |i|
-    = label :postsurveys, "section_#{i + 1}", "Section #{i + 1}"
-    = f.text_field "section_#{i + 1}"
-    %br
-
-  - 10.times do |i|
-    = label :postsurveys, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
-    = f.text_field "efficacy_#{i + 1}"
-    %br
- 
-  = label :postsurveys, "number_students", "Number of Students"
-  = f.text_field "number_students"
-  %br
-
-  = submit_tag 'Add More Results'
+%span
+  %p Enter the correct number for each section.
+  = form_for @postsurvey_fields, :url => {:action => :create} do |f|
+    = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
+    = render :partial => "presurveys/efficacy", :locals => {:num_questions => 10}
+    #submit
+      = submit_tag 'Save Changes'

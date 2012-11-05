@@ -1,15 +1,8 @@
-class CreatePresurveys < ActiveRecord::Migration
+class CreateEfficacies < ActiveRecord::Migration
   def change
-    create_table :presurveys do |t|
-      t.references 'school_info'
-      t.references 'school'
-      t.references 'user'
-      t.integer :section_1
-      t.integer :section_2
-      t.integer :section_3
-      t.integer :section_4
-      t.integer :section_5
-      t.integer :section_6
+    create_table :efficacies, :id => false do |t|
+      t.references :postsurvey
+      t.integer :part2_id
       t.integer :efficacy_1
       t.integer :efficacy_2
       t.integer :efficacy_3

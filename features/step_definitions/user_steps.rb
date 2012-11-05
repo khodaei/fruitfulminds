@@ -11,6 +11,12 @@ Given /^I fill in full name, email and passwords with: "(.*)", "(.*)", "(.*)", "
   }
 end
 
+Given /^the following school_semesters exist/ do |school_semesters_table|
+  school_semesters_table.hashes.each do |school_semester|
+    SchoolSemester.create!(school_semester)
+  end
+end
+
 Given /^I fill in email and passwords with: "(.*)", "(.*)", "(.*)"$/ do |email, pass, conf_pass|
   steps %Q{
     Given I fill in "Email" with "#{email}"

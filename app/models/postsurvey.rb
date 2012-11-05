@@ -1,4 +1,11 @@
 class Postsurvey < ActiveRecord::Base
-  belongs_to :school
-  validates_numericality_of :section_1, :section_2, :section_3, :section_4, :section_5, :section_6, :efficacy_1, :efficacy_2, :efficacy_3, :efficacy_4, :efficacy_5, :efficacy_6, :efficacy_7, :efficacy_8, :efficacy_9, :efficacy_10
+  has_many :efficacy
+  belongs_to :user
+  belongs_to :school_semester
+  validates_presence_of :school_semester_id, :section_1_1, :section_1_2, :section_2_1, :section_2_2, :section_2_3, :section_2_4, :section_3_1, :section_3_2, :section_3_3, :section_3_4, :section_3_5, :section_3_6, :section_4_1, :section_4_2, :section_4_3, :section_5_1, :section_5_2, :section_6_1, :section_6_2, :section_6_3, :section_6_4
+  validates_numericality_of :section_1_1, :section_1_2, :section_2_1, :section_2_2, :section_2_3, :section_2_4, :section_3_1, :section_3_2, :section_3_3, :section_3_4, :section_3_5, :section_3_6, :section_4_1, :section_4_2, :section_4_3, :section_5_1, :section_5_2, :section_6_1, :section_6_2, :section_6_3, :section_6_4
+
+  def school
+    school_semester.school
+  end
 end

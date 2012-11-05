@@ -1,0 +1,9 @@
+%p Enter the number of surveys where students selected ‘agree’ or ‘strongly agree’ only
+
+=# @efficacy_fields.inspect
+//- form_for @efficacy_fields do |e|
+- num_questions.times do |i|
+  = label :surveys, "efficacy_#{i + 1}", "Number #{i + 1}"
+  =# e.text_field "efficacy_#{i + 1}"
+  = text_field "efficacy", "efficacy_#{i + 1}"
+  %br
