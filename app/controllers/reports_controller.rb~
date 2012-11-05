@@ -125,7 +125,9 @@ class ReportsController < ApplicationController
     @ps = @school.postsurveys[0]
     @efficacy_post = 0
     21.times do |i|
-       p @efficacy_post += @ps["section_#{i + 1}"]
+       if !@ps["section_#{i + 1}"].nil?
+        p @efficacy_post += @ps["section_#{i + 1}"]
+       end
     end
     (@efficacy_post-@efficacy_pre)/@efficacy_pre*100
   end
