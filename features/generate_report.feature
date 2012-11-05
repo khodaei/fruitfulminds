@@ -14,6 +14,7 @@ Background: Generate report based on survey results
     | john@gmail.com     | 12345    | john khodaei | 1    |     2     |
 
 
+
   Given the following schools exist:
     | name    | county  | city     |
     | school1 | Alameda | Berkeley |
