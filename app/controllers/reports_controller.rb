@@ -5,11 +5,11 @@ class ReportsController < ApplicationController
 
   def create
     @schools = School.all
-    @school = School.find(params[:school])
-
-    if @current_user.school == @school
-      if @school.presurveys.size > 1 and @school.postsurveys.size > 0
-        @report = Report.create!(:school_id => params[:school])
+    @school_semester = SchoolSemester.find(@school)
+ 
+    if @school.id.to_s == params[:school]
+      if @school_semester.presurvey_part1s.size > 0 and @school_semester.presurvey_part2s.size > 0 and @school_semester.postsurveys.size > 0
+        @report = Report.create!(:school_semester_id => @school_semester.id)
         @report_created = true
       
         #static content
@@ -24,13 +24,13 @@ class ReportsController < ApplicationController
                          
         @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
         @school_intro_title = "Fruitful Minds at #{@school.name}"
-        @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during Fall 2012" 
+        @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
         @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
         @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@school.presurveys[0].number_students} students took the pre-curriculum survey, and #{@school.postsurveys[0].number_students} students took the post-curriculum surveys."
+        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@school_semester.presurvey_part1s[0]} students took the pre-curriculum survey, and #{@school_semester.postsurveys[0]} students took the post-curriculum surveys."
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
@@ -115,21 +115,29 @@ class ReportsController < ApplicationController
 
 
   def calculate_efficacy
-    @ps = @school.presurveys[0]
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
     @efficacy_pre = 0
-    6.times do |i|
-       p @efficacy_pre += @ps["section_#{i + 1}"]
+    @ps_part1 = @school_semester.presurvey_part1s[0]
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        p @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
+      end
     end
-    @ps = @school.presurveys[1]
-    6.times do |i|
-       p @efficacy_pre += @ps["section_#{i + 1}"]
+    section_and_num_questions = {4 => 2, 5 => 4}
+    @ps_part2 = @school_semester.presurvey_part2s[0]
+    p @ps_part2
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        p @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
+      end
     end
-    @ps = @school.postsurveys[0]
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+    @ps = @school_semester.postsurveys[0]
     @efficacy_post = 0
-    21.times do |i|
-       if !@ps["section_#{i + 1}"].nil?
-        p @efficacy_post += @ps["section_#{i + 1}"]
-       end
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        p @efficacy_post += @ps["section_#{section}_#{i + 1}"]
+      end
     end
     (@efficacy_post-@efficacy_pre)/@efficacy_pre*100
   end

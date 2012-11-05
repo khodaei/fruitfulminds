@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
   end
 
   create_table "reports", :force => true do |t|
-    t.string   "school_id"
+    t.integer  "school_semester_id"
     t.text     "main_title"
     t.text     "school_intro_title"
     t.text     "school_introduction"

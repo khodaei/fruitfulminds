@@ -1,6 +1,6 @@
 class Report < ActiveRecord::Base
-  belongs_to :school
+  belongs_to :school_semester
   has_one    :static_contents
   has_one    :dynamic_contents
-  validate :school_id, :presence => true
+  validate :school_semester_id, :presence => true
 end
