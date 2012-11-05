@@ -2,7 +2,7 @@
 
 = form_for @presurvey_fields do |f|
 
-  - 6.times do |i|
+  - 15.times do |i|
     = label :presurveys, "section_#{i + 1}", "Section #{i + 1}"
     = f.text_field "section_#{i + 1}"
     %br

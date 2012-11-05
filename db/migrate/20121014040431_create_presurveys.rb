@@ -20,6 +20,7 @@ class CreatePresurveys < ActiveRecord::Migration
       t.integer :efficacy_8
       t.integer :efficacy_9
       t.integer :efficacy_10
+      t.integer :number_students
 
       t.timestamps
     end

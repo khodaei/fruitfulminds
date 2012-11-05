@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). Sixteen students took the pre-curriculum survey, and eleven students took the post-curriculum surveys."
+        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@school.presurveys[0].number_students} students took the pre-curriculum survey, and #{@school.postsurveys[0].number_students} students took the post-curriculum surveys."
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
@@ -115,12 +115,16 @@ class ReportsController < ApplicationController
   def calculate_efficacy
     @ps = @school.presurveys[0]
     @efficacy_pre = 0
-    16.times do |i|
+    6.times do |i|
+       p @efficacy_pre += @ps["section_#{i + 1}"]
+    end
+    @ps = @school.presurveys[1]
+    6.times do |i|
        p @efficacy_pre += @ps["section_#{i + 1}"]
     end
     @ps = @school.postsurveys[0]
     @efficacy_post = 0
-    6.times do |i|
+    21.times do |i|
        p @efficacy_post += @ps["section_#{i + 1}"]
     end
     (@efficacy_post-@efficacy_pre)/@efficacy_pre*100
