@@ -112,6 +112,7 @@ class ReportsController < ApplicationController
     #populate report
   end
 
+
   def calculate_efficacy
     @ps = @school.presurveys[0]
     @efficacy_pre = 0
