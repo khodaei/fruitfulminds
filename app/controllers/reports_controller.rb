@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
     @school = School.find(params[:school])
 
     if @current_user.school == @school
-      if @school.presurveys.size > 0 and @school.postsurveys.size > 0
+      if @school.presurveys.size > 1 and @school.postsurveys.size > 0
         @report = Report.create!(:school_id => params[:school])
         @report_created = true
       
@@ -47,7 +47,7 @@ class ReportsController < ApplicationController
 
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       else
-        flash[:warning] = "#{@school.name} does not have any Presurveys or Postsurveys"
+        flash[:warning] = "#{@school.name} does not have Presurvey Part 1 and 2 or Postsurvey"
         redirect_to new_report_path
       end
     else
