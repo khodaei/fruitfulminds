@@ -24,7 +24,7 @@ class ReportsController < ApplicationController
                          
         @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
         @school_intro_title = "Fruitful Minds at #{@school.name}"
-        @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during SEMESTER" 
+        @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during Fall 2012" 
         @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
         @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
