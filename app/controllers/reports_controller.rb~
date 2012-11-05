@@ -5,25 +5,33 @@ class ReportsController < ApplicationController
 
   def create
     @schools = School.all
-    school = School.find(params[:school])
+    @school = School.find(params[:school])
 
-    if @current_user.school == school
-      if school.presurveys.size > 0 and school.postsurveys.size > 0
+    if @current_user.school == @school
+      if @school.presurveys.size > 0 and @school.postsurveys.size > 0
         @report = Report.create!(:school_id => params[:school])
-        p @current_user.school
-        p @current_user.school.presurveys
         @report_created = true
       
         #static content
         @static_contents = StaticContent.first
         #populate_objectives
         
-        #dynamic content   
-        @main_title = "Fruitful Minds #{school.name} Fall 2012 Report"
-        @school_intro_title = "Fruitful Minds at #{school.name}"
-        @school_intro = "School Intro Placeholder"
-        @eval_intro = "School Eval Placeholder"
-        @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{school.name}"
+        #dynamic content
+        @ambassadors = ""   
+        @school.users.each do |user|
+          @ambassadors += user.name + ", "
+        end
+                         
+        @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
+        @school_intro_title = "Fruitful Minds at #{@school.name}"
+        @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during SEMESTER" 
+        @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
+        @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
+        @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
+        @efficacy = calculate_efficacy
+        @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
+        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). Sixteen students took the pre-curriculum survey, and eleven students took the post-curriculum surveys."
+        @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
       
@@ -39,47 +47,54 @@ class ReportsController < ApplicationController
 
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       else
-        flash[:warning] = "#{school.name} does not have any Presurveys or Postsurveys"
+        flash[:warning] = "#{@school.name} does not have any Presurveys or Postsurveys"
         redirect_to new_report_path
       end
     else
-      flash[:warning] = "User only has access to #{@current_user.school.name}"
+      flash[:warning] = "Current user only has access to #{@current_user.school.name}"
       redirect_to new_report_path
     end
   end
   
   def generate_strengths
     @strengths = { 
-                   "Q1 Strengths" => "S1 Placeholder",
-                   "Q2 Strengths" => "S2 Placeholder",
-                   "Q3 Strengths" => "S3 Placeholder",
-                   "Q4 Strengths" => "S4 Placeholder",
-                   "Q5 Strengths" => "S5 Placeholder",
-                   "Q6 Strengths" => "S6 Placeholder",
-                   "Q7 Strengths" => "S7 Placeholder",
-                   "Q8 Strengths" => "S8 Placeholder",
-                   "Q9 Strengths" => "S9 Placeholder",
-                   "Q10 Strengths" => "S10 Placeholder"
+                   "Q1 Strengths" => "Students understood factors that may lead to type 2 diabetes",
+                   "Q2 Strengths" => "Students learned the five different food groups included in USDAs 'My Plate.' Students understood that all five food groups are important to help us achieve a balanced diet.",
+                   "Q3 Strengths" => "Students could recall the numbers of servings one needs for each food group.",
+                   "Q4 Strengths" => "Students could recall the different macro- and micronutrients.",
+                   "Q5 Strengths" => "Students demonstrated improvement in interpreting nutrition labels.",
+                   "Q6 Strengths" => "Students recognized the goals of food advertisements, as well as the techniques that food companies use to promote their products.",
+                   "Q7 Strengths" => "Students were able to distinguish between the advertising and factual components on a food package.",
+                   "Q8 Strengths" => "Students demonstrated knowledge in the benefits of physical activities, as well as the recommended amount of exercise.",
+                   "Q9 Strengths" => "Students could identify different types of physical activities."
                  }
   end
 
   def generate_weaknesses
     @weaknesses = {
-                    "Q1 Weaknesses" => "W1 Placeholder",
-                    "Q2 Weaknesses" => "W2 Placeholder",
-                    "Q3 Weaknesses" => "W3 Placeholder",
-                    "Q4 Weaknesses" => "W4 Placeholder",
-                    "Q5 Weaknesses" => "W5 Placeholder",
-                    "Q6 Weaknesses" => "W6 Placeholder",
-                    "Q7 Weaknesses" => "W7 Placeholder",
-                    "Q8 Weaknesses" => "W8 Placeholder",
-                    "Q9 Weaknesses" => "W9 Placeholder",
-                    "Q10 Weaknesses" => "W10 Placeholder",
+                    "Q1 Weaknesses" => "Students didnt completely understand the difference between each nutrient.",
+                    "Q2 Weaknesses" => "Some students had trouble distinguishing between food groups and nutrients.",
+                    "Q3 Weaknesses" => "Some students had trouble using math to calculate the numbers of servings and total calories of a food package.",
+                    "Q4 Weaknesses" => "Some students didnt understand that calorie is a measure of energy in food."
                   }
   end
 
   def generate
     #populate report
+  end
+
+  def calculate_efficacy
+    @ps = @school.presurveys[0]
+    @efficacy_pre = 0
+    6.times do |i|
+       p @efficacy_pre += @ps["section_#{i + 1}"]
+    end
+    @ps = @school.postsurveys[0]
+    @efficacy_post = 0
+    6.times do |i|
+       p @efficacy_post += @ps["section_#{i + 1}"]
+    end
+    (@efficacy_post-@efficacy_pre)/@efficacy_pre*100
   end
 
 end

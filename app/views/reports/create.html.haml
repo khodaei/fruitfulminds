@@ -5,6 +5,8 @@
 %p= @static_contents[:introduction]
 %h4= @school_intro_title
 %p= @school_intro
+%p= @school_intro_second
+%p= @school_intro_third
 %h4= @static_contents[:objectives_title]
 
 %table
@@ -17,23 +19,23 @@
       %td= item2
 
 %h4= @static_contents[:eval_title]
-%p= @eval_intro
+%p= @eval_intro_first
+%p= @eval_intro_second
+%p= @eval_intro_third
 %h4= @strength_weakness_title
 %p= @static_contents[:strength_weakness_intro] 
-%p= @static_contents[:strength_intro]
+%h4= @static_contents[:strength_intro]
 
 %table
   %tr
-    %th Strengths
   - @strengths.each do |key, strength|
     %tr
       %td= strength
 
-%p= @static_contents[:weakness_intro]  
+%h4= @static_contents[:weakness_intro]  
 
 %table
   %tr
-    %th Weaknesses
   - @weaknesses.each do |key, weakness|
     %tr
       %td= weakness
