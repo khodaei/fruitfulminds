@@ -9,7 +9,7 @@ Feature: Generate a Textual Report
 Background: Generate report based on survey results
 
   Given the following users exist:
-    | email              | password | name         | type | school_id |
+    | email              | password | name         | type | school_semester_id |
     | amirk88@gmail.com     | 123f5    | amir khodaei | 1    |     1     |
     | john@gmail.com     | 12345    | john khodaei | 1    |     2     |
 
@@ -20,24 +20,22 @@ Background: Generate report based on survey results
     | school2 | Rowland | Rowland  |
 
 
-  Given the following pre-results exist:
-    | school_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
-    |    1    |     1     | 2  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 5  | 2   |
-    |    6    |     5     | 8  | 1  | 7  | 7  | 7  | 5  | 4  | 4  | 7  | 6  | 5  | 7  | 9  | 9  | 6  | 3   |
+  Given the following pre-results 1 exist:
+    | school_semester_id | section_1_1 | section_1_2 | section_2_1 | section_2_2 | section_2_3 | section_2_4 | section_3_1 | section_3_2 | section_3_3 | section_3_4 | section_3_5 | section_3_6 | section_4_1 | section_4_2 | section_4_3 | 
+    |    1    |     1     | 2  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 
     
-  Given the following pre-results exist:
-    | school_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
-    |    1    |     1     | 3  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 5  | 2   |
-    |    6    |     5     | 8  | 1  | 7  | 7  | 7  | 5  | 4  | 4  | 7  | 6  | 5  | 7  | 9  | 9  | 6  | 3   |
+  Given the following pre-results 2 exist:
+    | school_semester_id | section_4_1 | section_4_2 | section_5_1 | section_5_2 | section_5_3 | section_5_4 | 
+    |    1    |     1     | 3  | 3  | 2  | 4  | 2  |
 
   Given the following post-results exist:
-    | school_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
-    |    1    |     1     | 2  | 5  | 3  | 4  | 2  | 7  | 4  | 4  | 8  | 5  | 5  | 8  | 9  | 10  | 5  | 2 |
-    |    3    |     3     | 2  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 5  | 2 |
-
-  Given the following school_infos exist:
-    | school_id | semester | year |
+    | school_semester_id | section_1_1 | section_1_2 | section_2_1 | section_2_2 | section_2_3 | section_2_4 | section_3_1 | section_3_2 | section_3_3 | section_3_4 | section_3_5 | section_3_6 | section_4_1 | section_4_2 | section_4_3 | section_5_1 | section_5_2 | section_6_1 | section_6_2 | section_6_3 | section_6_4 | number_students |
+    |    1    |     1     | 2  | 5  | 3  | 4  | 2  | 7  | 4  | 4  | 8  | 5  | 5  | 8  | 9  | 10  | 5  | 2 |    3    |     3     | 2  | 3  | 9 |
+    
+  Given the following school_semesters exist:
+    | school_id | name | year |
     |     1     |   Fall   | 2011 |
+    |     2     |   Fall   | 2011 |
 
     
     
