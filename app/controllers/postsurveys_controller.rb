@@ -9,7 +9,6 @@ class PostsurveysController < ApplicationController
     begin
       ps = @current_user.postsurveys.new
       ps.school_semester_id = SchoolSemester.find(school)
-      p school
       ps.update_attributes!(params[:postsurvey])
       flash[:notice] = "Results successfully added."
       redirect_to portal_path
