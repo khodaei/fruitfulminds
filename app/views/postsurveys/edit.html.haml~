@@ -2,7 +2,7 @@
 
 = form_for @postsurvey_fields, :url => {:action => :update} do |f|
 
-  - 21.times do |i|
+  - 6.times do |i|
     = label :postsurveys, "section_#{i + 1}", "Section #{i + 1}"
     = f.text_field "section_#{i + 1}"
     %br
@@ -17,3 +17,5 @@
   %br
 
   = submit_tag 'Save Changes'
+
+= button_to 'Previous', :portal, :method => :get

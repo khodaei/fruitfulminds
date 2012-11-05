@@ -1,4 +1,4 @@
-- @subtitle =  "Edit Pre-Survey Results (Part 1)"
+- @subtitle =  "Add New Pre-Survey Results (Part 1)"
 
 = form_for @presurvey_fields, :url => {:action => :update} do |f|
 
@@ -12,8 +12,6 @@
     = f.text_field "efficacy_#{i + 1}"
     %br
 
-  = label :presurveys, "number_students", "Number of Students"
-  = f.text_field "number_students"
-  %br
-
   = submit_tag 'Save Changes'
+
+= button_to 'Previous', :portal, :method => :get

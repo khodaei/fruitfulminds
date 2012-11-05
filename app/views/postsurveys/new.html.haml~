@@ -1,8 +1,8 @@
 - @subtitle =  "Add New Post-Survey Results (Part 1)"
 
-= form_for @postsurvey_fields, :url => {:action => :update} do |f|
+= form_for @postsurvey_fields do |f|
 
-  - 21.times do |i|
+  - 6.times do |i|
     = label :postsurveys, "section_#{i + 1}", "Section #{i + 1}"
     = f.text_field "section_#{i + 1}"
     %br
@@ -11,9 +11,11 @@
     = label :postsurveys, "efficacy_#{i + 1}", "Efficacy #{i + 1}"
     = f.text_field "efficacy_#{i + 1}"
     %br
-
+ 
   = label :postsurveys, "number_students", "Number of Students"
   = f.text_field "number_students"
   %br
 
-  = submit_tag 'Save Changes'
+  = submit_tag 'Add More Results'
+
+= button_to 'Previous', :portal, :method => :get
