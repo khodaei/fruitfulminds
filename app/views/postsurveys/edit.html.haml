@@ -4,5 +4,6 @@
 %span
   = form_for @postsurvey_fields, :url => {:action => :update} do |f|
     = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
+    = render :partial => "presurveys/efficacy", :locals => {:num_questions => 10}
     #submit
       = submit_tag 'Save Changes'

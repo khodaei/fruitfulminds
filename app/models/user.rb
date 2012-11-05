@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :presurvey_part1s, :through => :school_semester, :class_name => "Presurvey::Part1"
   has_many :presurvey_part2s, :through => :school_semester, :class_name => "Presurvey::Part2"
-  has_many :efficacy, :through => :presurvey_part2s
+  has_many :efficacies, :through => :presurvey_part2s
   has_many :postsurveys, :through => :school_semester
   has_many :food_journals, :through => :school_semester
 

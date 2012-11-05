@@ -1,7 +1,7 @@
 class CreateFoodJournals < ActiveRecord::Migration
   def change
     create_table :food_journals do |t|
-      t.references :semester_school
+      t.references :school_semester
       t.string  :student_name
       t.integer :week_num
       t.integer :fruit

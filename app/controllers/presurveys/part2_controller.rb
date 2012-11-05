@@ -2,6 +2,7 @@ class Presurveys::Part2Controller < ApplicationController
   def new
     @all_schools = School.all
     @presurvey_part2_fields = Presurvey::Part2.new(params[:presurvey_part2])
+    @efficacy_fields = Efficacy.new(params[:efficacy])
   end
 
   def create
@@ -10,11 +11,14 @@ class Presurveys::Part2Controller < ApplicationController
       ps = @current_user.presurvey_part2s.new
       ps.school_semester_id = SchoolSemester.find(school)
       ps.update_attributes!(params[:presurvey_part2])
+      eff = Efficacy.new
+      eff.part2_id = ps.id
+      eff.update_attributes!(params[:efficacy])
       flash[:notice] = "Results successfully added."
       redirect_to portal_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
-      redirect_to new_presurveys_part2_path(:presurvey_part2 => params[:presurvey_part2])
+      redirect_to new_presurveys_part2_path(:presurvey_part2 => params[:presurvey_part2], :efficacy => params[:efficacy])
     end
   end
 

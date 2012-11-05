@@ -10,12 +10,6 @@ Background: results are to be added to database
     | email              | password | name         | type | school_semester_id |
     | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |     1              |
 
-#  Given the following post-results exist:
-#    | user_id | school_info_id | section_1 | section_2 | section_3 | section_4 | section_5 | section_6 | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 |
-#    |    4    |     4     | 2  | 3  | 2  | 4  | 2  | 4  | 4  | 4  | 7  | 5  | 5  | 7  | 9  | 9  | 5  | 2   |
-#    |    2    |     8     | 8  | 1  | 7  | 7  | 7  | 5  | 4  | 4  | 7  | 6  | 5  | 7  | 9  | 9  | 6  | 3   |
-#    |    4    |     9     | 3  | 2  | 2  | 2  | 2  | 6  | 4  | 6  | 8  | 5  | 6  | 9  | 3  | 1  | 5  | 2   |
-
   Given the following schools exist:
     | name | county | city | 
     | "school1" | "Alameda" | "Berkeley" |
@@ -27,25 +21,46 @@ Background: results are to be added to database
   And   I am logged in as amir
   And   I am on the portal page
 
-Scenario: add new post-results to database
+Scenario: add new post-survey results to database
   When  I follow "Add Post-Survey Results"
   Then  I should be on the Add new post-survey results page
-  And   I fill in "postsurvey_section_1" with "7"
-  And   I fill in "postsurvey_section_2" with "7"
-  And   I fill in "postsurvey_section_3" with "7"
-  And   I fill in "postsurvey_section_4" with "7"
-  And   I fill in "postsurvey_section_5" with "7"
-  And   I fill in "postsurvey_section_6" with "7"
-  And   I fill in "postsurvey_efficacy_1" with "7"
-  And   I fill in "postsurvey_efficacy_2" with "7"
-  And   I fill in "postsurvey_efficacy_3" with "7"
-  And   I fill in "postsurvey_efficacy_4" with "7"
-  And   I fill in "postsurvey_efficacy_5" with "7"
-  And   I fill in "postsurvey_efficacy_6" with "7"
-  And   I fill in "postsurvey_efficacy_7" with "7"
-  And   I fill in "postsurvey_efficacy_8" with "7"
-  And   I fill in "postsurvey_efficacy_9" with "7"
-  And   I fill in "postsurvey_efficacy_1" with "7"
-  And   I fill in "postsurvey_efficacy_10" with "7"
-  And   I press "Add More Results"
+  And   I fill in "postsurvey_section_1_1" with "7"
+  And   I press "Save Changes"
+  Then  I should see "Results failed to add. Incomplete or has invalid characters."
+
+Scenario: add new post-survey results to database
+  When  I follow "Add Post-Survey Results"
+  Then  I should be on the Add new post-survey results page
+  And   I fill in "postsurvey_section_1_1" with "7"
+  And   I fill in "postsurvey_section_1_2" with "7"
+  And   I fill in "postsurvey_section_2_1" with "7"
+  And   I fill in "postsurvey_section_2_2" with "7"
+  And   I fill in "postsurvey_section_2_3" with "7"
+  And   I fill in "postsurvey_section_2_4" with "7"
+  And   I fill in "postsurvey_section_3_1" with "7"
+  And   I fill in "postsurvey_section_3_2" with "7"
+  And   I fill in "postsurvey_section_3_3" with "7"
+  And   I fill in "postsurvey_section_3_4" with "7"
+  And   I fill in "postsurvey_section_3_5" with "7"
+  And   I fill in "postsurvey_section_3_6" with "7"
+  And   I fill in "postsurvey_section_4_1" with "7"
+  And   I fill in "postsurvey_section_4_2" with "7"
+  And   I fill in "postsurvey_section_4_3" with "7"
+  And   I fill in "postsurvey_section_5_1" with "7"
+  And   I fill in "postsurvey_section_5_2" with "7"
+  And   I fill in "postsurvey_section_6_1" with "7"
+  And   I fill in "postsurvey_section_6_2" with "7"
+  And   I fill in "postsurvey_section_6_3" with "7"
+  And   I fill in "postsurvey_section_6_4" with "7"
+  And   I fill in "efficacy_efficacy_1" with "7"
+  And   I fill in "efficacy_efficacy_2" with "7"
+  And   I fill in "efficacy_efficacy_3" with "7"
+  And   I fill in "efficacy_efficacy_4" with "7"
+  And   I fill in "efficacy_efficacy_5" with "7"
+  And   I fill in "efficacy_efficacy_6" with "7"
+  And   I fill in "efficacy_efficacy_7" with "7"
+  And   I fill in "efficacy_efficacy_8" with "7"
+  And   I fill in "efficacy_efficacy_9" with "7"
+  And   I fill in "efficacy_efficacy_10" with "7"
+  And   I press "Save Changes"
   Then  I should see "Results successfully added."

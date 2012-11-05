@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
 
   create_table "efficacies", :id => false, :force => true do |t|
     t.integer  "postsurvey_id"
-    t.integer  "presurvey_part2_id"
+    t.integer  "part2_id"
     t.integer  "efficacy_1"
     t.integer  "efficacy_2"
     t.integer  "efficacy_3"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
   end
 
   create_table "food_journals", :force => true do |t|
-    t.integer  "semester_school_id"
+    t.integer  "school_semester_id"
     t.string   "student_name"
     t.integer  "week_num"
     t.integer  "fruit"
