@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@school_semester.presurvey_part1s[0]} students took the pre-curriculum survey, and #{@school_semester.postsurveys[0]} students took the post-curriculum surveys."
+        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
