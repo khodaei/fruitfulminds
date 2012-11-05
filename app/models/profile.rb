@@ -4,5 +4,4 @@ class Profile < ActiveRecord::Base
 
   ADMIN = 'admin'
   AMBASSADOR = 'ambassador'
-
 end

@@ -10,10 +10,10 @@ class FoodJournalsController < ApplicationController
     school = School.find(@school)
     begin
       fj = @current_user.food_journals.new
-      fj.school_info_id = SchoolInfo.find(school)
+      fj.school_semester_id = SchoolSemester.find(school)
       fj.update_attributes!(params[:food_journal])
       flash[:notice] = "Results successfully added."
-      redirect_to new_foodjournal_path
+      redirect_to portal_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
       redirect_to new_foodjournal_path(:food_journal => params[:food_journal])
