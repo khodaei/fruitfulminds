@@ -1,27 +1,31 @@
 class ReportsController < ApplicationController
   def new
-    @schools = School.all
+    @schools = []
+    @schools << @current_user.school_semester.school
   end
 
   def create
-    @schools = School.all
-    @school_semester = SchoolSemester.find(@school)
- 
-    if @school.id.to_s == params[:school]
-      if @school_semester.presurvey_part1s.size > 0 and @school_semester.presurvey_part2s.size > 0 and @school_semester.postsurveys.size > 0
+    @schools = []
+
+    @school_semester = @current_user.school_semester
+    @schools << @school_semester.school
+    @school = School.find_by_id(params[:school])
+
+    if @schools.include?(@school)
+      if @current_user.presurvey_part1s.size > 0 and @current_user.presurvey_part2s.size > 0 and @current_user.postsurveys.size > 0
         @report = Report.create!(:school_semester_id => @school_semester.id)
         @report_created = true
-      
+
         #static content
         @static_contents = StaticContent.first
         #populate_objectives
-        
+
         #dynamic content
-        @ambassadors = ""   
+        @ambassadors = ""
         @school.users.each do |user|
           @ambassadors += user.name + ", "
         end
-                         
+
         @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
         @school_intro_title = "Fruitful Minds at #{@school.name}"
         @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
@@ -55,7 +59,7 @@ class ReportsController < ApplicationController
       redirect_to new_report_path
     end
   end
-  
+
   def generate_strengths
     @strengths = { 
                    "Q1 Strengths" => "Students could identify factors that may lead to type 2 diabetes",
@@ -112,7 +116,25 @@ class ReportsController < ApplicationController
     #populate report
   end
 
+  def generate_pdf
+    @report = Report.find_by_id(params[:report][:id])
 
+    if not params[:amb_note].blank?
+      puts ">> #{params[:amb_note]} <<"
+      @report.note = params[:amb_note]
+      if @report.save
+        # logic for generating the pdf
+        # save the pdf in database
+        # generate a link for downloading the pdf
+
+        flash[:notice] = "pdf was generated successfully"
+        redirect_to portal_path and return
+      end
+    end
+
+    flash[:warning] = "could not generate the pdf for the selected report"
+    redirect_to portal_path and return
+  end
 
   def calculate_efficacy
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
