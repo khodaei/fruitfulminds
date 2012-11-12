@@ -33,9 +33,8 @@ class ReportsController < ApplicationController
         @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
-        puts @efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
+        @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@school_semester.presurvey_part1s[0].number_students} took the pre-curriculum survey, and #{@school_semester.postsurveys[0].number_students} students took the post-curriculum surveys."
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
@@ -50,14 +49,6 @@ class ReportsController < ApplicationController
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
                    
         @ambassadorNoteTitle = "Ambassador Notes: "
-        
-        
-        
-        
-        
-        
-        
-
 
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
       else
@@ -71,55 +62,80 @@ class ReportsController < ApplicationController
   end
 
   def generate_strengths
-    @strengths = { 
-                   "Q1 Strengths" => "Students could identify factors that may lead to type 2 diabetes",
-                   "Q2 Strengths" => "Students understood that poor diet and lack of exercise increase risk for many diseases regardless of one\'s body size.",
-                   "Q3 Strengths" => "Students learned the five different food groups included in USDA\'s MyPlate.",
-                   "Q4 Strengths" => "Students understood that all five food groups are important to help us achieve a balanced diet.",
-                   "Q5 Strengths" => "Students understood that frozen fruits and vegetables are not nutritionally inferior to fresh fruits and vegetables.",
-                   "Q6 Strengths" => "Students could recall the numbers of servings one needs for each food group.",
-                   "Q7 Strengths" => "Students could recall the different macro- and micronutrients.",
-                   "Q8 Strengths" => "Students could distinguish between nutrients.",
-                   "Q9 Strengths" => "Students were able to identify foods rich in fiber.",
-                   "Q10 Strengths" => "Students understood the difference between healthy and unhealthy fats.",
-                   "Q11 Strengths" => "Students understood that vitamins have specific functions in the body.",
-                   "Q12 Strengths" => "Students were aware of which nutrients tend to be beneficial, and which nutrients tend to be harmful when consumed in excess.",
-                   "Q13 Strengths" => "Students understood that calories are a measure of energy in food.",
-                   "Q14 Strengths" => "Students were able to use the nutrition label to identify food products with too much salt.",
-                   "Q15 Strengths" => "Students could calculate the numbers of servings in a food package.",
-                   "Q16 Strengths" => "Students recognized the goals of food advertisements as well as the techniques that food companies use to promote their products.",
-                   "Q17 Strengths" => "Students were able to distinguish between the advertising and factual components on a food package.",
-                   "Q18 Strengths" => "Students demonstrated knowledge in the benefits of physical activity.",
-                   "Q19 Strengths" => "Students were aware of the recommended amount of exercise.",
-                   "Q20 Strengths" => "Students could identify different types of physical activity.",
-                   "Q21 Strengths" => "Students understood energy balance and that excess energy can become fat."
+    @all_strengths = { 
+                   "S1Q1 Strengths" => "Students could identify factors that may lead to type 2 diabetes",
+                   "S1Q2 Strengths" => "Students understood that poor diet and lack of exercise increase risk for many diseases regardless of one\'s body size.",
+                   "S2Q1 Strengths" => "Students learned the five different food groups included in USDA\'s MyPlate.",
+                   "S2Q2 Strengths" => "Students understood that all five food groups are important to help us achieve a balanced diet.",
+                   "S2Q3 Strengths" => "Students understood that frozen fruits and vegetables are not nutritionally inferior to fresh fruits and vegetables.",
+                   "S2Q4 Strengths" => "Students could recall the numbers of servings one needs for each food group.",
+                   "S3Q1 Strengths" => "Students could recall the different macro- and micronutrients.",
+                   "S3Q2 Strengths" => "Students could distinguish between nutrients.",
+                   "S3Q3 Strengths" => "Students were able to identify foods rich in fiber.",
+                   "S3Q4 Strengths" => "Students understood the difference between healthy and unhealthy fats.",
+                   "S3Q5 Strengths" => "Students understood that vitamins have specific functions in the body.",
+                   "S3Q6 Strengths" => "Students were aware of which nutrients tend to be beneficial, and which nutrients tend to be harmful when consumed in excess.",
+                   "S4Q1 Strengths" => "Students understood that calories are a measure of energy in food.",
+                   "S4Q2 Strengths" => "Students were able to use the nutrition label to identify food products with too much salt.",
+                   "S4Q3 Strengths" => "Students could calculate the numbers of servings in a food package.",
+                   "S5Q1 Strengths" => "Students recognized the goals of food advertisements as well as the techniques that food companies use to promote their products.",
+                   "S5Q2 Strengths" => "Students were able to distinguish between the advertising and factual components on a food package.",
+                   "S6Q1 Strengths" => "Students demonstrated knowledge in the benefits of physical activity.",
+                   "S6Q2 Strengths" => "Students were aware of the recommended amount of exercise.",
+                   "S6Q3 Strengths" => "Students could identify different types of physical activity.",
+                   "S6Q4 Strengths" => "Students understood energy balance and that excess energy can become fat."
                  }
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+    @ps = @school_semester.postsurveys[0]
+    @strengths = {}
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        @efficacy_post = @ps["section_#{section}_#{i + 1}"]
+        if @efficacy_post*1.0/@ps.number_students > 0.80
+          @strengths["S#{section}Q#{i + 1} Strengths"] = @all_strengths["S#{section}Q#{i + 1} Strengths"]
+        end
+      end
+    end
+    @strengths
   end
 
   def generate_weaknesses
-    @weaknesses = {
-                    "Q1 Weaknesses" => "Students had trouble identifying factors that may lead to type 2 diabetes.",
-                    "Q2 Weaknesses" => "Students had trouble understanding that poor diet and lack of exercise increase risk for many diseases regardless of one\'s body size.",
-                    "Q3 Weaknesses" => "Students could not recall all five food groups included in USDA\'s MyPlate.",
-                    "Q4 Weaknesses" => "Students did not understand that all five food groups are important to help us achieve a balanced diet, even though some food groups should be consumed more than others.",
-                    "Q5 Weaknesses" => "Students did not understand that frozen fruits and vegetables are as healthy as fresh fruits and vegetables.",
-                    "Q6 Weaknesses" => "Students did not remember the numbers of servings recommended for each food group.",
-                    "Q7 Weaknesses" => "Students had trouble recalling nutrients and distinguishing between food groups and nutrients.",
-                    "Q8 Weaknesses" => "Students did not completely understand the difference between each nutrient.",
-                    "Q9 Weaknesses" => "Students had trouble identifying which foods are rich in fiber.",
-                    "Q10 Weaknesses" => "Students did not completely understand that some fats are healthier than others.",
-                    "Q11 Weaknesses" => "Students had trouble matching functions to the corresponding vitamins.",
-                    "Q12 Weaknesses" => "Students had trouble identifying which nutrients tend to be more beneficial and which tend to be harmful when consumed in excess.",
-                    "Q13 Weaknesses" => "Students had trouble interpreting the meaning of a calorie.",
-                    "Q14 Weaknesses" => "Students did not understand how to use the nutritional label to identify food products with too much salt.",
-                    "Q15 Weaknesses" => "Students had trouble using math to calculate the numbers of servings in a food package.",
-                    "Q16 Weaknesses" => "Students had trouble identifying the goals of food advertisements.",
-                    "Q17 Weaknesses" => "Students had trouble distinguishing between the advertising and factual components on a food package.",
-                    "Q18 Weaknesses" => "Students didn\'t completely understand the benefits of exercise.",
-                    "Q19 Weaknesses" => "Students were not able to recall the recommended amount of exercise for children.",
-                    "Q20 Weaknesses" => "Students had trouble identifying different types of physical activity.",
-                    "Q21 Weaknesses" => "Students did not understand the consequences of consuming excess energy."
+    @all_weaknesses = {
+                    "S1Q1 Weakness" => "Students had trouble identifying factors that may lead to type 2 diabetes.",
+                    "S1Q2 Weaknesses" => "Students had trouble understanding that poor diet and lack of exercise increase risk for many diseases regardless of one\'s body size.",
+                    "S2Q1 Weaknesses" => "Students could not recall all five food groups included in USDA\'s MyPlate.",
+                    "S2Q2 Weaknesses" => "Students did not understand that all five food groups are important to help us achieve a balanced diet, even though some food groups should be consumed more than others.",
+                    "S2Q3 Weaknesses" => "Students did not understand that frozen fruits and vegetables are as healthy as fresh fruits and vegetables.",
+                    "S2Q4 Weaknesses" => "Students did not remember the numbers of servings recommended for each food group.",
+                    "S3Q1 Weaknesses" => "Students had trouble recalling nutrients and distinguishing between food groups and nutrients.",
+                    "S3Q2 Weaknesses" => "Students did not completely understand the difference between each nutrient.",
+                    "S3Q3 Weaknesses" => "Students had trouble identifying which foods are rich in fiber.",
+                    "S3Q4 Weaknesses" => "Students did not completely understand that some fats are healthier than others.",
+                    "S3Q5 Weaknesses" => "Students had trouble matching functions to the corresponding vitamins.",
+                    "S3Q6 Weaknesses" => "Students had trouble identifying which nutrients tend to be more beneficial and which tend to be harmful when consumed in excess.",
+                    "S4Q1 Weaknesses" => "Students had trouble interpreting the meaning of a calorie.",
+                    "S4Q2 Weaknesses" => "Students did not understand how to use the nutritional label to identify food products with too much salt.",
+                    "S4Q3 Weaknesses" => "Students had trouble using math to calculate the numbers of servings in a food package.",
+                    "S5Q1 Weaknesses" => "Students had trouble identifying the goals of food advertisements.",
+                    "S5Q2 Weaknesses" => "Students had trouble distinguishing between the advertising and factual components on a food package.",
+                    "S6Q1 Weaknesses" => "Students didn\'t completely understand the benefits of exercise.",
+                    "S6Q2 Weaknesses" => "Students were not able to recall the recommended amount of exercise for children.",
+                    "S6Q3 Weaknesses" => "Students had trouble identifying different types of physical activity.",
+                    "S6Q4 Weaknesses" => "Students did not understand the consequences of consuming excess energy."
                   }
+
+  section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+    @ps = @school_semester.postsurveys[0]
+    @weaknesses = {}
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        @efficacy_post = @ps["section_#{section}_#{i + 1}"]
+        if @efficacy_post*1.0/@ps.number_students < 0.50
+          @weaknesses["S#{section}Q#{i + 1} Weaknesses"] = @all_weaknesses["S#{section}Q#{i + 1} Weaknesses"]
+        end
+      end
+    end
+    return @weaknesses
   end
 
   def generate
@@ -153,7 +169,6 @@ class ReportsController < ApplicationController
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
-        puts @efficacy_pre
       end
     end
     section_and_num_questions = {5 => 2, 6 => 4}
@@ -163,7 +178,6 @@ class ReportsController < ApplicationController
       questions.times do |i|
         if !(@ps_part2["section_#{section}_#{i + 1}"]).nil?
         @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
-        puts @efficacy_pre
         end
       end
     end
@@ -173,11 +187,10 @@ class ReportsController < ApplicationController
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         @efficacy_post += @ps["section_#{section}_#{i + 1}"]
-        puts @efficacy_post
       end
     end
     if @efficacy_pre != 0
-      return (@efficacy_post-@efficacy_pre)*100.0/@efficacy_pre
+      return ((@efficacy_post-@efficacy_pre)*100.0/@efficacy_pre).round 2
     end
   end
 
