@@ -47,6 +47,15 @@ class ReportsController < ApplicationController
                   "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
                   "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
+                   
+        @ambassadorNoteTitle = "Ambassador Notes: "
+        
+        
+        
+        
+        
+        
+        
 
 
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
@@ -120,7 +129,7 @@ class ReportsController < ApplicationController
     @report = Report.find_by_id(params[:report][:id])
 
     if not params[:amb_note].blank?
-      puts ">> #{params[:amb_note]} <<"
+      #puts ">> #{params[:amb_note]} <<"
       @report.note = params[:amb_note]
       if @report.save
         # logic for generating the pdf
@@ -128,7 +137,7 @@ class ReportsController < ApplicationController
         # generate a link for downloading the pdf
 
         flash[:notice] = "pdf was generated successfully"
-        redirect_to portal_path and return
+        #redirect_to new_report_path and return
       end
     end
 
@@ -150,7 +159,9 @@ class ReportsController < ApplicationController
     #p @ps_part2
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
+        if !(@ps_part2["section_#{section}_#{i + 1}"]).nil?
         @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
+        end
       end
     end
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
