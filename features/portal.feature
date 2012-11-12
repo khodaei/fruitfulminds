@@ -28,6 +28,11 @@ Background: results are to be added to database
     |     2     | 8  | 1  | 7  | 7  | 7  | 5  | 4  | 4  | 7  | 6  | 5  | 7  | 9  | 9  | 6  | 3   | 7  | 8  | 10  | 9  | 5  | 2   | 43 |
     |     2     | 3  | 2  | 2  | 2  | 2  | 6  | 4  | 6  | 8  | 5  | 6  | 9  | 3  | 1  | 5  | 2   | 5  | 7  | 10  | 11  | 5  | 4   | 11 |
 
+  Given the following efficacies exist:
+    | postsurvey_id | part2_id | efficacy_1 | efficacy_2 | efficacy_3 | efficacy_4 | efficacy_5 | efficacy_6 | efficacy_7 | efficacy_8 | efficacy_9 | efficacy_10 | number_students |
+    |      1   | nil | 3 | 4 | 4 | 6 | 5 | 4 |4 | 9 | 9| 4 | 22 |
+    |     nil  |  1  | 5 | 4 | 5 | 6 | 5 | 7 |4 | 10 | 9| 6 | 22 |
+
   Given the following schools exist:
     | name | county | city | 
     | "school1" | "Alameda" | "Berkeley" |

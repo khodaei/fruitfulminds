@@ -16,6 +16,12 @@ Given /the following post-results exist/ do |results_table|
   end
 end
 
+Given /the following efficacies exist/ do |results_table|
+  results_table.hashes.each do |result|
+    Efficacy.create!(result)
+  end
+end
+
 Given /\s*I am logged in as amir$/ do
   steps %Q{
 And I am on the login page
