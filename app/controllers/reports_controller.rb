@@ -33,6 +33,7 @@ class ReportsController < ApplicationController
         @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
+        puts @efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
         @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
@@ -152,15 +153,17 @@ class ReportsController < ApplicationController
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
+        puts @efficacy_pre
       end
     end
-    section_and_num_questions = {4 => 2, 5 => 4}
+    section_and_num_questions = {5 => 2, 6 => 4}
     @ps_part2 = @school_semester.presurvey_part2s[0]
     #p @ps_part2
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         if !(@ps_part2["section_#{section}_#{i + 1}"]).nil?
         @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
+        puts @efficacy_pre
         end
       end
     end
@@ -170,10 +173,11 @@ class ReportsController < ApplicationController
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         @efficacy_post += @ps["section_#{section}_#{i + 1}"]
+        puts @efficacy_post
       end
     end
     if @efficacy_pre != 0
-      (@efficacy_post-@efficacy_pre)/@efficacy_pre*100
+      return (@efficacy_post-@efficacy_pre)*100.0/@efficacy_pre
     end
   end
 
