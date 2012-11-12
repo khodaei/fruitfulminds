@@ -31,13 +31,14 @@ Scenario: add new pre-survey part 1 results to database
 Scenario: add new pre-survey part 2 results to database
   When  I follow "Add Pre-Survey Part 2 Results"
   Then  I should be on the Add new pre-survey part 2 results page
-  And   I fill in "presurvey_part2_section_4_1" with "7"
+  And   I fill in "presurvey_part2_section_5_1" with "7"
   And   I press "Save Changes"
   Then  I should see "Results failed to add. Incomplete or has invalid characters."
 
 Scenario: add new pre-survey part 1 results to database
   When  I follow "Add Pre-Survey Part 1 Results"
   Then  I should be on the Add new pre-survey part 1 results page
+  And   I fill in "presurvey_part1_number_students" with "7"
   And   I fill in "presurvey_part1_section_1_1" with "7"
   And   I fill in "presurvey_part1_section_1_2" with "7"
   And   I fill in "presurvey_part1_section_2_1" with "7"
@@ -59,12 +60,13 @@ Scenario: add new pre-survey part 1 results to database
 Scenario: add new pre-survey part 2 results to database
   When  I follow "Add Pre-Survey Part 2 Results"
   Then  I should be on the Add new pre-survey part 2 results page
-  And   I fill in "presurvey_part2_section_4_1" with "7"
-  And   I fill in "presurvey_part2_section_4_2" with "7"
+  And   I fill in "presurvey_part2_number_students" with "7"
   And   I fill in "presurvey_part2_section_5_1" with "7"
   And   I fill in "presurvey_part2_section_5_2" with "7"
-  And   I fill in "presurvey_part2_section_5_3" with "7"
-  And   I fill in "presurvey_part2_section_5_4" with "7"
+  And   I fill in "presurvey_part2_section_6_1" with "7"
+  And   I fill in "presurvey_part2_section_6_2" with "7"
+  And   I fill in "presurvey_part2_section_6_3" with "7"
+  And   I fill in "presurvey_part2_section_6_4" with "7"
   And   I fill in "efficacy_efficacy_1" with "7"
   And   I fill in "efficacy_efficacy_2" with "7"
   And   I fill in "efficacy_efficacy_3" with "7"

@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20121102344844) do
 
-  create_table "efficacies", :id => false, :force => true do |t|
+  create_table "efficacies", :force => true do |t|
     t.integer  "postsurvey_id"
     t.integer  "part2_id"
     t.integer  "efficacy_1"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
 
   create_table "presurvey_part1s", :force => true do |t|
     t.integer  "school_semester_id"
+    t.integer  "number_students"
     t.integer  "section_1_1"
     t.integer  "section_1_2"
     t.integer  "section_2_1"
@@ -94,12 +95,13 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
 
   create_table "presurvey_part2s", :force => true do |t|
     t.integer  "school_semester_id"
-    t.integer  "section_4_1"
-    t.integer  "section_4_2"
+    t.integer  "number_students"
     t.integer  "section_5_1"
     t.integer  "section_5_2"
-    t.integer  "section_5_3"
-    t.integer  "section_5_4"
+    t.integer  "section_6_1"
+    t.integer  "section_6_2"
+    t.integer  "section_6_3"
+    t.integer  "section_6_4"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

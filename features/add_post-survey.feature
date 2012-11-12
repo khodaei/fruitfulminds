@@ -31,6 +31,7 @@ Scenario: add new post-survey results to database
 Scenario: add new post-survey results to database
   When  I follow "Add Post-Survey Results"
   Then  I should be on the Add new post-survey results page
+  And   I fill in "postsurvey_number_students" with "7"
   And   I fill in "postsurvey_section_1_1" with "7"
   And   I fill in "postsurvey_section_1_2" with "7"
   And   I fill in "postsurvey_section_2_1" with "7"

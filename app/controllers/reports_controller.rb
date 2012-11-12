@@ -120,7 +120,7 @@ class ReportsController < ApplicationController
     @ps_part1 = @school_semester.presurvey_part1s[0]
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
-        p @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
+        @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
       end
     end
     section_and_num_questions = {4 => 2, 5 => 4}
@@ -128,7 +128,7 @@ class ReportsController < ApplicationController
     #p @ps_part2
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
-        p @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
+        @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
       end
     end
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
@@ -136,7 +136,7 @@ class ReportsController < ApplicationController
     @efficacy_post = 0
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
-        p @efficacy_post += @ps["section_#{section}_#{i + 1}"]
+        @efficacy_post += @ps["section_#{section}_#{i + 1}"]
       end
     end
     if @efficacy_pre != 0

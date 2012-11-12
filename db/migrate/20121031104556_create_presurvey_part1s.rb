@@ -2,6 +2,7 @@ class CreatePresurveyPart1s < ActiveRecord::Migration
   def change
     create_table :presurvey_part1s do |t|
       t.references :school_semester
+      t.integer :number_students
       t.integer :section_1_1
       t.integer :section_1_2
       t.integer :section_2_1

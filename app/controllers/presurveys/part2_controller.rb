@@ -13,6 +13,7 @@ class Presurveys::Part2Controller < ApplicationController
       ps.update_attributes!(params[:presurvey_part2])
       eff = Efficacy.new
       eff.part2_id = ps.id
+      eff.number_students = params[:presurvey_part2][:number_students]
       eff.update_attributes!(params[:efficacy])
       flash[:notice] = "Results successfully added."
       redirect_to portal_path
@@ -24,16 +25,19 @@ class Presurveys::Part2Controller < ApplicationController
 
   def edit
     @presurvey_part2_fields = Presurvey::Part2.find(params[:id])
+    @efficacy_fields = Efficacy.find_by_part2_id(@presurvey_part2_fields.id)
   end
   
   def update
     begin
       Presurvey::Part2.find(params[:id]).update_attributes!(params[:presurvey_part2])
+      Efficacy.find_by_part2_id(params[:id]).update_attributes!(:number_students => params[:presurvey_part2][:number_students])
+      Efficacy.find_by_part2_id(params[:id]).update_attributes!(params[:efficacy])
       flash[:notice] = "Survey updated successfully."
       redirect_to portal_path
     rescue ActiveRecord::RecordInvalid
       flash[:warning] = "Results failed to add. Incomplete or has invalid characters."
-      redirect_to edit_presurveys_part2_path(:id => params[:id], :presurvey_part2 => params[:presurvey_part2])
+      redirect_to edit_presurveys_part2_path(:id => params[:id], :presurvey_part2 => params[:presurvey_part2], :efficacy => params[:efficacy])
     end
   end
 end

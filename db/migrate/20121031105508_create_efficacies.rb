@@ -1,6 +1,6 @@
 class CreateEfficacies < ActiveRecord::Migration
   def change
-    create_table :efficacies, :id => false do |t|
+    create_table :efficacies do |t|
       t.references :postsurvey
       t.integer :part2_id
       t.integer :efficacy_1

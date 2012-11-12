@@ -8,36 +8,40 @@
 %br
 %br
 
-%h3 Pre-Surveys
-%table
+%table.table
+  %thead
+    %tr
+      %th Pre-Survey Part 1
+      %th Pre-Survey Part 2
+      %th Post-Surveys
   %tbody
     %tr
-    - @current_user.presurvey_part1s.each do |survey|
       %td
-        - survey.attributes.each do |k,v|
-          - if k[/section/]
-            = "Section #{k.split('_')[0]} Number #{k.split('_')[1]}: #{v}"
-            %br
-        = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_pre_survey_part1_#{survey.id}"
-    - @current_user.presurvey_part2s.each do |survey|
+        - @current_user.presurvey_part1s.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_pre_survey_part1_#{survey.id}"
       %td
-        - survey.attributes.each do |k,v|
-          - if k[/section/]
-            = "Section #{k.split('_')[0]} Number #{k.split('_')[1]}: #{v}"
-            %br
-        = button_to "Edit Pre-Survey 2", edit_presurveys_part2_path(survey), :method => :get, :id => "edit_pre_survey_part2_#{survey.id}"
-
-%h3 Post-Surveys
-%table
-  %tbody
-    %tr
-    - @current_user.postsurveys.each do |survey|
+        - @current_user.presurvey_part2s.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          - Efficacy.find_by_part2_id(survey.id).attributes.each do |k,v|
+            - if k[/efficacy/]
+              = "Efficacy #{k.split('_')[1]}: #{v}"
+              %br
+          = button_to "Edit Pre-Survey 2", edit_presurveys_part2_path(survey), :method => :get, :id => "edit_pre_survey_part2_#{survey.id}"
       %td
-        - survey.attributes.each do |k,v|
-          - if k[/section/]
-            = "Section #{k.split('_')[0]} Number #{k.split('_')[1]}: #{v}"
-            %br
-          - if k[/section/]
-            = "Section #{k.split('_')[0]} Number #{k.split('_')[1]}: #{v}"
-            %br
-        = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
+        - @current_user.postsurveys.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          - Efficacy.find_by_postsurvey_id(survey.id).attributes.each do |k,v|
+            - if k[/efficacy/]
+              = "Efficacy #{k.split('_')[1]}: #{v}"
+              %br
+          = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
