@@ -1,18 +1,15 @@
 class ReportsController < ApplicationController
   def new
-    @schools = []
-    @schools << @current_user.school_semester.school
+    @schools = @current_user.schools
   end
 
   def create
-    @schools = []
-
     @school_semester = @current_user.school_semester
-    @schools << @school_semester.school
+    @schools = @current_user.schools
     @school = School.find_by_id(params[:school])
 
     if @schools.include?(@school)
-      if @current_user.presurvey_part1s.size > 0 and @current_user.presurvey_part2s.size > 0 and @current_user.postsurveys.size > 0
+      if @school.has_all_report_data
         @report = Report.create!(:school_semester_id => @school_semester.id)
         @report_created = true
 
@@ -38,7 +35,7 @@ class ReportsController < ApplicationController
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
-      
+
         @objectives = {
                   "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
                   "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
@@ -47,12 +44,11 @@ class ReportsController < ApplicationController
                   "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
                   "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
-                   
-        @ambassadorNoteTitle = "Ambassador Notes: "
 
-        flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
+        @ambassadorNoteTitle = "Ambassador Notes: "
+# flash[:notice] = "Report generated successfully for #{@school.name}"
       else
-        flash[:warning] = "#{@school.name} does not have Presurvey Part 1 and 2 or Postsurvey"
+        flash[:warning] = "Not enough data available to generate a report for '#{@school.name}' school" # to createdoes not have Presurvey Part 1 and 2 or Postsurvey"
         redirect_to new_report_path
       end
     else
@@ -153,13 +149,13 @@ class ReportsController < ApplicationController
         # save the pdf in database
         # generate a link for downloading the pdf
 
-        flash[:notice] = "pdf was generated successfully"
-        #redirect_to new_report_path and return
+        flash[:notice] = "PDF report was successfully generated"
+        redirect_to portal_path and return
       end
     end
 
-    flash[:warning] = "could not generate the pdf for the selected report"
-    redirect_to portal_path and return
+    flash[:warning] = "Could not generate the PDF report"
+    redirect_to new_report_path and return
   end
 
   def calculate_efficacy

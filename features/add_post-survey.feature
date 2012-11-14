@@ -7,8 +7,8 @@ Feature: add post-survey results
 Background: results are to be added to database
 
   Given the following users exist:
-    | email              | password | name         | type | school_semester_id |
-    | amirk88@gmail.com  | 123f5    | amir khodaei | 1    |     1              |
+    | email              | password | name         | profile_id | school_semester_id |
+    | amirk88@gmail.com  | 123f5    | amir khodaei | 1          |     1              |
 
   Given the following schools exist:
     | name | county | city | 

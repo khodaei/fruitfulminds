@@ -1,7 +1,9 @@
 -# = render :partial => 'generate_report'
 
-= render :partial => 'comment_form'
-
+%p{:style => "width: 100%; height: 60px; margin: 0 auto;"}
+  The following is a preview
+  %br
+  In order to generate a PDF rerport, add comments at the bottom of the page
 %h2= @main_title
 %h4= @static_contents[:intro_title]
 %p= @static_contents[:introduction]
@@ -44,5 +46,6 @@
 %p
 %p= @static_contents[:summary]
 
-%h4= @ambassadorNoteTitle  
-%p= @report.note
+%h4= @ambassadorNoteTitle
+-# %p= @report.note
+= render :partial => 'comment_form'

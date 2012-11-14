@@ -26,4 +26,14 @@ class User < ActiveRecord::Base
   def school
     school_semester.school if school_semester
   end
+
+  def schools
+    user_schools = []
+    if admin?
+      user_schools = School.all
+    else
+      user_schools << school if !school.nil?
+    end
+    user_schools
+  end
 end
