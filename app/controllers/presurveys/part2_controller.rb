@@ -9,7 +9,7 @@ class Presurveys::Part2Controller < ApplicationController
     school = School.find(@school)
     begin
       ps = @current_user.presurvey_part2s.new
-      ps.school_semester_id = SchoolSemester.find(school)
+      ps.school_semester_id = SchoolSemester.find(school).id
       ps.update_attributes!(params[:presurvey_part2])
       eff = Efficacy.new
       eff.part2_id = ps.id

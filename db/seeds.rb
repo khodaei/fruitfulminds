@@ -9,9 +9,10 @@
 Profile.create!(:label => "admin")
 Profile.create!(:label => "ambassador")
 
-User.create!({:name => "fm account", :email => "user@fruitfulminds.org", :password => "password", :profile_id => 1})
 User.create!({:name => "admin account", :email => "admin@fruitfulminds.org", :password => "password", :profile_id => 1})
-User.create!({:name => "ambassador account", :email => "ambassador@fruitfulminds.org", :password => "password", :school_semester_id => 1, :profile_id => 2})
+User.create!({:name => "another admin account", :email => "admin2@fruitfulminds.org", :password => "password", :profile_id => 1})
+User.create!({:name => "fm ambassador account", :email => "user@fruitfulminds.org", :password => "password", :school_semester_id => 2, :profile_id => 2})
+User.create!({:name => "another fm ambassador account", :email => "ambassador@fruitfulminds.org", :password => "password", :school_semester_id => 1, :profile_id => 2})
 
 School.create!({:name => "Haven's Elementary", :county => "Alameda", :city => "Piedmont"})
 School.create!({:name => "Ascend School (Elementary)", :county => "Alameda", :city => "Oakland"})
@@ -29,6 +30,7 @@ School.create!({:name => "Washington Elementary", :county => "Alameda", :city =>
 School.create!({:name => "Willard Middle", :county => "Alameda", :city => "Berkeley"})
 
 SchoolSemester.create!({:school_id => 1, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 2, :name => "Fall", :year => 2012})
 
 StaticContent.create!({
                    :intro_title => "Intro to Fruitful Minds",
