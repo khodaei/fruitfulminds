@@ -167,16 +167,21 @@ class ReportsController < ApplicationController
         @efficacy_pre += @ps_part1["section_#{section}_#{i + 1}"]
       end
     end
+    if @ps_part1.number_students != 0
+      @efficacy_pre = @efficacy_pre*1.0/@ps_part1.number_students
     section_and_num_questions = {5 => 2, 6 => 4}
     @ps_part2 = @school_semester.presurvey_part2s[0]
-    #p @ps_part2
+    @efficacy_pre2 = 0
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         if !(@ps_part2["section_#{section}_#{i + 1}"]).nil?
-        @efficacy_pre += @ps_part2["section_#{section}_#{i + 1}"]
+        @efficacy_pre2 += @ps_part2["section_#{section}_#{i + 1}"]
         end
       end
     end
+    if @ps_part2.number_students != 0
+      @efficacy_pre2 = @efficacy_pre2*1.0/@ps_part2.number_students
+    @efficacy_pre += @efficacy_pre2
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
     @ps = @school_semester.postsurveys[0]
     @efficacy_post = 0
@@ -185,6 +190,8 @@ class ReportsController < ApplicationController
         @efficacy_post += @ps["section_#{section}_#{i + 1}"]
       end
     end
+    if @ps.number_students != 0
+      @efficacy_post = @efficacy_post*1.0/@ps.number_students
     if @efficacy_pre != 0
       return ((@efficacy_post-@efficacy_pre)*100.0/@efficacy_pre).round 2
     end
