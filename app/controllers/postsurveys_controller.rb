@@ -9,7 +9,7 @@ class PostsurveysController < ApplicationController
     school = School.find(@school)
     begin
       ps = @current_user.postsurveys.new
-      ps.school_semester_id = SchoolSemester.find(school)
+      ps.school_semester_id = SchoolSemester.find(school).id
       ps.update_attributes!(params[:postsurvey])
       eff = Efficacy.new
       eff.postsurvey_id = ps.id
