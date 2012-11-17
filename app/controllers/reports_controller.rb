@@ -45,8 +45,11 @@ class ReportsController < ApplicationController
                   "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
 
+                   
         @ambassadorNoteTitle = "Ambassador Notes: "
-# flash[:notice] = "Report generated successfully for #{@school.name}"
+        
+        flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
+
       else
         flash[:warning] = "Not enough data available to generate a report for '#{@school.name}' school" # to createdoes not have Presurvey Part 1 and 2 or Postsurvey"
         redirect_to new_report_path
@@ -134,12 +137,10 @@ class ReportsController < ApplicationController
     return @weaknesses
   end
 
-  def generate
-    #populate report
-  end
 
   def generate_pdf
     @report = Report.find_by_id(params[:report][:id])
+    @school = School.find_by_id(params[:school][:id])
 
     if not params[:amb_note].blank?
       #puts ">> #{params[:amb_note]} <<"
@@ -148,15 +149,44 @@ class ReportsController < ApplicationController
         # logic for generating the pdf
         # save the pdf in database
         # generate a link for downloading the pdf
-
-        flash[:notice] = "PDF report was successfully generated"
-        redirect_to portal_path and return
+        show
+        flash[:notice] = "pdf was generated successfully"
+        redirect_to "/reports/#{@fileName}" and return
       end
     end
 
     flash[:warning] = "Could not generate the PDF report"
     redirect_to new_report_path and return
   end
+  
+  def show
+    
+    schoolName = @school.name
+    schoolName.gsub! /\s+/, '_'
+    
+    @fileName = "#{schoolName}_Report.pdf"
+    @school_semester = @current_user.school_semester
+    
+    
+    schoolName.gsub!(/_/, ' ')
+    
+    @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
+    @school_intro_title = "Fruitful Minds at #{@school.name}"
+    @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
+    @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
+    @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
+    @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
+    @efficacy = calculate_efficacy
+    @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
+    @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
+    @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
+    @static_contents = StaticContent.first
+    generate_strengths
+    generate_weaknesses
+    @ambassadorNoteTitle = "Ambassador Notes: "
+    @ambassadorNote = params[:amb_note]
+  end
+  
 
   def calculate_efficacy
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}

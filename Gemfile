@@ -38,6 +38,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'prawn'
 
 # Use unicorn as the web server
 # gem 'unicorn'

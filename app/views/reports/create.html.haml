@@ -1,9 +1,12 @@
--# = render :partial => 'generate_report'
 
 %p{:style => "width: 100%; height: 60px; margin: 0 auto;"}
   The following is a preview
   %br
-  In order to generate a PDF rerport, add comments at the bottom of the page
+  In order to generate a PDF report, add comments at the bottom of the page
+
+-# = render :partial => 'generate_report'
+
+
 %h2= @main_title
 %h4= @static_contents[:intro_title]
 %p= @static_contents[:introduction]
@@ -27,7 +30,7 @@
 %p= @eval_intro_second
 %p= @eval_intro_third
 %h4= @strength_weakness_title
-%p= @static_contents[:strength_weakness_intro] 
+%p= @static_contents[:strength_weakness_intro]
 %h4= @static_contents[:strength_intro]
 
 %table
@@ -36,7 +39,7 @@
     %tr
       %td= strength
 
-%h4= @static_contents[:weakness_intro]  
+%h4= @static_contents[:weakness_intro]
 
 %table
   %tr

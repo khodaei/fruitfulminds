@@ -19,6 +19,7 @@ Fruitfulminds::Application.routes.draw do
   match "portal" => "home#portal", :as => "portal", :via => :get
 
   match "reports/generate_pdf" => "reports#generate_pdf", :via => :post
+  match "reports/show" => "reports#show", :via => :post
 
   root :to => redirect('/portal')
 
