@@ -1,0 +1,14 @@
+- @subtitle =  "Edit Food Journal"
+
+%span
+  = form_for @food_journal_fields, :url => {:action => :update} do |f|
+    = label :food_journal, "Week Number"
+    = f.text_field "week_num"
+    %br
+    = label :food_journal, "Student Name"
+    = f.text_field "student_name"
+    %br
+    %br
+    = render :partial => "servings"
+    #submit
+      = submit_tag 'Save Changes'

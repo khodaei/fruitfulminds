@@ -1,27 +1,30 @@
 - @subtitle =  "Add New Food Journal"
 
 %span
-  = form_for @food_journal_fields, :url => {:action => :create} do |f|
-    = label :food_journal, "Week Number"
-    = f.text_field "week_num"
-    %br
-    = label :food_journal, "Student Name"
-    = f.text_field "student_name"
-    %br
-    %br
-
-    %p Enter the number of servings.
-    = label :food_journal, "Fruit"
-    = f.text_field "fruit"
-    %br
-    = label :food_journal, "Vegetable"
-    = f.text_field "vegetable"
-    %br
-    = label :food_journal, "Sugary Drink"
-    = f.text_field "sugary_drink"
-    %br
-    = label :food_journal, "Water"
-    = f.text_field "water"
-    %br
+  = form_for @food_journal_main_fields, :url => {:action => :create} do |l|
+    %table.table
+      = label :food_journal, "Student Name"
+      = l.text_field "student_name"
+      %tr
+        %td
+          = label :food_journal, "Week Number 1"
+        %td
+          = label :food_journal, "Enter Week Number."
+          = l.text_field "week_num"
+        %td
+          = label :food_journal, "Week Number 8"
+      %tr
+        %td
+          %p Enter the number of servings.
+      %tr
+        %td
+          = fields_for :food_journal_week_1_fields do |f1|
+            = render :partial => "servings", :locals => {:f => f1}
+        %td
+          = fields_for :food_journal_week_x_fields do |f2|
+            = render :partial => "servings", :locals => {:f => f2}
+        %td
+          = fields_for :food_journal_week_8_fields do |f3|
+            = render :partial => "servings", :locals => {:f => f3}
     #submit
       = submit_tag 'Save Changes'
