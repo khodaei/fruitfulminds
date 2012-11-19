@@ -5,7 +5,13 @@
 # files.
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.adapters.define 'fruitfulminds' do
+  load_adapter 'rails'
+  
+  add_filter '/vendor/'
+end
+
+SimpleCov.start 'fruitfulminds'
 
 require 'cucumber/rails'
 
@@ -59,4 +65,3 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-
