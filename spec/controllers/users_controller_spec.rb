@@ -22,7 +22,6 @@ describe UsersController do
       school_semesters = mock('school_semester')
       school_semester = mock('school_semester')
       school_semester.stub(:id).and_return(1)
-#school_semester.stub(:order).and_return([school_semester])
       profile = mock('profile')
       profile.stub(:id).and_return(2)
       School.stub(:where).and_return([school])
@@ -30,11 +29,32 @@ describe UsersController do
       school_semesters.stub(:order).and_return([school_semester])
       Profile.stub(:find_by_label).and_return(profile)
       User.stub(:create).and_return(nil)
-# @mock_school.stub(:id).and_return(1)
-
-# @mock_profile.stub(:id).and_return(1)
       post :create, {:user => @user, :school => @school, :semester => @semester, :tos => true}
       flash[:warning].should == "Registration Failed"
+      response.should redirect_to(signup_path)
+    end
+    it "should set flash warning to school not found if school is nil" do
+      School.stub(:where).and_return([])
+      post :create, {:user => @user, :school => @school, :semester => @semester, :tos => true}
+      flash[:warning].should == "Haven's Elementary school could not be found"
+      response.should redirect_to(signup_path)
+    end
+    it "should set flash warning to registration not allowed for wrong semester" do
+      school = mock('school')
+      school.stub(:id).and_return(1)
+      school.stub(:name).and_return("some school")
+      school_semesters = mock('school_semester')
+#      school_semester = mock('school_semester')
+#      school_semester.stub(:id).and_return(1)
+#     profile = mock('profile')
+#profile.stub(:id).and_return(2)
+      School.stub(:where).and_return([school])
+      SchoolSemester.stub(:where).and_return(school_semesters)
+      school_semesters.stub(:order).and_return([])
+#      Profile.stub(:find_by_label).and_return(profile)
+#      User.stub(:create).and_return(nil)
+      post :create, {:user => @user, :school => @school, :semester => @semester, :tos => true}
+      flash[:warning].should == "Registration is not allowed for the selected semester for some school school"
       response.should redirect_to(signup_path)
     end
   end
