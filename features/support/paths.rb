@@ -21,6 +21,7 @@ module NavigationHelpers
     when /^the Edit Pre-Survey Results \(Part 2\) page for survey (.*)$/ then edit_presurveys_part2_path($1)
     when /^the Edit Postsurvey Results page for survey (.*)$/ then edit_postsurvey_path($1)
     when /^the Add New Food Journal page$/ then new_foodjournal_path
+    when /^the Edit Food Journal page for journal (.*)$/ then edit_foodjournal_path($1)
     when /^the surveys page$/ then '/surveys'
     when /^the reports page$/
       '/reports'

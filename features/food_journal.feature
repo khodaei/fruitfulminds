@@ -29,6 +29,20 @@ Scenario: add new food journals to database
   And   I press "Save Changes"
   Then  I should see "Results failed to add. Incomplete or has invalid characters."
 
+Scenario: add new food journals to database
+  When  I follow "Add Food Journal"
+  Then  I should be on the Add New Food Journal page
+  And   I fill in "food_journal_student_name" with "A Student"
+  And   I press "Save Changes"
+  Then  I should see "No results filled in."
+
+Scenario: add new food journals to database
+  When  I follow "Add Food Journal"
+  Then  I should be on the Add New Food Journal page
+  And   I fill in "food_journal_week_1_fields_vegetable" with "37"
+  And   I press "Save Changes"
+  Then  I should see "Student Name cannot be empty."
+
 Scenario: add new week 1 food journals to database
   When  I follow "Add Food Journal"
   Then  I should be on the Add New Food Journal page

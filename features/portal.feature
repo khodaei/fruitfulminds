@@ -33,6 +33,11 @@ Background: results are to be added to database
     |      1   | nil | 3 | 4 | 4 | 6 | 5 | 4 |4 | 9 | 9| 4 | 22 |
     |     nil  |  1  | 5 | 4 | 5 | 6 | 5 | 7 |4 | 10 | 9| 6 | 22 |
 
+  Given the following food journals exist:
+    | student_name | school_semester_id | week_num | fruit | vegetable | sugary_drink | water |
+    |   a name     |        1           |    1     |  34   |   53      |   61         |  43   |
+    |   a name     |        1           |    8     |  34   |   53      |   53         |  24   |
+
   Given the following schools exist:
     | name | county | city | 
     | "school1" | "Alameda" | "Berkeley" |
@@ -147,3 +152,48 @@ Scenario: edit existing post-survey results
   And   I fill in "efficacy_efficacy_10" with "7"
   And   I press "Save Changes"
   Then  I should see "Survey updated successfully."
+
+Scenario: edit food journals
+  When  I press "edit_food_journal_1"
+  Then  I should be on the Edit Food Journal page for journal 1
+  And   I fill in "food_journal_student_name" with "A Student"
+  And   I fill in "food_journal_week_num" with "4"
+  And   I fill in "food_journal_week_x_fields_fruit" with "7"
+  And   I fill in "food_journal_week_x_fields_vegetable" with "37"
+  And   I fill in "food_journal_week_x_fields_sugary_drink" with "73"
+  And   I fill in "food_journal_week_x_fields_water" with "87"
+  And   I press "Save Changes"
+  Then  I should see "Results successfully updated."
+
+Scenario: edit food journals
+  When  I press "edit_food_journal_1"
+  Then  I should be on the Edit Food Journal page for journal 1
+  And   I fill in "food_journal_student_name" with "A Student"
+  And   I fill in "food_journal_week_8_fields_fruit" with "7"
+  And   I fill in "food_journal_week_8_fields_vegetable" with "37"
+  And   I fill in "food_journal_week_8_fields_sugary_drink" with "73"
+  And   I fill in "food_journal_week_8_fields_water" with "87"
+  And   I press "Save Changes"
+  Then  I should see "Results successfully updated."
+
+Scenario: edit food journals
+  When  I press "edit_food_journal_1"
+  Then  I should be on the Edit Food Journal page for journal 1
+  And   I fill in "food_journal_student_name" with "A Student"
+  And   I fill in "food_journal_week_8_fields_fruit" with "7"
+  And   I fill in "food_journal_week_8_fields_vegetable" with "37"
+  And   I fill in "food_journal_week_8_fields_sugary_drink" with "73"
+  And   I fill in "food_journal_week_8_fields_water" with "bad"
+  And   I press "Save Changes"
+  Then  I should see "Results failed to update. Incomplete or has invalid characters."
+
+Scenario: edit food journals
+  When  I press "edit_food_journal_1"
+  Then  I should be on the Edit Food Journal page for journal 1
+  And   I fill in "food_journal_student_name" with ""
+  And   I fill in "food_journal_week_8_fields_fruit" with "7"
+  And   I fill in "food_journal_week_8_fields_vegetable" with "37"
+  And   I fill in "food_journal_week_8_fields_sugary_drink" with "73"
+  And   I fill in "food_journal_week_8_fields_water" with "87"
+  And   I press "Save Changes"
+  Then  I should see "Student Name cannot be empty."
