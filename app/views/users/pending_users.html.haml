@@ -1,0 +1,25 @@
+= form_tag update_pending_users_path, :method => :post, :id => 'pending_users_form' do
+  %table#pending_users
+    %thead
+      %tr
+        -# %th= link_to 'Movie Title', movies_path(:sort => 'title', :ratings => @selected_ratings), :id => 'title_header'
+        %th Name
+        %th Email
+        -#%th College
+        %th School
+        %th Semester
+        %th Approve
+        %th Disapprove
+    %tbody
+      - @pending_users.each do |user|
+        %tr
+          %td= user.name
+          %td= user.email
+          -#%td= user.college
+          %td= "#{user.school.name}, #{user.school.city}, #{user.school.county}"
+          %td= user.school_semester.name
+          %td= check_box_tag "approves[#{user.id}]", 1, false, :id => "approves_#{user.id}"
+          %td= check_box_tag "disapproves[#{user.id}]", 1, false, :id => "disapproves_#{user.id}"
+          -# %td{:id => 'director'}= movie.director
+          -# %td= link_to "More about #{movie.title}", movie_path(movie)
+  =submit_tag 'Update', :id => 'update_submit', :style => "margin: 10px;"
