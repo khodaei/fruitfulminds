@@ -185,6 +185,7 @@ class ReportsController < ApplicationController
     generate_weaknesses
     @ambassadorNoteTitle = "Ambassador Notes: "
     @ambassadorNote = params[:amb_note]
+    
   end
   
 
