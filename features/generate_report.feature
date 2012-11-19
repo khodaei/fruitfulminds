@@ -77,3 +77,5 @@ Scenario: Generate Report Failure
   And I should not see "Strengths and Weaknesses of FM Lessons at school1"
   And I should not see "Strengths:"
   And I should not see "Weaknesses:"
+  
+

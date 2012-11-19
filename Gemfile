@@ -23,6 +23,7 @@ group :test do
   gem 'railroady'
   gem 'haml-rails'
   gem 'autotest-rails'
+  gem 'pdf-reader'
 end
 group :production do
   gem 'pg'

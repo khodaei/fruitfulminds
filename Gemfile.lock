@@ -213,6 +213,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   launchy
+  pdf-reader
   pg
   prawn
   railroady

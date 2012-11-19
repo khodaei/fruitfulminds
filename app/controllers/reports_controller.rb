@@ -35,7 +35,7 @@ class ReportsController < ApplicationController
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
-
+        show
         @objectives = {
                   "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
                   "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
@@ -144,15 +144,15 @@ class ReportsController < ApplicationController
 
     if not params[:amb_note].blank?
       #puts ">> #{params[:amb_note]} <<"
-      @report.note = params[:amb_note]
-      if @report.save
+      #@report.note = params[:amb_note]
+      #if @report.save
         # logic for generating the pdf
         # save the pdf in database
         # generate a link for downloading the pdf
-        show
-        flash[:notice] = "pdf was generated successfully"
+        #show
+        #flash[:notice] = "pdf was generated successfully"
         redirect_to "/reports/#{@fileName}" and return
-      end
+      #end
     end
 
     flash[:warning] = "Could not generate the PDF report"
@@ -163,13 +163,12 @@ class ReportsController < ApplicationController
     
     schoolName = @school.name
     schoolName.gsub! /\s+/, '_'
-    
-    @fileName = "#{schoolName}_Report.pdf"
+    schoolName = schoolName.downcase
+    @fileName = "#{schoolName}_report.pdf"
     @school_semester = @current_user.school_semester
-    
-    
-    schoolName.gsub!(/_/, ' ')
-    
+    schoolName.gsub!(/_/, ' ')    
+    @school.name.gsub!(/_/, ' ')
+
     @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
     @school_intro_title = "Fruitful Minds at #{@school.name}"
     @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 

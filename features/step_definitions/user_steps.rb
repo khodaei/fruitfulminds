@@ -24,3 +24,6 @@ Given /^I fill in email and passwords with: "(.*)", "(.*)", "(.*)"$/ do |email, 
     And I fill in "Confirm Password" with "#{conf_pass}"
   }
 end
+
+
+
