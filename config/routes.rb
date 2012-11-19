@@ -17,9 +17,9 @@ Fruitfulminds::Application.routes.draw do
   match "logout" => "sessions#destroy", :as => "logout"
   match "signup" => "users#new", :as => "signup"
   match "portal" => "home#portal", :as => "portal", :via => :get
-
+  match "pending_users" => "users#pending_users", :as => "pending_users", :via => :get
+  match "update_pending_users" => "users#update_pending_users", :as => "update_pending_users", :via => :post
   match "reports/generate_pdf" => "reports#generate_pdf", :via => :post
-  match "reports/show" => "reports#show", :via => :post
 
   root :to => redirect('/portal')
 

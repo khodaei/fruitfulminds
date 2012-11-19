@@ -6,15 +6,20 @@ Feature: add food journal results
 
 Background: results are to be added to database
 
-  Given the following users exist:
+  Given the following profiles exist:
+    | label      |
+    | admin      |
+    | ambassador |
+
+  And the following users exist:
     | email              | password | name         | profile_id | school_semester_id |
     | amirk88@gmail.com  | 123f5    | amir khodaei | 1          |     1     |
 
-  Given the following schools exist:
+  And the following schools exist:
     | name | county | city | 
     | "school1" | "Alameda" | "Berkeley" |
 
-  Given the following school_semesters exist:
+  And the following school_semesters exist:
     | school_id |   name   | year |
     |     1     |   Fall   | 2011 |
 

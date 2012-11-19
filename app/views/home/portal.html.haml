@@ -1,22 +1,13 @@
 - @subtitle = "Portal"
 
+=link_to("Pending Users", pending_users_path) if @current_user.admin?
 =link_to "Add Pre-Survey Part 1 Results", new_presurveys_part1_path
-|
 =link_to "Add Pre-Survey Part 2 Results", new_presurveys_part2_path
-|
 =link_to "Add Post-Survey Results", new_postsurvey_path
-|
 =link_to "Add Food Journal", new_foodjournal_path
-|
 =link_to "Preview Report/Add Ambassador Comments", new_report_path
 %br
 %br
-
-- if not @current_user.postsurveys
-  Total Number of Students:
-  = @current_user.postsurveys.first.number_students
-  %br
-  %br
 
 %table.table
   %thead
@@ -24,7 +15,6 @@
       %th Pre-Survey Part 1
       %th Pre-Survey Part 2
       %th Post-Surveys
-      %th Food Journals
   %tbody
     %tr
       %td
@@ -56,25 +46,3 @@
               = "Efficacy #{k.split('_')[1]}: #{v}"
               %br
           = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
-      %td
-        - @current_user.food_journals.each do |journal|
-          -journal.attributes.each do |k,v|
-            - if k[/student_name/]
-              = "Student Name: #{v}"
-              %br
-            - if k[/week_num/]
-              = "Week Number: #{v}"
-              %br
-            - if k[/fruit/]
-              = "Fruit: #{v}"
-              %br
-            - if k[/vegetable/]
-              = "Vegtable: #{v}"
-              %br
-            - if k[/sugary_drink/]
-              = "Sugary Drink: #{v}"
-              %br
-            - if k[/water/]
-              = "Water: #{v}"
-              %br
-          = button_to "Edit Food Journal", edit_foodjournal_path(journal), :method => :get, :id => "edit_food_journal_#{journal.id}"

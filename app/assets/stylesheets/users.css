@@ -17,3 +17,22 @@ width: 230px;
   border: 1px solid #E0E0E0;
   border-radius: 5px;
 }
+table#pending_users {
+  margin: 10px;
+  border-collapse: collapse;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+table#pending_users th {
+  border: 2px solid white;
+  font-weight: bold;
+  background-color: wheat;
+}
+table#pending_users th, table#pending_users td {
+  padding: 4px;
+  text-align: left;
+}
+table#pending_users th.hilite {
+  background-color: yellow;
+}
+
