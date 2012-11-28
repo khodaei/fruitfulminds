@@ -35,7 +35,6 @@ class ReportsController < ApplicationController
         @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
         generate_strengths
         generate_weaknesses
-        show
         @objectives = {
                   "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
                   "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
@@ -144,14 +143,16 @@ class ReportsController < ApplicationController
 
     if not params[:amb_note].blank?
       #puts ">> #{params[:amb_note]} <<"
-      #@report.note = params[:amb_note]
+      @reportNote = params[:amb_note]
+      #puts @reportNote
       #if @report.save
         # logic for generating the pdf
         # save the pdf in database
         # generate a link for downloading the pdf
-        #show
-        #flash[:notice] = "pdf was generated successfully"
-        redirect_to "/reports/#{@fileName}" and return
+        show
+
+        redirect_to "/reports/#{@fileName}"
+        return
       #end
     end
 
@@ -159,12 +160,15 @@ class ReportsController < ApplicationController
     redirect_to new_report_path and return
   end
   
+  
   def show
-    
+
+    @reportNote3 = "#{@reportNote}"
     schoolName = @school.name
     schoolName.gsub! /\s+/, '_'
     schoolName = schoolName.downcase
     @fileName = "#{schoolName}_report.pdf"
+
     @school_semester = @current_user.school_semester
     schoolName.gsub!(/_/, ' ')    
     @school.name.gsub!(/_/, ' ')
@@ -183,7 +187,28 @@ class ReportsController < ApplicationController
     generate_strengths
     generate_weaknesses
     @ambassadorNoteTitle = "Ambassador Notes: "
-    @ambassadorNote = params[:amb_note]
+
+    @objectives = {
+                  "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
+                  "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
+                  "3. Nutrients" => "Discuss the metabolic functions of different nutrients; examine the quantities of fats, sugars, fiber and protein in various types of food.",
+                  "4. Nutrition Labeling" => "Teach students how to read and understand food labels to determine which foods are healthier than others. ",
+                  "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
+                  "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
+                   "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
+    
+    #@objectivesTable = [["Lessons", "Objectives"]]
+    
+    @objectivesTable = @objectives.map do |item1, item2|
+      [
+      item1, item2
+      ]
+    end
+
+    #puts @objectivesTable
+    #puts @ambassadorNote
+    #puts @reportNote3
+
     
   end
   
