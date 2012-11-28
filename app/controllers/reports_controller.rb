@@ -143,9 +143,10 @@ class ReportsController < ApplicationController
 
     if not params[:amb_note].blank?
       #puts ">> #{params[:amb_note]} <<"
-      @reportNote = params[:amb_note]
+      #@reportNote = params[:amb_note]
+      @report.note = params[:amb_note]
       #puts @reportNote
-      #if @report.save
+      if @report.save
         # logic for generating the pdf
         # save the pdf in database
         # generate a link for downloading the pdf
@@ -153,7 +154,7 @@ class ReportsController < ApplicationController
 
         redirect_to "/reports/#{@fileName}"
         return
-      #end
+      end
     end
 
     flash[:warning] = "Could not generate the PDF report"
@@ -208,7 +209,7 @@ class ReportsController < ApplicationController
     #puts @objectivesTable
     #puts @ambassadorNote
     #puts @reportNote3
-
+    
     
   end
   
