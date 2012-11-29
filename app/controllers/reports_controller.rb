@@ -77,13 +77,6 @@ class ReportsController < ApplicationController
                               :axis_with_labels => 'y'
                               ) 
                                        
-
-            
-
-
-
-
-  
         
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
 
