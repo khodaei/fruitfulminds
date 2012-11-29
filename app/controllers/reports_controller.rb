@@ -47,6 +47,44 @@ class ReportsController < ApplicationController
                    
         @ambassadorNoteTitle = "Ambassador Notes: "
         
+
+        @line_chart = Gchart.bar(:size => '900x300', 
+                                  :title => "example title",
+                                  :legend => ['first data set label', 'second data set label'],
+                                  :bar_colors => 'FF0000',
+                                  :data => [10, 30, 120, 45, 72],
+                                  :bar_width_and_spacing => '50,25',
+                                  :axis_with_labels => 'y'
+                                  ) 
+                                  
+
+
+        @nutrition_chart = Gchart.bar(:size => '900x300', 
+                                  :title => "Average Survey Score in Six Nutrition Topics",
+                                  :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                                  :bar_colors => 'FF0000',
+                                  :data => [10, 30, 120, 45, 72],
+                                  :bar_width_and_spacing => '50,25',
+                                  :axis_with_labels => 'y'
+                                  ) 
+                                  
+        @combined_chart = Gchart.bar(:size => '900x300', 
+                              :title => "Average Survey Score in Six Nutrition Topics",
+                              :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                              :bar_colors => 'FF0000',
+                              :data => [10, 30, 120, 45, 72],
+                              :bar_width_and_spacing => '50,25',
+                              :axis_with_labels => 'y'
+                              ) 
+                                       
+
+            
+
+
+
+
+  
+        
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
 
       else
