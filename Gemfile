@@ -49,4 +49,4 @@ gem 'googlecharts', :require => 'gchart'
 # gem 'capistrano'
 
 # To use debugger
-gem 'haml'
+gem 'haml', :require => "open-uri"

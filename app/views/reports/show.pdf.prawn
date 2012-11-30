@@ -34,6 +34,10 @@ pdf.text @eval_intro_second
 pdf.text " "
 pdf.text @eval_intro_third
 pdf.text " "
+pdf.image open(URI.escape(@nutrition_chart)) 
+pdf.text " "
+pdf.image open(URI.escape(@combined_chart)), :align => :center
+pdf.text " "
 pdf.text @strength_weakness_title, :size => 14, :style => :bold
 pdf.text " "
 pdf.text @static_contents[:strength_weakness_intro]

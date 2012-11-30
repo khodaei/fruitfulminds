@@ -48,33 +48,38 @@ class ReportsController < ApplicationController
         @ambassadorNoteTitle = "Ambassador Notes: "
         
 
-        @line_chart = Gchart.bar(:size => '900x300', 
-                                  :title => "example title",
-                                  :legend => ['first data set label', 'second data set label'],
-                                  :bar_colors => 'FF0000',
-                                  :data => [10, 30, 120, 45, 72],
-                                  :bar_width_and_spacing => '50,25',
-                                  :axis_with_labels => 'y'
-                                  ) 
                                   
+        @axis1 = "Nutrition Related Diseases"
+        @axis2 = 'Food Groups'
+        @axis3 = 'Nutrients'
+        @axis4 = 'Nutrition Labeling'
+        @axis5 = 'Food Advertisments'
+        @axis6 = 'Physical Activities'
 
-
-        @nutrition_chart = Gchart.bar(:size => '900x300', 
+        @nutrition_chart = Gchart.bar(:size => '1000x300', 
                                   :title => "Average Survey Score in Six Nutrition Topics",
                                   :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                                  :bar_colors => 'FF0000',
-                                  :data => [10, 30, 120, 45, 72],
-                                  :bar_width_and_spacing => '50,25',
-                                  :axis_with_labels => 'y'
+                                  :bar_colors => '3399CC,99CCFF',
+                                  :data => [[50, 30, 100, 38, 45, 72], [26, 10, 30, 100, 45, 72]],
+                                  :bar_width_and_spacing => '35,0,50',
+                                  :axis_with_labels => 'x,y',
+                                  #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                                  :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
+                                  :stacked => false,
+                                  :axis_range => [nil, [0,100,10]]
                                   ) 
                                   
-        @combined_chart = Gchart.bar(:size => '900x300', 
-                              :title => "Average Survey Score in Six Nutrition Topics",
-                              :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                              :bar_colors => 'FF0000',
-                              :data => [10, 30, 120, 45, 72],
-                              :bar_width_and_spacing => '50,25',
-                              :axis_with_labels => 'y'
+
+                                  
+        @combined_chart = Gchart.bar(:size => '1000x300', 
+                                :title => "Overall Combined Scores(%)",
+                                :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                                :bar_colors => 'FF3333,990000',
+                                :data => [[20], [100]],
+                                :bar_width_and_spacing => '50,25,25',
+                                :axis_with_labels => 'y',
+                                :stacked => false,
+                                :axis_range => [0,100,10]
                               ) 
                                        
         
@@ -240,6 +245,39 @@ class ReportsController < ApplicationController
     #puts @objectivesTable
     #puts @ambassadorNote
     #puts @reportNote3
+    
+    @axis1 = "Nutrition Diseases"
+    @axis2 = 'Food Groups'
+    @axis3 = 'Nutrients'
+    @axis4 = 'Nutrition Labeling'
+    @axis5 = 'Food Advertisments'
+    @axis6 = 'Physical Activities'
+
+    @nutrition_chart = Gchart.bar(:size => '600x300', 
+                              :title => "Average Survey Score in Six Nutrition Topics",
+                              #:legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                              :bar_colors => '3399CC,99CCFF',
+                              :data => [[50, 30, 100, 38, 45, 72], [26, 10, 30, 100, 45, 72]],
+                              :bar_width_and_spacing => '30,0,30',
+                              :axis_with_labels => 'x,y',
+                              #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                              :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
+                              :stacked => false,
+                              :axis_range => [nil, [0,100,10]]
+                              ) 
+                              
+
+                              
+    @combined_chart = Gchart.bar(:size => '400x300', 
+                            :title => "Overall Combined Scores(%)",
+                            :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                            :bar_colors => 'FF3333,990000',
+                            :data => [[20], [100]],
+                            :bar_width_and_spacing => '50,25,25',
+                            :axis_with_labels => 'y',
+                            :stacked => false,
+                            :axis_range => [0,100,10]
+                          ) 
     
     
   end
