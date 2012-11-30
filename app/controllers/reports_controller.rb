@@ -22,6 +22,7 @@ class ReportsController < ApplicationController
         @school.users.each do |user|
           @ambassadors += user.name + ", "
         end
+        
 
         @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
         @school_intro_title = "Fruitful Minds at #{@school.name}"

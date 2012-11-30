@@ -21,6 +21,7 @@ pdf.text " "
 
 
 
+
 pdf.table(@objectivesTable, :header => true)
 
 
