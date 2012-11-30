@@ -81,6 +81,7 @@ class ReportsController < ApplicationController
                                 :stacked => false,
                                 :axis_range => [0,100,10]
                               ) 
+        
                                        
         
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
