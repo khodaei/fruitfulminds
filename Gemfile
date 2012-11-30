@@ -1,14 +1,22 @@
 source 'http://rubygems.org'
+require 'rubygems'
 
 gem 'rails', '3.1.0'
-
+gem 'sqlite3'
+gem 'database_cleaner'
+gem 'capybara'
+gem 'launchy'
+gem 'rspec-rails'
+gem 'railroady'
+gem 'haml-rails'
+gem 'simplecov'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'sqlite3'
-  gem 'ruby-debug19', :require => 'ruby-debug'
+  #gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
@@ -41,6 +49,7 @@ end
 gem 'jquery-rails'
 gem 'prawn'
 gem 'googlecharts'
+
 
 
 # Use unicorn as the web server
