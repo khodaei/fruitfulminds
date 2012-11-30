@@ -2,14 +2,7 @@ source 'http://rubygems.org'
 require 'rubygems'
 
 gem 'rails', '3.1.0'
-gem 'sqlite3'
-gem 'database_cleaner'
-gem 'capybara'
-gem 'launchy'
-gem 'rspec-rails'
-gem 'railroady'
-gem 'haml-rails'
-gem 'simplecov'
+
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
@@ -44,11 +37,12 @@ group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
+  gem 'haml-rails'
 end
 
 gem 'jquery-rails'
 gem 'prawn'
-gem 'googlecharts'
+gem 'googlecharts', :require => 'gchart'
 
 
 
