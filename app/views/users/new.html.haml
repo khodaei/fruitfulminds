@@ -16,14 +16,14 @@
       =label :school, :city, "School City"
       =text_field :school, :city
       =label :semester, :name, "Survey Period"
-      -#=select_tag :semester, options_from_collection_for_select(@schools, "id", "name")
-
-      -#=label :school, :county, "School County"
       =select('semester', 'name', %w[Fall Winter Spring Summer], {}, {})
-      -#options_from_collection_for_select(@semesters, 'id', 'name'), :prompt => "Select Survey Period"
+
+      =label :semester, :year, "Survey Year"
+      =text_field :semester, :year
 
       =label :user, :email, "Email Address"
       =text_field :user, :email
+
       =label :user, :password, "Password"
       =password_field :user, :password
       =label :user, :confirm_password, "Confirm Password"

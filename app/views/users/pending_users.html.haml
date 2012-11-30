@@ -2,24 +2,27 @@
   %table#pending_users
     %thead
       %tr
-        -# %th= link_to 'Movie Title', movies_path(:sort => 'title', :ratings => @selected_ratings), :id => 'title_header'
         %th Name
         %th Email
-        -#%th College
-        %th School
+        %th College
+        %th School Name
+        %th School City
+        %th School County
         %th Semester
+        %th Year
         %th Approve
         %th Disapprove
     %tbody
       - @pending_users.each do |user|
         %tr
-          %td= user.name
-          %td= user.email
-          -#%td= user.college
-          %td= "#{user.school.name}, #{user.school.city}, #{user.school.county}"
-          %td= user.school_semester.name
-          %td= check_box_tag "approves[#{user.id}]", 1, false, :id => "approves_#{user.id}"
-          %td= check_box_tag "disapproves[#{user.id}]", 1, false, :id => "disapproves_#{user.id}"
-          -# %td{:id => 'director'}= movie.director
-          -# %td= link_to "More about #{movie.title}", movie_path(movie)
-  =submit_tag 'Update', :id => 'update_submit', :style => "margin: 10px;"
+          %td= user[:name]
+          %td= user[:email]
+          %td= text_field_tag "colleges[#{user[:id]}]", user[:college], :class => "pending_text_inputs"
+          %td= text_field_tag "school_names[#{user[:id]}]", user[:school_name], :class => "pending_text_inputs"
+          %td= text_field_tag "school_cities[#{user[:id]}]", user[:school_city], :class => "pending_text_inputs"
+          %td= text_field_tag "school_counties[#{user[:id]}]", user[:school_county], :class => "pending_text_inputs"
+          %td= select_tag "semester_names[#{user[:id]}]", options_for_select(%w[Fall Winter Spring Summer], :selected => user[:semester_name]), :style => "width: 85px;"
+          %td= text_field_tag "semester_year[#{user[:id]}]", user[:semester_year], :style => "width: 50px;"
+          %td= check_box_tag "approves[#{user[:id]}]", 1, false, :id => "approves_#{user[:id]}", :style => "width: 30px;"
+          %td= check_box_tag "disapproves[#{user[:id]}]", 1, false, :id => "disapproves_#{user[:id]}", :style => "width: 30px;"
+  = submit_tag 'Update', :id => 'update_submit', :style => "margin: 10px;"

@@ -18,16 +18,16 @@ Feature: Admin approves/disapproves new users before they are given access to th
       | 1         | Fall | 2012 |
 
     And the following users exist:
-      | email                  | password | name          | profile_id | school_semester_id |
+      | email                   | password | name          | profile_id | school_semester_id |
       | admin@gmail.com         | 123f5    | Admin         | 1          |                    |
       | approved_user@gmail.com | 12323    | Approved User | 2          | 1                  |
-      | pending_user@gmail.com  | 2isd82   | Pending User  | 2          | 1                  |
+      | pending_user@gmail.com  | 2isd82   | Pending User  | 2          |                    |
 
-    And "Pending User" is a pending user
+    And "Pending User" is a pending user for school "school1" and semester "Fall, 2012"
     And I am logged in as "admin@gmail.com" with "123f5" as my password
     And I am on the portal page
 
-  Scenario: Admin can see all pending users
+  Scenario: Admin sees all pending users
     When I follow "Pending Users"
     Then I should be on the pending users page
     And I should see "pending_user@gmail.com"
