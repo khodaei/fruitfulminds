@@ -40,7 +40,7 @@ end
 
 gem 'jquery-rails'
 gem 'prawn'
-gem 'googlecharts', :require => 'gchart'
+gem 'googlecharts'
 
 
 # Use unicorn as the web server
