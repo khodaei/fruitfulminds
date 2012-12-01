@@ -1,7 +1,7 @@
-Feature: edit existing pre-survey results
+Feature: edit existing survey results
 
   As an ambassador
-  So that I can edit pre-survey reports
+  So that I can edit survey reports
   I want to have the data in an easy to access location
 
 Background: results are to be added to database
