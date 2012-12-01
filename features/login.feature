@@ -13,7 +13,7 @@ Background: users have been added to database
 
   And the following users exist:
     | email              | password | name         | profile_id | school_semester_id |
-    | amirk88@gmail.com  | 123f5    | amir khodaei | 1          | 1                  |
+    | amirk88@gmail.com  | 123f5    | amir khodaei | 1          |                   |
     | amb@gmail.com      | ambpass  | New Amb      | 2          | 1                  |
     | amb2@gmail.com     | ambpass  | New Amb2     | 2          | 1                  |
 
@@ -23,7 +23,7 @@ Background: users have been added to database
 
   And the following school_semesters exist:
     | school_id | name | year |
-    | 1         | fall | 2012 |
+    | 1         | Fall | 2012 |
 
   And I am on the login page
 
@@ -39,7 +39,7 @@ Background: users have been added to database
     And I should see "Preview Report/Add Ambassador Comments"
 
   Scenario: An admin logs in with a pending user
-    Given "New Amb" is a pending user
+    Given "New Amb" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amirk88@gmail.com"
     And I fill in "Password" with "123f5"
     And I press "Sign In"
@@ -58,7 +58,7 @@ Background: users have been added to database
     And I should not see "Pending Users"
 
   Scenario: An ambassador logs in with a pending user
-    Given "New Amb2" is a pending user
+    Given "New Amb2" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amb@gmail.com"
     And I fill in "Password" with "ambpass"
     And I press "Sign In"
@@ -70,7 +70,7 @@ Background: users have been added to database
     And I should not see "Pending Users"
 
   Scenario: A pending user logs in
-    Given "New Amb" is a pending user
+    Given "New Amb" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amb@gmail.com"
     And I fill in "Password" with "ambpass"
     And I press "Sign In"
