@@ -119,13 +119,6 @@ ActiveRecord::Schema.define(:version => 20121128231117) do
     t.datetime "updated_at"
   end
 
-  create_table "presurvey_parts", :force => true do |t|
-    t.integer  "presurveys_id"
-    t.integer  "part_num"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "profiles", :force => true do |t|
     t.string "label"
   end
