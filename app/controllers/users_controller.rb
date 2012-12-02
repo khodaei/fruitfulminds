@@ -60,6 +60,7 @@ class UsersController < ApplicationController
             end
           end
           if @user
+            UserMailer.notify_admin(@user).deliver
             flash[:notice] = "Thank you for registering, a confirmation will be sent to you shortly"
             redirect_to login_path and return
           else
@@ -144,6 +145,7 @@ class UsersController < ApplicationController
         user.school_semester_id = semester.id
         if user.save
           delete_pending_user(uid)
+          UserMailer.user_approved_email(user).deliver
           approved_users << "#{User.find_by_id(uid).name} "
         end
       end
@@ -155,6 +157,7 @@ class UsersController < ApplicationController
         user = User.find_by_id(uid)
         disapproved_users << "#{user.name} "
         user.destroy
+        UserMailer.user_disapproved_email(user).deliver
         delete_pending_user(uid)
       end
     end
