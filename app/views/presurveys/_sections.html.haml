@@ -2,8 +2,6 @@
 = f.text_field "number_students", :class => "numeric_input_field"
 - section_and_num_questions.each do |section,questions|
   - questions.times do |i|
-    = label "section_#{section}_#{i + 1}", "Section #{section} Number #{i + 1}"
-    = f.text_field "section_#{section}_#{i + 1}", :class => "numeric_input_field"
     = f.label "section_#{section}_#{i + 1}", "Section #{section} Number #{i + 1}"
     = f.text_field "section_#{section}_#{i + 1}", :class => "numeric_input_field"
     %br

@@ -42,7 +42,6 @@ class FoodJournalsController < ApplicationController
         wn = fj.week_num
       end
     end
-    p wn
     if wn
       @food_journal_main_fields = FoodJournal.find_by_student_name_and_week_num(food_journal_student, wn)
       @food_journal_week_x_fields = @food_journal_main_fields

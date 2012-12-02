@@ -13,7 +13,7 @@ Background: results are to be added to database
 
   And the following users exist:
     | email              | password | name         | profile_id | school_semester_id |
-    | amirk88@gmail.com  | 123f5    | amir khodaei | 1          |     1     |
+    | amirk88@gmail.com  | 123f5    | amir khodaei | 2          |     1     |
 
   And the following schools exist:
     | name | county | city | 
