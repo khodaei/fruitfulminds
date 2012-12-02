@@ -18,11 +18,4 @@ class SessionsController < ApplicationController
     redirect_to root_path
   end
 
-  def logged_in
-    if session[:user_id]
-      flash[:warning] = "You are already logged in."
-      redirect_to portal_path
-    end
-  end
-
 end
