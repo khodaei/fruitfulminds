@@ -44,7 +44,8 @@ class ReportsController < ApplicationController
                   "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
                   "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
-
+        @improvement_intro = "#{@ps_part1.number_students} of students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2 and #{@ps.number_students} of students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
+        generate_mapping
                    
         @ambassadorNoteTitle = "Ambassador Notes: "
         @graphdata1 = [[50, 30, 21, 38, 45, 72], [26, 10, 30, 42, 45, 72]]
@@ -166,12 +167,14 @@ class ReportsController < ApplicationController
     @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
     @efficacy = calculate_efficacy
     @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-    @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
+    @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). #{@ps_part1.number_students} students took the pre-curriculum survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2, and #{@ps.number_students} students took the post-curriculum surveys."
     @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
     @static_contents = StaticContent.first
     generate_strengths
     generate_weaknesses
     @ambassadorNoteTitle = "Ambassador Notes: "
+    @improvement_intro = "#{@ps_part1.number_students} of students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2, and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
+    generate_mapping
 
     @objectives = {
                   "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
@@ -251,7 +254,216 @@ class ReportsController < ApplicationController
                             )  
   end
   
-  
+  def generate_mapping
+    @verdicts = {}
+    @T = { 1 => 6.314, 2 => 2.920, 3 => 2.353, 4 => 2.132, 5 => 2.015, 
+           6 => 1.943, 7 => 1.895, 8 => 1.860, 9 => 1.833, 10 => 1.812,
+           11 => 1.796, 12 => 1.782, 13 => 1.771, 14 => 1.761, 15 => 1.753, 
+           16 => 1.746, 17 => 1.740, 18 => 1.734, 19 => 1.729, 20 => 1.725,
+           21 => 1.721, 22 => 1.717, 23 => 1.714, 24 => 1.711, 25 => 1.708,
+           26 => 1.706, 27 => 1.703, 28 => 1.701, 29 => 1.699, 30 => 1.697,
+           40 => 1.684, 60 => 1.671, 80 => 1.664, 100 => 1.660, 1000 => 1.646 }
+
+    @sig_increase = []
+    @sig_decrease = []
+    @slight_increase = []
+    @slight_decrease = []
+
+    10.times do |i|
+      index = i + 1
+      numAgreesPre = @ps_part2.efficacy[0]["efficacy_#{index}"]
+      numStudentsPre = @ps_part2.number_students
+      meanPre = numAgreesPre/(numStudentsPre*1.0)
+      diffSquareSumPre = (1.0 - meanPre)*(1.0 - meanPre)*numAgreesPre
+      preSD = Math.sqrt(diffSquareSumPre/(numStudentsPre-1.0))
+
+      numAgreesPost = @ps.efficacy[0]["efficacy_#{index}"]
+      numStudentsPost = @ps.number_students
+      meanPost = numAgreesPost/(numStudentsPost*1.0)
+      diffSquareSumPost = (1.0 - meanPost)*(1.0 - meanPost)*numAgreesPost
+      postSD = Math.sqrt(diffSquareSumPost/(numStudentsPost-1.0))
+
+      numerator = (meanPost-meanPre).abs
+      denom = (Math.sqrt((preSD)*(preSD)/numStudentsPre + (postSD)*(postSD)/numStudentsPost))
+      t = (meanPost-meanPre).abs/(Math.sqrt((preSD)*(preSD)/numStudentsPre + (postSD)*(postSD)/numStudentsPost))
+      df = [ numStudentsPre - 1, numStudentsPost - 1 ].min
+      if df > 30 and df < 40
+        df = 30
+      elsif df > 40 and df < 60
+        df = 40
+      elsif df > 60 and df < 80
+        df = 60
+      elsif df > 80 and df < 100
+        df = 80
+      elsif df > 100 and df < 1000
+        df = 100
+      elsif df > 1000
+        df = 1000
+      end
+
+      verdict = @T[df] < t
+      @verdicts[index] = verdict      
+
+      if verdict
+        if meanPost > meanPre
+          @sig_increase << @static_contents["agree_#{index}"]
+          @verdicts[index] = 1
+        else
+          @sig_decrease << @static_contents["agree_#{index}"]
+          @verdicts[index] = -1
+        end
+      else
+        @verdicts[index] = 0
+        if meanPost > meanPre
+          @slight_increase << @static_contents["agree_#{index}"]
+        elsif meanPre > meanPost
+          @slight_decrease << @static_contents["agree_#{index}"] 
+        end
+      end
+    end
+
+    @sig_inc_map = []
+
+    if @verdicts[1] == 1
+      if @verdicts[2] == 1
+        @sig_inc_map << @static_contents["increase_1_2"]
+      else
+        @sig_inc_map << @static_contents["increase_1"]
+      end
+    elsif @verdicts[2] == 1
+      @sig_inc_map << @static_contents["increase_2"]
+    end
+
+    if @verdicts[3] == 1
+      if @verdicts[4] == 1
+        @sig_inc_map << @static_contents["increase_3_4"]
+      else
+        @sig_inc_map << @static_contents["increase_3"]
+      end
+    elsif @verdicts[4] == 1
+      @sig_inc_map << @static_contents["increase_4"]
+    end
+
+    if @verdicts[5] == 1
+      if @verdicts[6] == 1
+        if @verdicts[7] == 1
+          @sig_inc_map << @static_contents["increase_5_6_7"]
+        else
+          @sig_inc_map << @static_contents["increase_5_6"]
+        end
+      else
+        if @verdicts[7] == 1
+          @sig_inc_map << @static_contents["increase_5_7"]
+        else
+          @sig_inc_map << @static_contents["increase_5"]
+        end
+      end
+    elsif @verdicts[6] == 1
+      if @verdicts[7] == 1
+        @sig_inc_map << @static_contents["increase_6_7"]
+      else
+        @sig_inc_map << @static_contents["increase_6"]
+      end
+    elsif @verdicts[7] == 1
+      @sig_inc_map << @static_contents["increase_7"]
+    end
+
+    if @verdicts[8] == 1
+      if @verdicts[9] == 1
+        if @verdicts[10] == 1
+          @sig_inc_map << @static_contents["increase_8_9_10"]
+        else
+          @sig_inc_map << @static_contents["increase_8_9"]
+        end
+      else
+        if @verdicts[10] == 1
+          @sig_inc_map << @static_contents["increase_8_10"]
+        else
+          @sig_inc_map << @static_contents["increase_8"]
+        end
+      end
+    elsif @verdicts[9] == 1
+      if @verdicts[10] == 1
+        @sig_inc_map << @static_contents["increase_9_10"]
+      else
+        @sig_inc_map << @static_contents["increase_9"]
+      end
+    elsif @verdicts[10] == 1
+      @sig_inc_map << @static_contents["increase_10"]
+    end
+
+@sig_dec_map = []
+
+    if @verdicts[1] == -1
+      if @verdicts[2] == -1
+        @sig_dec_map << @static_contents["decrease_1_2"]
+      else
+        @sig_dec_map << @static_contents["decrease_1"]
+      end
+    elsif @verdicts[2] == -1
+      @sig_dec_map << @static_contents["decrease_2"]
+    end
+
+    if @verdicts[3] == -1
+      if @verdicts[4] == -1
+        @sig_dec_map << @static_contents["decrease_3_4"]
+      else
+        @sig_dec_map << @static_contents["decrease_3"]
+      end
+    elsif @verdicts[4] == -1
+      @sig_dec_map << @static_contents["decrease_4"]
+    end
+
+    if @verdicts[5] == -1
+      if @verdicts[6] == -1
+        if @verdicts[7] == -1
+          @sig_dec_map << @static_contents["decrease_5_6_7"]
+        else
+          @sig_dec_map << @static_contents["decrease_5_6"]
+        end
+      else
+        if @verdicts[7] == -1
+          @sig_dec_map << @static_contents["decrease_5_7"]
+        else
+          @sig_dec_map << @static_contents["decrease_5"]
+        end
+      end
+    elsif @verdicts[6] == -1
+      if @verdicts[7] == -1
+        @sig_dec_map << @static_contents["decrease_6_7"]
+      else
+        @sig_dec_map << @static_contents["decrease_6"]
+      end
+    elsif @verdicts[7] == -1
+      @sig_dec_map << @static_contents["decrease_7"]
+    end
+
+    if @verdicts[8] == -1
+      if @verdicts[9] == -1
+        if @verdicts[10] == -1
+          @sig_dec_map << @static_contents["decrease_8_9_10"]
+        else
+          @sig_dec_map << @static_contents["decrease_8_9"]
+        end
+      else
+        if @verdicts[10] == -1
+          @sig_dec_map << @static_contents["decrease_8_10"]
+        else
+          @sig_dec_map << @static_contents["decrease_8"]
+        end
+      end
+    elsif @verdicts[9] == -1
+      if @verdicts[10] == -1
+        @sig_dec_map << @static_contents["decrease_9_10"]
+      else
+        @sig_dec_map << @static_contents["decrease_9"]
+      end
+    elsif @verdicts[10] == -1
+      @sig_dec_map << @static_contents["decrease_10"]
+    end
+
+  end
+
   def generate_strengths
     @all_strengths = { 
                    "S1Q1 Strengths" => "Students could identify factors that may lead to type 2 diabetes",
@@ -352,7 +564,7 @@ class ReportsController < ApplicationController
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
         if !(@ps_part2["section_#{section}_#{i + 1}"]).nil?
-        @efficacy_pre2 += @ps_part2["section_#{section}_#{i + 1}"]
+          @efficacy_pre2 += @ps_part2["section_#{section}_#{i + 1}"]
         end
       end
     end
