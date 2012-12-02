@@ -38,7 +38,23 @@
         if (!$.isNumeric($(this).val()) || $(this).val() < 0){
           $(this).css("background-color", "red");
           $(this).css("color", "white");
-          alert("< " + $(this).val() + " >" + " is an invalid input.");
+          alert("<" + $(this).val() + ">" + " is an invalid input.");
+        }
+        else{
+          $(this).css("background-color", "white");
+          $(this).css("color", "black");
+        }
+      });
+      $(".text_input_field").focusout(function(){
+        if (!this.value){
+          $(this).css("background-color", "red");
+          $(this).css("color", "white");
+          alert("The field cannot be empty.");
+        }
+        else if (!this.value.trim()){
+          $(this).css("background-color", "red");
+          $(this).css("color", "white");
+          alert("The field cannot only contain white space.");
         }
         else{
           $(this).css("background-color", "white");
@@ -53,6 +69,14 @@
               can_submit = false;
               return false;
             }
+          }
+          else if ($(this).attr('class') == "text_input_field"){
+            if (!this.value || !this.value.trim()){
+              can_submit = false;
+              return false;
+            }
+            else
+              $(this).val($(this).val().trim());
           }
         });
         if (!can_submit)

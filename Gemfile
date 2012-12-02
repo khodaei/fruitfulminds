@@ -49,11 +49,11 @@ gem 'googlecharts', :require => 'gchart'
 # gem 'capistrano'
 
 # To use debugger
-<<<<<<< HEAD
+
 gem 'haml'
 
 #For form field errors
 gem "dynamic_form"
-=======
+
 gem 'haml', :require => "open-uri"
->>>>>>> cf32ee401b22bcbdec9efd93afe4bac48f629e97
+

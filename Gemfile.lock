@@ -211,11 +211,8 @@ DEPENDENCIES
   cucumber-rails
   cucumber-rails-training-wheels
   database_cleaner
-<<<<<<< HEAD
   dynamic_form
-=======
   googlecharts
->>>>>>> cf32ee401b22bcbdec9efd93afe4bac48f629e97
   haml
   haml-rails
   jquery-rails
