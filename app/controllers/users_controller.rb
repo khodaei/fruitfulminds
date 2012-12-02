@@ -40,14 +40,6 @@ class UsersController < ApplicationController
         elsif not password.eql? confirm
             flash[:warning] = "Passwords did not match"
         else
-          # school = School.where(:name => schoolName, :county => schoolCounty, :city => schoolCity).first
-          # if school.nil?
-            # flash[:warning] = "#{schoolName} school could not be found"
-          # else
-            # school_semester = SchoolSemester.where(:school_id => school.id, :name => semesterName).order("year DESC").first
-            # if school_semester.nil?
-                # flash[:warning] = "Registration is not allowed for the selected semester for #{school.name} school"
-            # else
           ActiveRecord::Base.transaction do
             begin
             # create user
@@ -56,7 +48,6 @@ class UsersController < ApplicationController
                                 :password => password,
                                 :college => college,
                                 :profile_id => Profile.find_by_label("ambassador").id)
-            # :school_semester_id => school_semester.id)
             # add user's id to :pending_users table
             PendingUser.create!(:user_id => @user.id,
                                 :school_name => schoolName,
@@ -117,22 +108,50 @@ class UsersController < ApplicationController
     approved_users = ""
     disapproved_users = ""
 
-    # approve users that are selected by admin to be approved
+    # Users to be approved
     if not params[:approves].nil?
       params[:approves].keys.each do |uid|
-        # puts "approving #{uid} with #{params[:approves][uid]}"
-        puts "hash: #{params[:school_names]}"
-        puts "school_name: #{params[:school_names][uid]}"
-        # school_city = params[:school_cities]
-        delete_pending_user(uid)
-        approved_users << "#{User.find_by_id(uid).name} "
+
+        # fields that admin might have modified
+        user_college = params[:colleges][uid]
+        school_name = params[:school_names][uid]
+        school_city = params[:school_cities][uid]
+        school_county = params[:school_counties][uid]
+        semester_name = params[:semester_names][uid] # Fall, Winter, Spring, Summer
+        semester_year = params[:semester_years][uid] # a 4-digit number, e.g 2012
+
+        # find school with the given info
+        school = School.where(
+            "lower(name) = :name and lower(city) = :city and lower(county) = :county",
+            :name => school_name.downcase,
+            :city => school_city.downcase,
+            :county => school_county.downcase).first
+
+        # ask admin to add the school if this is a new school
+        if school.nil?
+          # TODO: Add a link to "Add School"
+          flash[:warning] = "The following school could not be found. Click on \"Add School\" to add a new school"
+          redirect_to pending_users_path and return
+        end
+
+        semester = SchoolSemester.where(:school_id => school.id, :name => semester_name, :year => semester_year).first
+        # create a new school_semester if a semester with given info does not exist
+        semester = SchoolSemester.create!(:school_id => school.id, :name => semester_name, :year => semester_year) if semester.nil?
+
+        # update user attributes and delete the user from pending_users table
+        user = User.find_by_id(uid)
+        user.college = user_college
+        user.school_semester_id = semester.id
+        if user.save
+          delete_pending_user(uid)
+          approved_users << "#{User.find_by_id(uid).name} "
+        end
       end
     end
 
-    # disapprove users that are selected by admin to be disapproved
+    # Users to be disapproved
     if not params[:disapproves].nil?
       params[:disapproves].keys.each do |uid|
-        # puts "disapproving #{uid} with #{params[:disapproves][uid]}"
         user = User.find_by_id(uid)
         disapproved_users << "#{user.name} "
         user.destroy
