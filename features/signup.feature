@@ -34,6 +34,7 @@ Background: users have been added to database
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
+    And I fill in "Survey Year" with "2012"
     And I fill in "Password" with "password"
     And I fill in "Confirm Password" with "password"
     And I check "tos"

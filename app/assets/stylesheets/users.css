@@ -9,7 +9,7 @@ border-radius: 10px;
 }
 
 .auth_form {
-width: 230px;
+  width: 230px;
   margin: 0 auto;
 }
 
@@ -36,3 +36,6 @@ table#pending_users th.hilite {
   background-color: yellow;
 }
 
+.pending_text_inputs {
+  width: 100px;
+}

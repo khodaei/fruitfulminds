@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :current_user, :only => [:new, :create]
-  before_filter :admin_only, :only => [:pending_user, :update_pending_user]
+  skip_before_filter :current_user, :only => [:new, :create, :tos]
+  before_filter :admin_only, :only => [:pending_user, :update_pending_user, :delete_pending_user]
+  before_filter :logged_in, :only => [:new]
 
   # show user info and profile
   def show
@@ -9,6 +10,9 @@ class UsersController < ApplicationController
 
   # renders sign up page
   def new
+  end
+
+  def tos
   end
 
   def edit
@@ -19,14 +23,18 @@ class UsersController < ApplicationController
 
         firstName = params[:user][:firstname]
         lastName = params[:user][:lastname]
-        college = params[:user][:college]
-        schoolName = params[:school][:name]
-        schoolCounty = params[:school][:county]
-        schoolCity = params[:school][:city]
-        semester = params[:semester][:name]
         email = params[:user][:email]
         password = params[:user][:password]
         confirm = params[:user][:confirm_password]
+        college = params[:user][:college]
+
+        schoolName = params[:school][:name]
+        schoolCounty = params[:school][:county]
+        schoolCity = params[:school][:city]
+
+        semesterName = params[:semester][:name]
+        semesterYear = params[:semester][:year]
+
         tos = params[:tos]
 
         if tos.nil?
@@ -36,35 +44,31 @@ class UsersController < ApplicationController
         elsif not password.eql? confirm
             flash[:warning] = "Passwords did not match"
         else
-          school = School.where(:name => schoolName, :county => schoolCounty, :city => schoolCity).first
-          if school.nil?
-            flash[:warning] = "#{schoolName} school could not be found"
-          else
-            school_semester = SchoolSemester.where(:school_id => school.id, :name => semester).order("year DESC").first
-            if school_semester.nil?
-              flash[:warning] = "Registration is not allowed for the selected semester for #{school.name} school"
-            else
-              ActiveRecord::Base.transaction do
-                begin
-                  # create user
-                  @user = User.create(:name => "#{firstName} #{lastName}",
-                                  :email => email, :password => password,
-                                  :profile_id => Profile.find_by_label("ambassador").id,
-                                  :school_semester_id => school_semester.id)
-                  # add user's id to :pending_users table
-                  PendingUser.create!(:user_id => @user.id)
-                rescue Exception => e
-                  @user = nil
-                end
-              end
-              if @user
-                # session[:user_id] = @user.id
-                flash[:notice] = "Thank you for registering, a confirmation will be sent to you shortly"
-                redirect_to login_path and return
-              else
-                flash[:warning] = "Registration Failed"
-              end
+          ActiveRecord::Base.transaction do
+            begin
+            # create user
+            @user = User.create(:name => "#{firstName} #{lastName}",
+                                :email => email,
+                                :password => password,
+                                :college => college,
+                                :profile_id => Profile.find_by_label("ambassador").id)
+            # add user's id to :pending_users table
+            PendingUser.create!(:user_id => @user.id,
+                                :school_name => schoolName,
+                                :school_city => schoolCity,
+                                :school_county => schoolCounty,
+                                :semester_name => semesterName,
+                                :semester_year => semesterYear)
+            rescue Exception => e
+              @user = nil
             end
+          end
+          if @user
+            UserMailer.notify_admin(@user).deliver
+            flash[:notice] = "Thank you for registering, a confirmation will be sent to you shortly"
+            redirect_to login_path and return
+          else
+            flash[:warning] = "Registration Failed"
           end
         end
         redirect_to signup_path and return
@@ -88,42 +92,87 @@ class UsersController < ApplicationController
   end
 
   def pending_users
-    puts "in pending users"
     @pending_users = []
-    PendingUser.all.each {|puser| @pending_users << User.find(puser.user_id)}
-# render :action => "pending_users"
+    PendingUser.all.each do |puser|
+      user = User.find(puser.user_id)
+      @pending_users << {
+        :id => user.id,
+        :name => user.name,
+        :email => user.email,
+        :college => user.college,
+        :school_name => puser.school_name,
+        :school_city => puser.school_city,
+        :school_county => puser.school_county,
+        :semester_name => puser.semester_name,
+        :semester_year => puser.semester_year
+      }
+    end
   end
 
   def update_pending_users
     approved_users = ""
     disapproved_users = ""
 
+    # Users to be approved
     if not params[:approves].nil?
       params[:approves].keys.each do |uid|
-        puts "approving #{uid} with #{params[:approves][uid]}"
-        ActiveRecord::Base.connection.execute(%Q{
-          delete from pending_users where user_id = #{uid}
-        })
-        approved_users << "#{User.find_by_id(uid).name} "
+
+        # fields that admin might have modified
+        user_college = params[:colleges][uid]
+        school_name = params[:school_names][uid]
+        school_city = params[:school_cities][uid]
+        school_county = params[:school_counties][uid]
+        semester_name = params[:semester_names][uid] # Fall, Winter, Spring, Summer
+        semester_year = params[:semester_years][uid] # a 4-digit number, e.g 2012
+
+        # find school with the given info
+        school = School.where(
+            "lower(name) = :name and lower(city) = :city and lower(county) = :county",
+            :name => school_name.downcase,
+            :city => school_city.downcase,
+            :county => school_county.downcase).first
+
+        # ask admin to add the school if this is a new school
+        if school.nil?
+          # TODO: Add a link to "Add School"
+          flash[:warning] = "The following school could not be found. Click on \"Add School\" to add a new school"
+          redirect_to pending_users_path and return
+        end
+
+        semester = SchoolSemester.where(:school_id => school.id, :name => semester_name, :year => semester_year).first
+        # create a new school_semester if a semester with given info does not exist
+        semester = SchoolSemester.create!(:school_id => school.id, :name => semester_name, :year => semester_year) if semester.nil?
+
+        # update user attributes and delete the user from pending_users table
+        user = User.find_by_id(uid)
+        user.college = user_college
+        user.school_semester_id = semester.id
+        if user.save
+          delete_pending_user(uid)
+          UserMailer.user_approved_email(user).deliver
+          approved_users << "#{User.find_by_id(uid).name} "
+        end
       end
     end
 
+    # Users to be disapproved
     if not params[:disapproves].nil?
       params[:disapproves].keys.each do |uid|
-        puts "disapproving #{uid} with #{params[:disapproves][uid]}"
         user = User.find_by_id(uid)
         disapproved_users << "#{user.name} "
         user.destroy
-        ActiveRecord::Base.connection.execute(%Q{
-          delete from pending_users where user_id = #{uid}
-        })
+        UserMailer.user_disapproved_email(user).deliver
+        delete_pending_user(uid)
       end
     end
 
-    # pending_user = PendingUser.find_by_user_id(params[:pendi[:user_id])
-    # delete user from pending_users table
-    # pending_user.destroy if pending_user
     flash[:notice] = %Q{#{approved_users.eql?("") ? "Nobody " : approved_users}were approved and #{disapproved_users.eql?("") ? "nobody " : disapproved_users}were disapproved}
     redirect_to pending_users_path and return
+  end
+
+  def delete_pending_user(user_id)
+    ActiveRecord::Base.connection.execute(%Q{
+      delete from pending_users where user_id = #{user_id}
+    })
   end
 end

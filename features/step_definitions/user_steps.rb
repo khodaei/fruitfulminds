@@ -20,6 +20,7 @@ Given /^I fill in all of the registration text fields$/ do
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
+    And I fill in "Survey Year" with "2012"
     And I fill in "Password" with "password"
     And I fill in "Confirm Password" with "password"
   }
@@ -35,11 +36,20 @@ Given /^I fill in all registration fields except password fields$/ do
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
+    And I fill in "Survey Year" with "2012"
   }
 end
 
-Given /^"(.*)" is a pending user$/ do |name|
-  PendingUser.create!(:user_id => User.find_by_name(name).id)
+Given /^"(.*)" is a pending user for school "(.*)" and semester "(.*)\s*,\s*(.*)"$/ do |name, school_name, semester_name, semester_year|
+  school = School.find_by_name(school_name)
+  semester = SchoolSemester.where(:name => semester_name, :year => semester_year).first
+  PendingUser.create!(
+      :user_id => User.find_by_name(name).id,
+      :school_name => school.name,
+      :school_city => school.city,
+      :school_county => school.county,
+      :semester_name => semester.name,
+      :semester_year => semester.year)
 end
 
 Given /^I am logged in as "(.*)" with "(.*)" as my password$/ do |email, password|
