@@ -31,7 +31,8 @@
       %br
       -# name, value, checked, options
       =check_box_tag 'tos', "1", false
-      ="Accept TOS"
+      ="Accept "
+      =link_to "Terms of Service", tos_path
       %br
       %br
       =submit_tag "Register"
