@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :current_user, :only => [:new, :create]
+  skip_before_filter :current_user, :only => [:new, :create, :tos]
   before_filter :admin_only, :only => [:pending_user, :update_pending_user, :delete_pending_user]
+  before_filter :logged_in, :only => [:new]
 
   # show user info and profile
   def show
@@ -9,6 +10,9 @@ class UsersController < ApplicationController
 
   # renders sign up page
   def new
+  end
+
+  def tos
   end
 
   def edit

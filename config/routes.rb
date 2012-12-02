@@ -20,6 +20,7 @@ Fruitfulminds::Application.routes.draw do
   match "pending_users" => "users#pending_users", :as => "pending_users", :via => :get
   match "update_pending_users" => "users#update_pending_users", :as => "update_pending_users", :via => :post
   match "reports/generate_pdf" => "reports#generate_pdf", :via => :post
+  match "tos" => "users#tos", :as => "tos"
 
   root :to => redirect('/portal')
 

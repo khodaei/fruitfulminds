@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :current_user
+  before_filter :logged_in, :only => [:new]
 
   def create
     user = User.where(:email => params[:user][:email]).first
