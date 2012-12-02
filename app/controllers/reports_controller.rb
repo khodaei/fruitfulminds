@@ -44,7 +44,7 @@ class ReportsController < ApplicationController
                   "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
                   "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
-        @improvement_intro = "#{@ps_part1.number_students} of students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2 and #{@ps.number_students} of students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
+        @improvement_intro = "#{@ps_part1.number_students} students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2 and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
         generate_mapping
                    
         @ambassadorNoteTitle = "Ambassador Notes: "
@@ -173,7 +173,7 @@ class ReportsController < ApplicationController
     generate_strengths
     generate_weaknesses
     @ambassadorNoteTitle = "Ambassador Notes: "
-    @improvement_intro = "#{@ps_part1.number_students} of students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2, and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
+    @improvement_intro = "#{@ps_part1.number_students} students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2, and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
     generate_mapping
 
     @objectives = {

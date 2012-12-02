@@ -52,6 +52,58 @@
 %p
 %p= @static_contents[:summary]
 
+%h4= @static_contents[:behavior_title]
+%p= @static_contents[:behavior_intro]
+
+%p= @improvement_intro
+
+%table
+  %tr
+  - @sig_increase.each do |agree|
+    %tr
+      %td= agree
+
+%h4= @static_contents[:slight_increase_header]
+
+%table
+  %tr
+  - @slight_increase.each do |agree|
+    %tr
+      %td= agree
+
+%h4= @static_contents[:decrease_header]
+
+%table
+  %tr
+  - @sig_decrease.each do |disagree|
+    %tr
+      %td= disagree
+
+%h4= @static_contents[:slight_decrease_header]
+
+%table
+  %tr
+  - @slight_decrease.each do |disagree|
+    %tr
+      %td= disagree
+
+%h4= @static_contents[:summary_header]
+
+%table
+  %tr
+  - @sig_inc_map.each do |agree|
+    %tr
+      %td= agree
+
+%table
+  %tr
+  - @sig_dec_map.each do |disagree|
+    %tr
+      %td= disagree
+
+%h4= @static_contents[:food_journal_header]
+%p= @static_contents[:food_journal_intro]
+
 %h4= @ambassadorNoteTitle
 -# %p= @report.note
 = render :partial => 'comment_form'
