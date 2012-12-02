@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   validate :email, :presence => true, :uniqueness => true
   validate :password, :presence => true, :on => :create, :length => {:minimum => 6}
 
+  strip_attributes
+
   def admin?
     profile_label == Profile::ADMIN
   end
