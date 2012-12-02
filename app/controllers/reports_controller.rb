@@ -1,6 +1,4 @@
 class ReportsController < ApplicationController
-  helper_method :generate_pdf
-
   def new
     @schools = @current_user.schools
   end
