@@ -31,6 +31,17 @@ School.create!({:name => "Willard Middle", :county => "Alameda", :city => "Berke
 
 SchoolSemester.create!({:school_id => 1, :name => "Fall", :year => 2012})
 SchoolSemester.create!({:school_id => 2, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 3, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 4, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 5, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 6, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 7, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 8, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 9, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 10, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 11, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 12, :name => "Fall", :year => 2012})
+SchoolSemester.create!({:school_id => 13, :name => "Fall", :year => 2012})
 
 StaticContent.create!({
                    :intro_title => "Intro to Fruitful Minds",
