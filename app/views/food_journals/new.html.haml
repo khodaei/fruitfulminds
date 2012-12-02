@@ -3,7 +3,7 @@
 %span
   = form_for @food_journal_fields, :url => {:action => :create} do |f|
     = label :food_journal, "Week Number"
-    = f.text_field "week_num"
+    = f.text_field "week_num", :class => "numeric_input_field"
     %br
     = label :food_journal, "Student Name"
     = f.text_field "student_name"

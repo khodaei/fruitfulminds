@@ -45,12 +45,14 @@
           $(this).css("color", "black");
         }
       });
-      $("#new_presurvey_part1 #edit_presurvey_part1 #new_presurvey_part2 #edit_presurvey_part2 #new_postsurvey #edit_postsurvey").submit(function(){
+      $("form").submit(function(){
         var can_submit = true;
         $(":text").each(function(index){
-          if (!$.isNumeric($(this).val()) || $(this).val() < 0){
-            can_submit = false;
-            return false;
+          if ($(this).attr('class') == "numeric_input_field"){
+            if (!$.isNumeric($(this).val()) || $(this).val() < 0){
+              can_submit = false;
+              return false;
+            }
           }
         });
         if (!can_submit)
