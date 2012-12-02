@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :current_user
+  before_filter :logged_in, :only => [:new]
 
   def create
     user = User.where(:email => params[:user][:email]).first
@@ -15,6 +16,13 @@ class SessionsController < ApplicationController
   def destroy
     reset_session
     redirect_to root_path
+  end
+
+  def logged_in
+    if session[:user_id]
+      flash[:warning] = "You are already logged in."
+      redirect_to portal_path
+    end
   end
 
 end
