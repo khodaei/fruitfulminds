@@ -32,6 +32,33 @@
       padding: 20px 0px 0px 0px;
     }
 
+  :javascript
+    $(document).ready(function(){
+      $(".numeric_input_field").focusout(function(){
+        if (!$.isNumeric($(this).val()) || $(this).val() < 0){
+          $(this).css("background-color", "red");
+          $(this).css("color", "white");
+          alert("< " + $(this).val() + " >" + " is an invalid input.");
+        }
+        else{
+          $(this).css("background-color", "white");
+          $(this).css("color", "black");
+        }
+      });
+      $("#new_presurvey_part1 #edit_presurvey_part1 #new_presurvey_part2 #edit_presurvey_part2 #new_postsurvey #edit_postsurvey").submit(function(){
+        var can_submit = true;
+        $(":text").each(function(index){
+          if (!$.isNumeric($(this).val()) || $(this).val() < 0){
+            can_submit = false;
+            return false;
+          }
+        });
+        if (!can_submit)
+          alert("Results failed to add. Incomplete or has invalid characters.");
+        return can_submit;
+      });
+    });
+    
   %body
     %div.background
       %span#header

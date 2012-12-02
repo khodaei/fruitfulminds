@@ -47,3 +47,6 @@ gem 'jquery-rails'
 
 # To use debugger
 gem 'haml'
+
+#For form field errors
+gem "dynamic_form"
