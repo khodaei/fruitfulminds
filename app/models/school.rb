@@ -6,7 +6,7 @@ class School < ActiveRecord::Base
   has_many :postsurveys, :through => :school_semesters
   has_many :reports #, :through => :surveys
   validates :name, :county, :city, :presence => true
-  strip_attributes :only => [:name, :county, :city]
+  strip_attributes
 
   def has_all_report_data
     # TODO: add food journal requirement here as well

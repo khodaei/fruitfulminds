@@ -6,9 +6,8 @@ gem 'googlecharts', :require => 'gchart'
 gem 'haml'
 gem 'jquery-rails'
 gem 'prawn'
-gem "strip_attributes"
 
-# Gems used only for assets and not required in production environments by default.
+# Assets use the following Gems; production does not require them.
 group :assets do
   gem 'therubyracer'              
   gem 'sass-rails', "  ~> 3.1.0"
@@ -16,11 +15,12 @@ group :assets do
   gem 'uglifier'
 end
 
-#For form field errors
+# For form field errors
 gem "dynamic_form"
+gem "strip_attributes"
 gem 'haml', :require => "open-uri"
 
-# for Heroku deployment - as described in Ap. A of ELLS book
+# For Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
