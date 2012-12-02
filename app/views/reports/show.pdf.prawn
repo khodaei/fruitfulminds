@@ -64,5 +64,5 @@ pdf.text @static_contents[:summary]
 pdf.text " "
 pdf.text @ambassadorNoteTitle, :size => 14, :style => :bold
 pdf.text " "
-pdf.text @reportNote3
+pdf.text @reportNote
 

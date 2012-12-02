@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  helper_method :generate_pdf
+
   def new
     @schools = @current_user.schools
   end
@@ -47,44 +49,11 @@ class ReportsController < ApplicationController
 
                    
         @ambassadorNoteTitle = "Ambassador Notes: "
-        
+        @graphdata1 = [[50, 30, 21, 38, 45, 72], [26, 10, 30, 42, 45, 72]]
+        @graphdata2 = [[37],[45]]
+        generate_graphs(@graphdata1, @graphdata2)
 
-                                  
-        @axis1 = "Nutrition Related Diseases"
-        @axis2 = 'Food Groups'
-        @axis3 = 'Nutrients'
-        @axis4 = 'Nutrition Labeling'
-        @axis5 = 'Food Advertisments'
-        @axis6 = 'Physical Activities'
-
-        @nutrition_chart = Gchart.bar(:size => '1000x300', 
-                                  :title => "Average Survey Score in Six Nutrition Topics",
-                                  :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                                  :bar_colors => '3399CC,99CCFF',
-                                  :data => [[50, 30, 100, 38, 45, 72], [26, 10, 30, 100, 45, 72]],
-                                  :bar_width_and_spacing => '35,0,50',
-                                  :axis_with_labels => 'x,y',
-                                  #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
-                                  :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
-                                  :stacked => false,
-                                  :axis_range => [nil, [0,100,10]]
-                                  ) 
-                                  
-
-                                  
-        @combined_chart = Gchart.bar(:size => '1000x300', 
-                                :title => "Overall Combined Scores(%)",
-                                :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                                :bar_colors => 'FF3333,990000',
-                                :data => [[20], [100]],
-                                :bar_width_and_spacing => '50,25,25',
-                                :axis_with_labels => 'y',
-                                :stacked => false,
-                                :axis_range => [0,100,10]
-                              ) 
-        
-                                       
-        
+                                    
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
 
       else
@@ -96,7 +65,195 @@ class ReportsController < ApplicationController
       redirect_to new_report_path
     end
   end
+  
+  
+  def generate_graphs(data1, data2)
+      
+      @axis1 = "Nutrition Related Diseases"
+      @axis2 = 'Food Groups'
+      @axis3 = 'Nutrients'
+      @axis4 = 'Nutrition Labeling'
+      @axis5 = 'Food Advertisments'
+      @axis6 = 'Physical Activities'
+      
+      @max1 = data1[0].compact.max
+      @max2 = data1[1].compact.max
+      @max3 = data2[0].compact.max
+      @max4 = data2[1].compact.max
+      
+      if @max1 > @max2
+        @max = @max1
+      else
+        @max = @max2
+      end
 
+      if @max3 > @max4
+        @combined_max = @max3
+      else
+        @combined_max = @max4
+      end
+
+
+      @nutrition_chart = Gchart.bar(:size => '1000x300', 
+                                :title => "Average Survey Score in Six Nutrition Topics",
+                                :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                                :bar_colors => '3399CC,99CCFF',
+                                :data => data1,
+                                :bar_width_and_spacing => '35,0,50',
+                                :axis_with_labels => 'x,y',
+                                #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                                :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
+                                :stacked => false,
+                                :axis_range => [nil, [0,@max,10]]
+                                ) 
+                                
+
+                                
+      @combined_chart = Gchart.bar(:size => '1000x300', 
+                              :title => "Overall Combined Scores(%)",
+                              :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                              :bar_colors => 'FF3333,990000',
+                              :data => data2,
+                              :bar_width_and_spacing => '50,25,25',
+                              :axis_with_labels => 'y',
+                              :stacked => false,
+                              :axis_range => [[0,@combined_max,10]]
+                            )  
+  end
+
+
+  def generate_pdf
+    @report = Report.find_by_id(params[:report][:id])
+    @school = School.find_by_id(params[:school][:id])
+
+    if not params[:amb_note].blank?
+      #puts ">> #{params[:amb_note]} <<"
+      #@reportNote = params[:amb_note]
+      session[:amb_note] = params[:amb_note]
+      #puts @reportNote
+      if @report.save
+        # logic for generating the pdf
+        # save the pdf in database
+        # generate a link for downloading the pdf
+        show
+
+        redirect_to "/reports/#{@fileName}"
+        return
+      end
+    end
+
+    flash[:warning] = "Could not generate the PDF report"
+    redirect_to new_report_path and return
+  end
+  
+    
+  def show
+
+    @reportNote = session[:amb_note]
+
+    schoolName = @school.name
+    schoolName.gsub! /\s+/, '_'
+    schoolName = schoolName.downcase
+    @fileName = "#{schoolName}_report.pdf"
+
+    @school_semester = @current_user.school_semester
+    schoolName.gsub!(/_/, ' ')    
+    @school.name.gsub!(/_/, ' ')
+
+    @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
+    @school_intro_title = "Fruitful Minds at #{@school.name}"
+    @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
+    @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
+    @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
+    @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
+    @efficacy = calculate_efficacy
+    @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
+    @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
+    @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
+    @static_contents = StaticContent.first
+    generate_strengths
+    generate_weaknesses
+    @ambassadorNoteTitle = "Ambassador Notes: "
+
+    @objectives = {
+                  "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
+                  "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
+                  "3. Nutrients" => "Discuss the metabolic functions of different nutrients; examine the quantities of fats, sugars, fiber and protein in various types of food.",
+                  "4. Nutrition Labeling" => "Teach students how to read and understand food labels to determine which foods are healthier than others. ",
+                  "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
+                  "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
+                   "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
+    
+    #@objectivesTable = [["Lessons", "Objectives"]]
+    
+    @objectivesTable = @objectives.map do |item1, item2|
+      [
+      item1, item2
+      ]
+    end
+    
+    @graphdata1 = [[50, 30, 21, 38, 45, 72], [26, 10, 30, 42, 45, 72]]
+    @graphdata2 = [[37],[45]]
+    generate_pdf_graphs(@graphdata1, @graphdata2)
+
+    
+    
+  end
+  
+  def generate_pdf_graphs(data1, data2)
+      
+      @axis1 = "Nutrition Related Diseases"
+      @axis2 = 'Food Groups'
+      @axis3 = 'Nutrients'
+      @axis4 = 'Nutrition Labeling'
+      @axis5 = 'Food Advertisments'
+      @axis6 = 'Physical Activities'
+      
+      @max1 = data1[0].compact.max
+      @max2 = data1[1].compact.max
+      @max3 = data2[0].compact.max
+      @max4 = data2[1].compact.max
+      
+      if @max1 > @max2
+        @max = @max1
+      else
+        @max = @max2
+      end
+
+      if @max3 > @max4
+        @combined_max = @max3
+      else
+        @combined_max = @max4
+      end
+
+      @nutrition_chart = Gchart.bar(:size => '1000x300', 
+                                :title => "Average Survey Score in Six Nutrition Topics",
+                                :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                                :bar_colors => '3399CC,99CCFF',
+                                :data => data1,
+                                :bar_width_and_spacing => '30,0,30',
+                                :axis_with_labels => 'x,y',
+                                #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                                :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
+                                :stacked => false,
+                                :axis_range => [nil, [0,@max,10]]
+                                ) 
+                                
+
+                                
+      @combined_chart = Gchart.bar(:size => '1000x300', 
+                              :title => "Overall Combined Scores(%)",
+                              :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                              :bar_colors => 'FF3333,990000',
+                              :data => data2,
+                              :bar_width_and_spacing => '50,25,25',
+                              :axis_with_labels => 'y',
+                              :stacked => false,
+                              :axis_range => [[0,@combined_max,10]]
+                            )  
+  end
+  
+  
   def generate_strengths
     @all_strengths = { 
                    "S1Q1 Strengths" => "Students could identify factors that may lead to type 2 diabetes",
@@ -173,115 +330,9 @@ class ReportsController < ApplicationController
     end
     return @weaknesses
   end
-
-
-  def generate_pdf
-    @report = Report.find_by_id(params[:report][:id])
-    @school = School.find_by_id(params[:school][:id])
-
-    if not params[:amb_note].blank?
-      #puts ">> #{params[:amb_note]} <<"
-      #@reportNote = params[:amb_note]
-      @report.note = params[:amb_note]
-      #puts @reportNote
-      if @report.save
-        # logic for generating the pdf
-        # save the pdf in database
-        # generate a link for downloading the pdf
-        show
-
-        redirect_to "/reports/#{@fileName}"
-        return
-      end
-    end
-
-    flash[:warning] = "Could not generate the PDF report"
-    redirect_to new_report_path and return
-  end
   
-  
-  def show
-
-    @reportNote3 = "#{@reportNote}"
-    schoolName = @school.name
-    schoolName.gsub! /\s+/, '_'
-    schoolName = schoolName.downcase
-    @fileName = "#{schoolName}_report.pdf"
-
-    @school_semester = @current_user.school_semester
-    schoolName.gsub!(/_/, ' ')    
-    @school.name.gsub!(/_/, ' ')
-
-    @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
-    @school_intro_title = "Fruitful Minds at #{@school.name}"
-    @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
-    @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
-    @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
-    @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
-    @efficacy = calculate_efficacy
-    @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
-    @eval_intro_third = "The survey results are shown below. The first graph shows the average scores in each of the six nutrition topics covered in the curriculum (see graph 1). Note that the number of questions in each category varies. The second graph shows students\' overall performance on the pre-curriculum surveys and post-curriculum survey (see graph 2). 16 students took the pre-curriculum survey, and 11 students took the post-curriculum surveys."
-    @strength_weakness_title = "Strengths and Weaknesses of FM Lessons at #{@school.name}"
-    @static_contents = StaticContent.first
-    generate_strengths
-    generate_weaknesses
-    @ambassadorNoteTitle = "Ambassador Notes: "
-
-    @objectives = {
-                  "1. Nutrition-related Diseases" => "Discuss the relationship between nutrition and health; teach     students that poor diet choices could lead to obesity, diabetes and heart diseases.",
-                  "2. Food Groups" => "Teach students the importance of nutrition by breaking down food groups and basic nutrition terminologies.",
-                  "3. Nutrients" => "Discuss the metabolic functions of different nutrients; examine the quantities of fats, sugars, fiber and protein in various types of food.",
-                  "4. Nutrition Labeling" => "Teach students how to read and understand food labels to determine which foods are healthier than others. ",
-                  "5. Food Advertising " => "Explore the role that advertisements play in influencing consumers\' choice of food; let students know how to make healthy food choices based on knowledge rather than misleading advertisements.",
-                  "6. Exercise, Energy and Nutrition" => "Identify the connection between food and energy, and the role that physical activities play in overall health and longevity.",
-                   "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
-    
-    #@objectivesTable = [["Lessons", "Objectives"]]
-    
-    @objectivesTable = @objectives.map do |item1, item2|
-      [
-      item1, item2
-      ]
-    end
-
-    #puts @objectivesTable
-    #puts @ambassadorNote
-    #puts @reportNote3
-    
-    @axis1 = "Nutrition Diseases"
-    @axis2 = 'Food Groups'
-    @axis3 = 'Nutrients'
-    @axis4 = 'Nutrition Labeling'
-    @axis5 = 'Food Advertisments'
-    @axis6 = 'Physical Activities'
-
-    @nutrition_chart = Gchart.bar(:size => '600x300', 
-                              :title => "Average Survey Score in Six Nutrition Topics",
-                              #:legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                              :bar_colors => '3399CC,99CCFF',
-                              :data => [[50, 30, 100, 38, 45, 72], [26, 10, 30, 100, 45, 72]],
-                              :bar_width_and_spacing => '30,0,30',
-                              :axis_with_labels => 'x,y',
-                              #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
-                              :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
-                              :stacked => false,
-                              :axis_range => [nil, [0,100,10]]
-                              ) 
-                              
-
-                              
-    @combined_chart = Gchart.bar(:size => '400x300', 
-                            :title => "Overall Combined Scores(%)",
-                            :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
-                            :bar_colors => 'FF3333,990000',
-                            :data => [[20], [100]],
-                            :bar_width_and_spacing => '50,25,25',
-                            :axis_with_labels => 'y',
-                            :stacked => false,
-                            :axis_range => [0,100,10]
-                          ) 
-    
-    
+  def index
+    redirect_to "/reports/new"
   end
   
 
