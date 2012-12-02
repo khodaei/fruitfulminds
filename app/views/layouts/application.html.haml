@@ -55,6 +55,7 @@
           $(this).css("background-color", "red");
           $(this).css("color", "white");
           alert("The field cannot only contain white space.");
+          $(this).val($(this).val().trim());
         }
         else{
           $(this).css("background-color", "white");
