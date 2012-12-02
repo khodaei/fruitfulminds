@@ -23,6 +23,7 @@ group :test do
   gem 'railroady'
   gem 'haml-rails'
   gem 'autotest-rails'
+  gem 'pdf-reader'
 end
 group :production do
   gem 'pg'
@@ -38,6 +39,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'prawn'
+gem 'googlecharts', :require => 'gchart'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -46,7 +49,11 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
+<<<<<<< HEAD
 gem 'haml'
 
 #For form field errors
 gem "dynamic_form"
+=======
+gem 'haml', :require => "open-uri"
+>>>>>>> cf32ee401b22bcbdec9efd93afe4bac48f629e97

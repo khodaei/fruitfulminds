@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121102344844) do
+ActiveRecord::Schema.define(:version => 20121119010438) do
 
   create_table "efficacies", :force => true do |t|
     t.integer  "postsurvey_id"
@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(:version => 20121102344844) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "pending_users", :id => false, :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pending_users", ["user_id"], :name => "index_pending_users_on_user_id", :unique => true
 
   create_table "postsurveys", :force => true do |t|
     t.integer  "school_semester_id"

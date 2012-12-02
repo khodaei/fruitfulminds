@@ -1,36 +1,36 @@
 !!! 5
 %html
   %head
-    %title Fruitful Minds
+    %title Fruitful Minds - #{@subtitle}
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  :css
-    .background, #main{
-      padding: 10px 20px 10px 20px;
-    }
-    #header span{
-      font-weight: 500;
-      position: relative;
-    }
-    #title{
-      font-size: x-large;
-      top: -10px;
-    }
-    #subtitle{
-      font-size: large;
-      top: -10px;
-    }
-    #user_control{
-      float: right;
-      position: relative;
-    }
-    .user_action{
-      margin: 0px 0px 0px 10px;
-    }
-    #survey_options{
-      padding: 20px 0px 0px 0px;
-    }
+    :css
+      .background, #main{
+        padding: 10px 20px 10px 20px;
+      }
+      #header span{
+        font-weight: 500;
+        position: relative;
+      }
+      #title{
+        font-size: x-large;
+        top: -10px;
+      }
+      #subtitle{
+        font-size: large;
+        top: -10px;
+      }
+      #user_control{
+        float: right;
+        position: relative;
+      }
+      .user_action{
+        margin: 0px 0px 0px 10px;
+      }
+      #survey_options{
+        padding: 20px 0px 0px 0px;
+      }
 
   :javascript
     $(document).ready(function(){

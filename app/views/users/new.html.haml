@@ -3,9 +3,26 @@
 %div{:class => "auth_container"}
   %div{:class => "auth_form"}
     =form_tag users_path, :method => :post do
-      =label :user, :name, "Full Name"
-      =text_field :user, :name
-      =label :user, :email, "Email"
+      =label :user, :firstname, "First Name"
+      =text_field :user, :firstname
+      =label :user, :lastname, "Last Name"
+      =text_field :user, :lastname
+      =label :user, :college, "College"
+      =text_field :user, :college
+      =label :school, :name, "School Name"
+      =text_field :school, :name
+      =label :school, :county, "School County"
+      =text_field :school, :county
+      =label :school, :city, "School City"
+      =text_field :school, :city
+      =label :semester, :name, "Survey Period"
+      -#=select_tag :semester, options_from_collection_for_select(@schools, "id", "name")
+
+      -#=label :school, :county, "School County"
+      =select('semester', 'name', %w[Fall Winter Spring Summer], {}, {})
+      -#options_from_collection_for_select(@semesters, 'id', 'name'), :prompt => "Select Survey Period"
+
+      =label :user, :email, "Email Address"
       =text_field :user, :email
       =label :user, :password, "Password"
       =password_field :user, :password

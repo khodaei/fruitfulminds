@@ -36,4 +36,10 @@ class User < ActiveRecord::Base
     end
     user_schools
   end
+
+  def pendingUser?
+    if PendingUser.find_by_user_id(id); true
+    else; false; end
+  end
+
 end

@@ -8,7 +8,7 @@ class Presurveys::Part1Controller < ApplicationController
     school = School.find(@school)
     begin
       ps = @current_user.presurvey_part1s.new
-      ps.school_semester_id = SchoolSemester.find(school)
+      ps.school_semester_id = SchoolSemester.find(school).id
       ps.update_attributes!(params[:presurvey_part1])
       flash[:notice] = "Results successfully added."
       redirect_to portal_path

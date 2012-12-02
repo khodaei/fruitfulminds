@@ -1,7 +1,7 @@
 Feature: New user registeration
 
   As a new user
-  So I can view the user portal
+  So I can view the user portal and add survey data for my school
   I want to sign up in the website
 
 Background: users have been added to database
@@ -17,7 +17,7 @@ Background: users have been added to database
 
   And the following school_semesters exist:
     | school_id | name | year |
-    | 1         | fall | 2012 |
+    | 1         | Fall | 2012 |
 
   Scenario: user follows registration page
     Given I am on the login page
@@ -26,26 +26,47 @@ Background: users have been added to database
 
   Scenario: user registers successfully
     Given I am on the signup page
-    And I fill in full name, email and passwords with: "New User", "newuser@gmail.com", "password", "password"
+    And I fill in "First Name" with "Amir"
+    And I fill in "Last Name" with "Khodaei"
+    And I fill in "Email Address" with "amirk88@gmail.com"
+    And I fill in "College" with "Berkeley City College"
+    And I fill in "School Name" with "school1"
+    And I fill in "School County" with "Alameda"
+    And I fill in "School City" with "Berkeley"
+    And I select "Fall" from "Survey Period"
+    And I fill in "Password" with "password"
+    And I fill in "Confirm Password" with "password"
     And I check "tos"
     And I press "Register"
-    Then I should be on the portal page
-    And I should see "Registration completed successfully"
+    Then I should be on the login page
+    And I should see "Thank you for registering, a confirmation will be sent to you shortly"
 
   Scenario: user does not check tos
     Given I am on the signup page
-    And I fill in full name, email and passwords with: "New User", "newuser@gmail.com", "password", "password"
+    And I fill in all of the registration text fields
     And I press "Register"
     Then I should be on the signup page
     And I should see "You have to accept the TOS in order to register"
 
   Scenario: passwords entered do not match
     Given I am on the signup page
-    And I fill in full name, email and passwords with: "New User", "newuser@gmail.com", "password", "passw"
+    And I fill in all registration fields except password fields
+    And I fill in "Password" with "password"
+    And I fill in "Confirm Password" with "something_else"
     And I check "tos"
     And I press "Register"
     Then I should be on the signup page
     And I should see "Passwords did not match"
+
+  Scenario: password too short
+    Given I am on the signup page
+    And I fill in all registration fields except password fields
+    And I fill in "Password" with "passw"
+    And I fill in "Confirm Password" with "passw"
+    And I check "tos"
+    And I press "Register"
+    Then I should be on the signup page
+    And I should see "Password must have 6 characters or more"
 
   Scenario: user leaves a registration field empty
     Given I am on the signup page
@@ -54,11 +75,3 @@ Background: users have been added to database
     And I press "Register"
     Then I should be on the signup page
     And I should see "Please fill in all fields"
-
-  Scenario: password too short
-    Given I am on the signup page
-    And I fill in full name, email and passwords with: "New User", "amir@me.com", "passw", "passw"
-    And I check "tos"
-    And I press "Register"
-    Then I should be on the signup page
-    And I should see "Password must have 6 characters or more"
