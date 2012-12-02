@@ -22,11 +22,12 @@ module NavigationHelpers
     when /^the Edit Postsurvey Results page for survey (.*)$/ then edit_postsurvey_path($1)
     when /^the Add New Food Journal page$/ then new_foodjournal_path
     when /^the Edit Food Journal page for journal (.*)$/ then edit_foodjournal_path($1)
+    when /^the Add New School page$/ then new_school_path
+    when /^the All Schools page$/ then schools_path
+    when /^the Create New Administrator page$/ then new_admin_path
     when /^the surveys page$/ then '/surveys'
-    when /^the reports page$/
-      '/reports'
-    when /^the generate report page$/
-      '/reports/new'
+    when /^the reports page$/ then '/reports'
+    when /^the generate report page$/ then '/reports/new'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

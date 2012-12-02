@@ -5,7 +5,11 @@ class Presurveys::Part1Controller < ApplicationController
   end
 
   def create
-    school = School.find(@school)
+    if params[:admin]
+      school = School.find(params[:admin][:school_id])
+    else
+      school = School.find(@school)
+    end
     begin
       ps = @current_user.presurvey_part1s.new
       ps.school_semester_id = SchoolSemester.find(school).id

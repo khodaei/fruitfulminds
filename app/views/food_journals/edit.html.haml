@@ -1,16 +1,16 @@
-- @subtitle =  "Edit Food Journal"
+- @subtitle = "Edit Food Journal"
 
 %span
-  = form_for @food_journal_main_fields, :url => {:action => :update} do |l|
+  = form_for @food_journal_main_fields, :url => {:action => :update}, :class => "form_to_validate"  do |l|
     %table.table
       = label :food_journal, "Student Name"
-      = l.text_field "student_name"
+      = l.text_field "student_name", :class => "text_input_field"
       %tr
         %td
           = label :food_journal, "Week Number 1"
         %td
           = label :food_journal, "Enter Week Number."
-          = l.text_field "week_num"
+          = l.text_field "week_num", :class => "numeric_input_field"
         %td
           = label :food_journal, "Week Number 8"
       %tr
