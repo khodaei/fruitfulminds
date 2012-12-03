@@ -46,14 +46,14 @@ class ReportsController < ApplicationController
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
         @improvement_intro = "#{@ps_part1.number_students} students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2 and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
         generate_mapping
-        generate_fj_data
-                   
+        generate_fj_data                   
         generate_graph
 
         @ambassadorNoteTitle = "Ambassador Notes: "
         @graphdata1 = [[(@topicPre[1].round 2)*100, (@topicPre[2].round 2)*100, (@topicPre[3].round 2)*100, (@topicPre[4].round 2)*100, (@topicPre[5].round 2)*100, (@topicPre[6].round 2)*100], [(@topicPost[1].round 2)*100, (@topicPost[2].round 2)*100, (@topicPost[3].round 2)*100, (@topicPost[4].round 2)*100, (@topicPost[5].round 2)*100, (@topicPost[6].round 2)*100]]
         @graphdata2 = [[(@efficacy_pre.round 2)*100],[(@efficacy_post.round 2)*100]]
         generate_graphs(@graphdata1, @graphdata2)
+        generate_efficacy_graphs(@meanPreList, @meanPostList)
 
                                     
         flash[:notice] = "Report generated successfully for #{School.find(params[:school]).name}"
@@ -201,6 +201,7 @@ class ReportsController < ApplicationController
     @graphdata1 = [[@topicPre[1], @topicPre[2], @topicPre[3], @topicPre[4], @topicPre[5], @topicPre[6]], [@topicPost[1], @topicPost[2], @topicPost[3], @topicPost[4], @topicPost[5], @topicPost[6]]]
     @graphdata2 = [[@efficacy_pre],[@efficacy_post]]
     generate_pdf_graphs(@graphdata1, @graphdata2)
+    generate_efficacy_pdf_graphs(@meanPreList, @meanPostList)
 
     
     
@@ -208,12 +209,12 @@ class ReportsController < ApplicationController
   
   def generate_pdf_graphs(data1, data2)
       
-      @axis1 = "Nutrition Related Diseases"
+      @axis1 = "Nutri. Rel. Diseases"
       @axis2 = 'Food Groups'
       @axis3 = 'Nutrients'
-      @axis4 = 'Nutrition Labeling'
-      @axis5 = 'Food Advertisments'
-      @axis6 = 'Physical Activities'
+      @axis4 = 'Nutri. Labeling'
+      @axis5 = 'Food Ads'
+      @axis6 = 'Phys. Activities'
       
       @max1 = data1[0].compact.max
       @max2 = data1[1].compact.max
@@ -234,10 +235,10 @@ class ReportsController < ApplicationController
 
       @nutrition_chart = Gchart.bar(:size => '1000x300', 
                                 :title => "Average Survey Score in Six Nutrition Topics",
-                                :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                                :legend => ['Pre', 'Post'],
                                 :bar_colors => '3399CC,99CCFF',
                                 :data => data1,
-                                :bar_width_and_spacing => '30,0,30',
+                                :bar_width_and_spacing => '30,0,23',
                                 :axis_with_labels => 'x,y',
                                 #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
                                 :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}"],
@@ -259,6 +260,130 @@ class ReportsController < ApplicationController
                             )  
   end
   
+  def generate_efficacy_graphs(data1, data2)
+    
+    @axis1 = "Prepare healthy snacks at home"
+    @axis2 = 'Prepare healthy snacks for school'
+    @axis3 = 'Eat 1 fruit 4x a week'
+    @axis4 = 'Eat 1 vegetable 4x a week'
+    @axis5 = 'Talk about food to parent'
+    @axis6 = 'Ask parent for junk food'
+    @axis7 = 'Ask parent for healthy snacks'
+    @axis8 = 'Food is healthy from nutrition label'
+    @axis9 = 'Buyjunk food when ads watched'
+    @axis10 = 'Can ignore ad for junk food'
+    preData = []
+    postData = []
+    finalData = []
+    
+    for elem in data1
+      elem = elem * 100
+      elem = elem.round
+      preData << elem
+    end
+    
+    for elem in data2
+      elem = elem * 100
+      elem = elem.round
+      postData << elem
+    end
+    
+    finalData = [preData,postData]
+    puts finalData
+    
+    @max1 = preData.compact.max
+    @max2 = postData.compact.max
+    
+
+    
+    if @max1 > @max2
+      @max = @max1
+    else 
+      @max = @max2
+    end
+
+    
+
+
+    @efficacy_chart = Gchart.bar(:size => '700x400', 
+                              :title => "Efficacy Survey Results - Agreement(%)",
+                              :legend => ['Pre-curriculum Results', 'Post-curriculum Results'],
+                              :bar_colors => '990000,3399CC',
+                              :data => finalData,
+                              :bar_width_and_spacing => '13,0,10',
+                              :axis_with_labels => 'y,x',
+                              #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                              :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}|#{@axis7}|#{@axis8}|#{@axis9}|#{@axis10}"],
+                              :stacked => false,
+                              :axis_range => [nil, [0,@max,10]],
+                              :orientation => 'horizontal'
+                              ) 
+                              
+ 
+  end
+  
+  def generate_efficacy_pdf_graphs(data1, data2)
+    
+    @axis1 = "Prepare healthy snacks at home"
+    @axis2 = 'Prepare healthy snacks for school'
+    @axis3 = 'Eat 1 fruit 4x a week'
+    @axis4 = 'Eat 1 vegetable 4x a week'
+    @axis5 = 'Talk about food to parent'
+    @axis6 = 'Ask parent for junk food'
+    @axis7 = 'Ask parent for healthy snacks'
+    @axis8 = 'Healthy food from nutrition label'
+    @axis9 = 'Buy junk food when ads watched'
+    @axis10 = 'Can ignore ad for junk food'
+    preData = []
+    postData = []
+    finalData = []
+    
+    for elem in data1
+      elem = elem * 100
+      elem = elem.round
+      preData << elem
+    end
+    
+    for elem in data2
+      elem = elem * 100
+      elem = elem.round
+      postData << elem
+    end
+    
+    finalData = [preData,postData]
+    puts finalData
+    
+    @max1 = preData.compact.max
+    @max2 = postData.compact.max
+    
+
+    
+    if @max1 > @max2
+      @max = @max1
+    else 
+      @max = @max2
+    end
+
+    
+
+
+    @efficacy_chart = Gchart.bar(:size => '500x400', 
+                              :title => "Efficacy Survey Results - Agreement(%)",
+                              :legend => ['Pre', 'Post'],
+                              :bar_colors => '990000,3399CC',
+                              :data => finalData,
+                              :bar_width_and_spacing => '13,0,10',
+                              :axis_with_labels => 'y,x',
+                              #:axis_labels => ['Nutrition Related Diseases(2 Questions)|Food Groups(4 Questions)|Nutrients(6 Questions)|Nutrition Labeling(3 Questions)|Food Advertisments(2 Questions)|Physical Activities(5 Questions)'],
+                              :axis_labels => ["#{@axis1}|#{@axis2}|#{@axis3}|#{@axis4}|#{@axis5}|#{@axis6}|#{@axis7}|#{@axis8}|#{@axis9}|#{@axis10}"],
+                              :stacked => false,
+                              :axis_range => [nil, [0,@max,10]],
+                              :orientation => 'horizontal'
+                              ) 
+                              
+ 
+  end
+  
   def generate_mapping
     @verdicts = {}
     @T = { 1 => 6.314, 2 => 2.920, 3 => 2.353, 4 => 2.132, 5 => 2.015, 
@@ -273,18 +398,23 @@ class ReportsController < ApplicationController
     @sig_decrease = []
     @slight_increase = []
     @slight_decrease = []
+    @meanPreList = []
+    @meanPostList = []
 
     10.times do |i|
       index = i + 1
       numAgreesPre = @ps_part2.efficacy[0]["efficacy_#{index}"]
       numStudentsPre = @ps_part2.number_students
       meanPre = numAgreesPre/(numStudentsPre*1.0)
+      @meanPreList << meanPre
       diffSquareSumPre = (1.0 - meanPre)*(1.0 - meanPre)*numAgreesPre
       preSD = Math.sqrt(diffSquareSumPre/(numStudentsPre-1.0))
 
       numAgreesPost = @ps.efficacy[0]["efficacy_#{index}"]
       numStudentsPost = @ps.number_students
       meanPost = numAgreesPost/(numStudentsPost*1.0)
+      @meanPostList << meanPost
+
       diffSquareSumPost = (1.0 - meanPost)*(1.0 - meanPost)*numAgreesPost
       postSD = Math.sqrt(diffSquareSumPost/(numStudentsPost-1.0))
 
@@ -326,6 +456,7 @@ class ReportsController < ApplicationController
         end
       end
     end
+
 
     @sig_inc_map = []
 
@@ -466,6 +597,7 @@ class ReportsController < ApplicationController
     elsif @verdicts[10] == -1
       @sig_dec_map << @static_contents["decrease_10"]
     end
+
   end
 
   def generate_fj_data
