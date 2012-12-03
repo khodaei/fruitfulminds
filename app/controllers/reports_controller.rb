@@ -46,10 +46,13 @@ class ReportsController < ApplicationController
                    "7. Review lesson" => "Review major concepts covered in the previous lessons. Students are given a chance to practice problem-solving in different scenarios given the knowledge they have in nutrition."  }
         @improvement_intro = "#{@ps_part1.number_students} students took the pre-efficacy survey part 1, #{@ps_part2.number_students} students took the pre-efficacy survey part 2 and #{@ps.number_students} students took the post-efficacy survey. These were not necessarily the same students. However, on average, students showed significant increases in their agreement that they could"
         generate_mapping
+        generate_fj_data
                    
+        generate_graph
+
         @ambassadorNoteTitle = "Ambassador Notes: "
-        @graphdata1 = [[50, 30, 21, 38, 45, 72], [26, 10, 30, 42, 45, 72]]
-        @graphdata2 = [[37],[45]]
+        @graphdata1 = [[(@topicPre[1].round 2)*100, (@topicPre[2].round 2)*100, (@topicPre[3].round 2)*100, (@topicPre[4].round 2)*100, (@topicPre[5].round 2)*100, (@topicPre[6].round 2)*100], [(@topicPost[1].round 2)*100, (@topicPost[2].round 2)*100, (@topicPost[3].round 2)*100, (@topicPost[4].round 2)*100, (@topicPost[5].round 2)*100, (@topicPost[6].round 2)*100]]
+        @graphdata2 = [[(@efficacy_pre.round 2)*100],[(@efficacy_post.round 2)*100]]
         generate_graphs(@graphdata1, @graphdata2)
 
                                     
@@ -193,8 +196,10 @@ class ReportsController < ApplicationController
       ]
     end
     
-    @graphdata1 = [[50, 30, 21, 38, 45, 72], [26, 10, 30, 42, 45, 72]]
-    @graphdata2 = [[37],[45]]
+    generate_graph
+
+    @graphdata1 = [[@topicPre[1], @topicPre[2], @topicPre[3], @topicPre[4], @topicPre[5], @topicPre[6]], [@topicPost[1], @topicPost[2], @topicPost[3], @topicPost[4], @topicPost[5], @topicPost[6]]]
+    @graphdata2 = [[@efficacy_pre],[@efficacy_post]]
     generate_pdf_graphs(@graphdata1, @graphdata2)
 
     
@@ -392,7 +397,7 @@ class ReportsController < ApplicationController
       @sig_inc_map << @static_contents["increase_10"]
     end
 
-@sig_dec_map = []
+    @sig_dec_map = []
 
     if @verdicts[1] == -1
       if @verdicts[2] == -1
@@ -461,7 +466,19 @@ class ReportsController < ApplicationController
     elsif @verdicts[10] == -1
       @sig_dec_map << @static_contents["decrease_10"]
     end
+  end
 
+  def generate_fj_data
+    #Calculate statistics
+    #Figure out how the fuck to deal with food journals
+    @fj_serving_intro = "Students who attended weeks 1, #{}, and 8 were included in this analysis. #{} students are therefore included. The average number of servings for vegetables, fruits, sugar sweetened beverages, and water were tracked over the lesson series to investigate changes in consumption patterns."
+    
+    @fj_increase = []
+    @fj_decrease = []
+
+    @fj_unfavorable = "The food journals show #{}. The estimates of number of servings may have become more accurate as the lesson series went along, thus skewing the results depending on whther students tended to underestimate or overestimate servings. In addition, one should observe the line graph to see the overall trend, as measuring the difference between week 1 and week 8 only can be misleading."
+    @fj_nonsig = "Students did not appear to be significantly affected by Fruitful Minds lessons, but the data show change in a positive direction for #{}. This indicates that students made minor adjustments to their intake."
+    @fj_favorable = "Fruitful Minds lessons were able to positively impact the consumption of #{} over the course of the lesson series. Although long-term behavior change cannot be gauged, this shows that students put their nutrition knowledge to work in making healthier choices."
   end
 
   def generate_strengths
@@ -493,8 +510,8 @@ class ReportsController < ApplicationController
     @strengths = {}
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
-        @efficacy_post = @ps["section_#{section}_#{i + 1}"]
-        if @efficacy_post*1.0/@ps.number_students > 0.80
+        @efficacy_change = @ps["section_#{section}_#{i + 1}"]
+        if @efficacy_change*1.0/@ps.number_students > 0.80
           @strengths["S#{section}Q#{i + 1} Strengths"] = @all_strengths["S#{section}Q#{i + 1} Strengths"]
         end
       end
@@ -532,8 +549,8 @@ class ReportsController < ApplicationController
     @weaknesses = {}
     section_and_num_questions.each do |section,questions|
       questions.times do |i|
-        @efficacy_post = @ps["section_#{section}_#{i + 1}"]
-        if @efficacy_post*1.0/@ps.number_students < 0.50
+        @efficacy_change = @ps["section_#{section}_#{i + 1}"]
+        if @efficacy_change*1.0/@ps.number_students < 0.50
           @weaknesses["S#{section}Q#{i + 1} Weaknesses"] = @all_weaknesses["S#{section}Q#{i + 1} Weaknesses"]
         end
       end
@@ -545,6 +562,38 @@ class ReportsController < ApplicationController
     redirect_to "/reports/new"
   end
   
+  def generate_graph
+    @topicPre = {1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0}
+    @topicPost = {1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0}
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        @topicPre[section] += @ps_part1["section_#{section}_#{i + 1}"]
+      end
+    end
+    section_and_num_questions = {5 => 2, 6 => 4}
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        @topicPre[section] += @ps_part2["section_#{section}_#{i + 1}"]
+      end
+    end
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+    section_and_num_questions.each do |section,questions|
+      questions.times do |i|
+        @topicPost[section] += @ps["section_#{section}_#{i + 1}"]
+      end
+    end
+    6.times do |i|
+      if i < 4
+        @topicPre[i + 1] =@topicPre[i + 1]*1.0/@ps_part1.number_students*1.0/section_and_num_questions[i+1]
+      else
+        @topicPre[i + 1] =@topicPre[i + 1]*1.0/@ps_part2.number_students*1.0/section_and_num_questions[i+1]
+      end
+    end
+    6.times do |i|
+      @topicPost[i + 1] =@topicPost[i + 1]*1.0/@ps.number_students*1.0/section_and_num_questions[i+1]
+    end
+  end
 
   def calculate_efficacy
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
@@ -572,7 +621,6 @@ class ReportsController < ApplicationController
       @efficacy_pre2 = @efficacy_pre2*1.0/@ps_part2.number_students
     end
     @efficacy_pre = (@efficacy_pre + @efficacy_pre2)/21.0
-    #p @efficacy_pre
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
     @ps = @school_semester.postsurveys[0]
     @efficacy_post = 0
@@ -583,11 +631,9 @@ class ReportsController < ApplicationController
     end
     if @ps.number_students != 0
       @efficacy_post = (@efficacy_post*1.0/@ps.number_students)/21.0
-      #p @efficacy_post
     end
     if @efficacy_pre != 0
       return ((@efficacy_post-@efficacy_pre)*100.0/@efficacy_pre).round 2
     end
   end
-
 end

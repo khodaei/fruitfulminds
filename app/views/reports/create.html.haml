@@ -52,7 +52,7 @@
 %p
 %p= @static_contents[:summary]
 
-%h4= @static_contents[:behavior_title]
+%h5= @static_contents[:behavior_title]
 %p= @static_contents[:behavior_intro]
 
 %p= @improvement_intro
@@ -63,7 +63,7 @@
     %tr
       %td= agree
 
-%h4= @static_contents[:slight_increase_header]
+%h5= @static_contents[:slight_increase_header]
 
 %table
   %tr
@@ -71,7 +71,7 @@
     %tr
       %td= agree
 
-%h4= @static_contents[:decrease_header]
+%h5= @static_contents[:decrease_header]
 
 %table
   %tr
@@ -79,7 +79,7 @@
     %tr
       %td= disagree
 
-%h4= @static_contents[:slight_decrease_header]
+%h5= @static_contents[:slight_decrease_header]
 
 %table
   %tr
@@ -87,7 +87,7 @@
     %tr
       %td= disagree
 
-%h4= @static_contents[:summary_header]
+%h5= @static_contents[:summary_header]
 
 %table
   %tr
@@ -101,8 +101,18 @@
     %tr
       %td= disagree
 
-%h4= @static_contents[:food_journal_header]
+%h5= @static_contents[:food_journal_header]
 %p= @static_contents[:food_journal_intro]
+
+%h5= @static_contents[:fj_increase_header]
+
+%h5= @static_contents[:fj_decrease_header]
+
+%h5= @static_contents[:fj_unfavorable_header]
+
+%h5= @static_contents[:fj_nonsig_header]
+
+%h5= @static_contents[:fj_favorable_header]
 
 %h4= @ambassadorNoteTitle
 -# %p= @report.note
