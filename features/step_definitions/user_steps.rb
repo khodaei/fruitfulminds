@@ -20,7 +20,7 @@ Given /^I fill in all of the registration text fields$/ do
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
-    And I fill in "Survey Year" with "2012"
+    And I select "2012" from "date_year"
     And I fill in "Password" with "password"
     And I fill in "Confirm Password" with "password"
   }
@@ -36,7 +36,7 @@ Given /^I fill in all registration fields except password fields$/ do
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
-    And I fill in "Survey Year" with "2012"
+    And I select "2012" from "date_year"
   }
 end
 
