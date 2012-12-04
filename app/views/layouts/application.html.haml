@@ -54,6 +54,28 @@
       return can_redirect;
     };
     $(document).ready(function(){
+      $("#previous").click(function(){
+        if ($("form").hasClass("form_to_validate") == false)
+          return true;
+        else if ($(":text").length == 0)
+          return true;
+        else{
+          if (!isValidForm())
+            alert("Survey record is incomplete or has invalid characters.");
+          return isValidForm();
+        }
+      });
+      $("form").submit(function(e){
+        if ($(this).hasClass("form_to_validate") == false)
+          return true;
+        else if (!isValidForm()){
+          alert("Results failed to add. Incomplete or has invalid characters.");
+          e.preventDefault();
+          return false;
+        }
+        else
+          return true;
+      });
       $(".numeric_input_field").focusout(function(){
         if (!$.isNumeric($(this).val()) || $(this).val() < 0){
           $(this).css("background-color", "red");
@@ -81,24 +103,6 @@
           $(this).css("background-color", "white");
           $(this).css("color", "black");
         }
-      });
-      $("#previous").click(function(){
-        if ($(this).attr("class") != "form_to_validate")
-          return true;
-        else if ($(":text").length == 0)
-          return true;
-        else{
-          if (!isValidForm())
-            alert("Survey record is incomplete or has invalid characters.");
-          return isValidForm();
-        }
-      });
-      $("form").submit(function(){
-        if ($(this).attr("class") != "form_to_validate")
-          return true;
-        else if (!isValidForm())
-          alert("Results failed to add. Incomplete or has invalid characters.");
-        return isValidForm();
       });
     });
     
