@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
   default :from => "test.fruitfulminds@gmail.com"
 
   # ActionMailer config settings are set in config/application.rb
-  @@admin_email = "waf@berkeley.edu"
+  @@admin_email = "test.fruitfulminds@gmail.com"
 
   def user_approved_email(user)
     @user = user

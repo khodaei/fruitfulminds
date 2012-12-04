@@ -39,6 +39,8 @@ class UsersController < ApplicationController
 
         if tos.nil?
             flash[:warning] = "You have to accept the TOS in order to register"
+        elsif not valid_email?(email)
+            flash[:warning] = "Not a valid email address"
         elsif password.length < 6
             flash[:warning] = "Password must have 6 characters or more"
         elsif not password.eql? confirm
