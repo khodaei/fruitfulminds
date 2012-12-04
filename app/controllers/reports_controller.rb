@@ -23,7 +23,6 @@ class ReportsController < ApplicationController
           @ambassadors += user.name + ", "
         end
         
-
         @main_title = "Fruitful Minds #{@school.name} Fall 2012 Report"
         @school_intro_title = "Fruitful Minds at #{@school.name}"
         @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
@@ -48,7 +47,7 @@ class ReportsController < ApplicationController
         generate_mapping
         generate_fj_data                   
         generate_graph
-
+        show
         @ambassadorNoteTitle = "Ambassador Notes: "
         @graphdata1 = [[(@topicPre[1].round 2)*100, (@topicPre[2].round 2)*100, (@topicPre[3].round 2)*100, (@topicPre[4].round 2)*100, (@topicPre[5].round 2)*100, (@topicPre[6].round 2)*100], [(@topicPost[1].round 2)*100, (@topicPost[2].round 2)*100, (@topicPost[3].round 2)*100, (@topicPost[4].round 2)*100, (@topicPost[5].round 2)*100, (@topicPost[6].round 2)*100]]
         @graphdata2 = [[(@efficacy_pre.round 2)*100],[(@efficacy_post.round 2)*100]]
