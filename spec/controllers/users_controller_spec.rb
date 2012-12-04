@@ -16,12 +16,15 @@ describe UsersController do
         :county => "Alameda"}
       @semester = {
         :name => "Fall",
-        :year => "2012"}
+      }
+      @date = {
+        :year => "2012"
+      }
     end
     it "should set @user to nil if a db failure occurs inside the transaction" do
       User.stub(:create).and_return(mock('user'))
       PendingUser.stub(:create).and_raise(SQLite3::SQLException)
-      post :create, {:user => @user, :school => @school, :semester => @semester, :tos => true}
+      post :create, {:user => @user, :school => @school, :semester => @semester, :date => @date, :tos => true}
       assigns(:user).should == nil
     end
 =begin
