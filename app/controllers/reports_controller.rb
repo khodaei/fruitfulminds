@@ -201,6 +201,8 @@ class ReportsController < ApplicationController
     @graphdata2 = [[@efficacy_pre],[@efficacy_post]]
     generate_pdf_graphs(@graphdata1, @graphdata2)
     generate_efficacy_pdf_graphs(@meanPreList, @meanPostList)
+    generate_fj_data 
+                      
 
     
     
