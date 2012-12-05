@@ -66,10 +66,6 @@ pdf.text " "
 pdf.text @static_contents[:summary]
 pdf.text " "
 
-
-
-
-
 pdf.text @static_contents[:behavior_title], :size => 14, :style => :bold
 pdf.text " "
 pdf.text @static_contents[:behavior_intro]
@@ -116,7 +112,7 @@ pdf.text @static_contents[:food_journal_intro]
 pdf.text " "
 pdf.text @static_contents[:fj_increase_header], :style => :bold
 pdf.text " "
-@fj_dec.each do |result|
+@fj_inc.each do |result|
   pdf.text "#{result}"
 end
 pdf.text " "
