@@ -600,16 +600,203 @@ class ReportsController < ApplicationController
   end
 
   def generate_fj_data
-    #Calculate statistics
-    #Figure out how the fuck to deal with food journals
-    @fj_serving_intro = "Students who attended weeks 1, #{}, and 8 were included in this analysis. #{} students are therefore included. The average number of servings for vegetables, fruits, sugar sweetened beverages, and water were tracked over the lesson series to investigate changes in consumption patterns."
-    
+   @names = Set.new
+    @fjs = @school_semester.food_journals
+    @fjs.each do |fj|
+      @names.add(fj.student_name)
+    end
+    @diffs = {"fruit" => [], "vegetable" => [], "sugary_drink" => [], "water" => []}
+    @pre = {}
+    @post = {}
+    @mid = {}
+    @base = {"fruit" => [], "vegetable" => [], "sugary_drink" => [], "water" => []}
     @fj_increase = []
     @fj_decrease = []
+    @names.each do |name|
+      student_fjs = @fjs.find_all_by_student_name(name)
+      if student_fjs.size == 3
+        student_fjs.each do |fj|
+          if fj.week_num == 1
+            @pre = {"fruit" => fj.fruit, "vegetable" => fj.vegetable, "sugary_drink" => fj.sugary_drink, "water" => fj.water}
+          elsif fj.week_num == 8
+            @post = {"fruit" => fj.fruit, "vegetable" => fj.vegetable, "sugary_drink" => fj.sugary_drink, "water" => fj.water}
+          else
+            @x = fj.week_num
+            @mid = {"fruit" => fj.fruit, "vegetable" => fj.vegetable, "sugary_drink" => fj.sugary_drink, "water" => fj.water}
+          end
+        end
+        @diffs.each do |category, array|
+          @diffs[category] = @diffs[category] << @post[category] - @pre[category]
+          @base[category] = @base[category] << @pre[category]
+        end
+      end
+    end
+    p @diffs
+    @mean = {}
+    @percentage = {}
+    @sd = {}
+    @fj_t = {}
+    @fj_verdict = {}
+    @diffs.each do |category, array|
+      sum = 0
+      base_sum = 0
+      array.each do |num|
+        sum += num
+      end
+      @base[category].each do |num|
+        base_sum += num
+      end
+      size = array.size
+      @mean[category] = sum*1.0/size
+      p @mean[category]
+      @percentage[category] = (((@mean[category]/(base_sum*1.0/@base[category].size)).round 2)*100).abs
+      p @percentage[category]
+      p array
+      diff_square = 0
+      array.each do |num|
+        diff_square += (num - @mean[category])*(num - @mean[category])
+      end
+      @sd[category] = Math.sqrt(diff_square/(size - 1.0))
+      p @sd[category]
+      @fj_t[category] = @mean[category]/(@sd[category]/Math.sqrt(size*1.0))
+      p (size - 1)
+      p @T[size - 1]
+      p @fj_t[category]
+      @fj_verdict[category] = @fj_t[category] > @T[size - 1]
+      if @fj_verdict[category]
+        if @mean[category] > 0
+          @fj_increase << category
+        else
+          @fj_decrease << category
+        end
+      end
+    end
+    
+    @fj_inc = []
+    @fj_dec = []
+    if @fj_increase.include?("vegetable")
+      @fj_inc << "Vegetable (#{@percentage["vegetable"]}%)"
+    end
+    if @fj_increase.include?("fruit")
+      @fj_inc << "Fruit (#{@percentage["fruit"]}%)"
+    end
+    if @fj_increase.include?("sugary_drink")
+      @fj_inc << "Sugar Sweetened Beverages (#{@percentage["sugary_drink"]}%)"
+    end
+    if @fj_increase.include?("water")
+      @fj_inc << "Water (#{@percentage["water"]}%)"
+    end
+    p @fj_increase
+    p @fj_inc
+    if @fj_decrease.include?("vegetable")
+      @fj_dec << "Vegetable (#{@percentage["vegetable"]}%)"
+    end
+    if @fj_decrease.include?("fruit")
+      @fj_dec << "Fruit (#{@percentage["fruit"]}%)"
+    end
+    if @fj_decrease.include?("sugary_drink")
+      @fj_dec << "Sugar Sweetened Beverages (#{@percentage["sugary_drink"]}%)"
+    end
+    if @fj_decrease.include?("water")
+      @fj_dec << "Water (#{@percentage["water"]}%)"
+    end
 
-    @fj_unfavorable = "The food journals show #{}. The estimates of number of servings may have become more accurate as the lesson series went along, thus skewing the results depending on whther students tended to underestimate or overestimate servings. In addition, one should observe the line graph to see the overall trend, as measuring the difference between week 1 and week 8 only can be misleading."
-    @fj_nonsig = "Students did not appear to be significantly affected by Fruitful Minds lessons, but the data show change in a positive direction for #{}. This indicates that students made minor adjustments to their intake."
-    @fj_favorable = "Fruitful Minds lessons were able to positively impact the consumption of #{} over the course of the lesson series. Although long-term behavior change cannot be gauged, this shows that students put their nutrition knowledge to work in making healthier choices."
+    @fj_serving_intro = "Students who attended weeks 1, #{@x}, and 8 were included in this analysis. #{@names.size} students are therefore included. The average number of servings for vegetables, fruits, sugar sweetened beverages, and water were tracked over the lesson series to investigate changes in consumption patterns."
+    unfav = ""
+    if @fj_decrease.include?("vegetable")
+      unfav = "vegetables"
+    end
+    if @fj_decrease.include?("fruit")
+      if unfav.size > 0
+        unfav += "/fruit"
+      else
+        unfav = "fruit"
+      end
+    end
+    if @fj_decrease.include?("water")
+      if unfav.size > 0
+        unfav += "/water"
+      else
+        unfav = "water"
+      end
+    end
+    if @fj_increase.include?("sugary_drink")
+      if unfav.size > 0
+        unfav += "; increase in sugar sweetened beverages"
+      else
+        unfav = "increase in sugar sweetened beverages"
+      end
+    end
+    if unfav.size > 0
+      @fj_unfavorable = "The food journals show #{unfav}. The estimates of number of servings may have become more accurate as the lesson series went along, thus skewing the results depending on whether students tended to underestimate or overestimate servings. In addition, one should observe the line graph to see the overall trend, as measuring the difference between week 1 and week 8 only can be misleading."
+    else
+      @fj_unfavorable = ""
+    end
+
+    nonsig = ""
+    if (not @fj_increase.include?("vegetable")) and @mean["vegetable"] > 0
+      nonsig = "vegetable"
+    end
+    if (not @fj_increase.include?("fruit")) and @mean["fruit"] > 0
+      if nonsig.size > 0
+        nonsig += "/fruit"
+      else
+        nonsig = "fruit"
+      end
+    end
+    if (not @fj_increase.include?("water")) and @mean["water"] > 0
+      if nonsig.size > 0
+        nonsig += "/water"
+      else
+        nonsig = "water"
+      end
+    end
+    if nonsig.size > 0
+      nonsig += " increase"
+    end
+    if (not @fj_decrease.include?("sugary_drink")) and @mean["sugary_drink"] < 0
+      if nonsig.size > 0
+        nonsig += "; sugar sweetened beverage decrease"
+      else
+        nonsig = "sugar sweetened beverage decrease"
+      end
+    end
+    if nonsig.size > 0
+      @fj_nonsig = "Students did not appear to be significantly affected by Fruitful Minds lessons, but the data show change in a positive direction for #{nonsig}. This indicates that students made minor adjustments to their intake."
+    else 
+      @fj_nonsig = ""
+    end
+
+    fav = ""
+    if @fj_increase.include?("vegetable")
+      fav = "Vegetables"
+    end
+    if @fj_increase.include?("fruit")
+      if fav.size > 0
+        fav += ", Fruit"
+      else
+        fav = "Fruit"
+      end
+    end
+    if @fj_increase.include?("water")
+      if fav.size > 0
+        fav += ", Water"
+      else
+        fav = "Water"
+      end
+    end
+    if @fj_decrease.include?("sugary_drink")
+      if fav.size > 0
+        fav += ", Sugar Sweetened Beverages"
+      else
+        fav = "Sugar Sweetened Beverages"
+      end
+    end
+    if fav.size > 0
+      @fj_favorable = "Fruitful Minds lessons were able to positively impact the consumption of #{fav} over the course of the lesson series. Although long-term behavior change cannot be gauged, this shows that students put their nutrition knowledge to work in making healthier choices."
+    else
+      @fj_favorable = ""
+    end
   end
 
   def generate_strengths
