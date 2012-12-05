@@ -610,6 +610,8 @@ class ReportsController < ApplicationController
     @post = {}
     @mid = {}
     @base = {"fruit" => [], "vegetable" => [], "sugary_drink" => [], "water" => []}
+    @midgraph = {"fruit" => [], "vegetable" => [], "sugary_drink" => [], "water" => []}
+    @endgraph = {"fruit" => [], "vegetable" => [], "sugary_drink" => [], "water" => []}
     @fj_increase = []
     @fj_decrease = []
     @names.each do |name|
@@ -628,10 +630,35 @@ class ReportsController < ApplicationController
         @diffs.each do |category, array|
           @diffs[category] = @diffs[category] << @post[category] - @pre[category]
           @base[category] = @base[category] << @pre[category]
+          @midgraph[category] = @midgraph[category] << @mid[category]
+          @endgraph[category] = @endgraph[category] << @post[category]
         end
       end
     end
-    p @diffs
+    @basemean ={}
+    @midmean ={}
+    @endmean ={}
+    @base.each do |category, array|
+      sum = 0
+      array.each do |num|
+        sum += num
+      end
+      @basemean[category] = sum/(array.size*1.0)
+    end
+    @midgraph.each do |category, array|
+      sum = 0
+      array.each do |num|
+        sum += num
+      end
+      @midmean[category] = sum/(array.size*1.0)
+    end
+    @endgraph.each do |category, array|
+      sum = 0
+      array.each do |num|
+        sum += num
+      end
+      @endmean[category] = sum/(array.size*1.0)
+    end
     @mean = {}
     @percentage = {}
     @sd = {}
@@ -648,20 +675,13 @@ class ReportsController < ApplicationController
       end
       size = array.size
       @mean[category] = sum*1.0/size
-      p @mean[category]
       @percentage[category] = (((@mean[category]/(base_sum*1.0/@base[category].size)).round 2)*100).abs
-      p @percentage[category]
-      p array
       diff_square = 0
       array.each do |num|
         diff_square += (num - @mean[category])*(num - @mean[category])
       end
       @sd[category] = Math.sqrt(diff_square/(size - 1.0))
-      p @sd[category]
       @fj_t[category] = @mean[category]/(@sd[category]/Math.sqrt(size*1.0))
-      p (size - 1)
-      p @T[size - 1]
-      p @fj_t[category]
       @fj_verdict[category] = @fj_t[category] > @T[size - 1]
       if @fj_verdict[category]
         if @mean[category] > 0
