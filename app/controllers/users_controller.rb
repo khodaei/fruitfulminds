@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   skip_before_filter :current_user, :only => [:new, :create, :tos]
-  before_filter :admin_only, :only => [:pending_user, :update_pending_user, :delete_pending_user]
+  before_filter :admin_only, :only => [:all_users, :update_all_users, :pending_user, :update_pending_user, :delete_pending_user]
   before_filter :logged_in, :only => [:new]
 
   # show user info and profile
@@ -91,6 +91,58 @@ class UsersController < ApplicationController
   end
 
   def update
+  end
+
+  def all_users
+    @all_users = []
+    User.all.each do |user|
+      if !user.admin? and !PendingUser.find_by_user_id(user.id)
+        @all_users << {
+          :id => user.id,
+          :email => user.email,
+          :name => user.name,
+          :college => user.college,
+          :school_id => user.school_semester.school_id,
+          :semester_name => user.school_semester.name,
+          :semester_year => user.school_semester.year
+        }
+      end
+    end
+  end
+
+  def update_all_users
+    deleted_users = ""
+    updated_users = ""
+
+    if not params[:deletes].nil?
+      params[:deletes].keys.each do |uid|
+        user = User.find_by_id(uid)
+        user.destroy if user && !user.admin?
+      end
+    end
+
+    if not params[:updates].nil?
+      params[:updates].keys.each do |uid|
+
+        # fields that admin might have modified
+        user_college = params[:colleges][uid]
+        school_id = params[:schools][uid]
+        semester_name = params[:semester_names][uid] # Fall, Winter, Spring, Summer
+        semester_year = params[:semester_years][uid] # a 4-digit number, e.g 2012
+
+        semester = SchoolSemester.where(:school_id => school_id, :name => semester_name, :year => semester_year).first
+        # create a new school_semester if a semester with given info does not exist
+        semester = SchoolSemester.create!(:school_id => school_id, :name => semester_name, :year => semester_year) if semester.nil?
+
+        # update user attributes and delete the user from pending_users table
+        user = User.find_by_id(uid)
+        user.college = user_college
+        user.school_semester_id = semester.id
+        user.save
+      end
+    end
+
+    redirect_to all_users_path and return
   end
 
   def pending_users
