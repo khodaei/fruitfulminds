@@ -935,6 +935,78 @@ class ReportsController < ApplicationController
     end
   end
 
+  # Compute efficacy for each semester of each school that has a record in SchoolSemester
+  def all_efficacies
+    @ss_efficacies = []
+    SchoolSemester.all.each do |ss|
+      pre1_efficacy = calculate_pre_efficacy_part1_for_school_semester(ss)
+      pre2_efficacy = calculate_pre_efficacy_part2_for_school_semester(ss)
+      pre_efficacy = (pre1_efficacy + pre2_efficacy)/21.0
+      if pre_efficacy != 0
+        post_efficacy = calculate_post_efficacy_for_school_semester(ss)
+        @ss_efficacies << {
+          :school => ss.school,
+          :semester_name => ss.name,
+          :semester_year => ss.year,
+          :efficacy => ( (post_efficacy - pre_efficacy) * 100.0 / pre_efficacy ).round(2)
+        }
+      end
+    end
+  end
+
+  def calculate_pre_efficacy_part1_for_school_semester school_semester
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
+    efficacy = 0
+    ps_part1 = school_semester.presurvey_part1s[0]
+    if not ps_part1.nil?
+      section_and_num_questions.each do |section,questions|
+        questions.times do |i|
+          efficacy += ps_part1["section_#{section}_#{i + 1}"]
+        end
+      end
+      if ps_part1.number_students != 0
+        efficacy = efficacy*1.0/ps_part1.number_students
+      end
+    end
+    return efficacy
+  end
+
+  def calculate_pre_efficacy_part2_for_school_semester school_semester
+    section_and_num_questions = {5 => 2, 6 => 4}
+    ps_part2 = school_semester.presurvey_part2s[0]
+    efficacy = 0
+    if not ps_part2.nil?
+      section_and_num_questions.each do |section,questions|
+        questions.times do |i|
+          if !(ps_part2["section_#{section}_#{i + 1}"]).nil?
+            efficacy += ps_part2["section_#{section}_#{i + 1}"]
+          end
+        end
+      end
+      if ps_part2.number_students != 0
+        efficacy = efficacy*1.0/ps_part2.number_students
+      end
+    end
+    return efficacy
+  end
+
+  def calculate_post_efficacy_for_school_semester school_semester
+    section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3, 5 => 2, 6 => 4}
+    ps = school_semester.postsurveys[0]
+    efficacy = 0
+    if not ps.nil?
+      section_and_num_questions.each do |section,questions|
+        questions.times do |i|
+          efficacy += ps["section_#{section}_#{i + 1}"]
+        end
+      end
+      if ps.number_students != 0
+        efficacy = (efficacy*1.0/ps.number_students)/21.0
+      end
+    end
+    return efficacy
+  end
+
   def calculate_efficacy
     section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
     @efficacy_pre = 0
