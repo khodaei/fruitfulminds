@@ -101,9 +101,7 @@ class FoodJournalsController < ApplicationController
 
   protected
   def new_food_journal_1
-    school = School.find(@school)
-    stu_name = params[:food_journal][:student_name]
-    week = params[:food_journal][:week_num]
+    school, stu_name = school_and_stu_name
     if not params[:food_journal_week_1_fields].values.all?{|v| v.empty?}
       fj1 = @current_user.food_journals.new
       fj1.school_semester_id = SchoolSemester.find(school).id
@@ -112,9 +110,9 @@ class FoodJournalsController < ApplicationController
       fj1.update_attributes!(params[:food_journal_week_1_fields])
     end
   end
+
   def new_food_journal_x
-    school = School.find(@school)
-    stu_name = params[:food_journal][:student_name]
+    school, stu_name = school_and_stu_name
     week = params[:food_journal][:week_num]
     if not params[:food_journal_week_x_fields].values.all?{|v| v.empty?}
       fjx = @current_user.food_journals.new
@@ -124,10 +122,9 @@ class FoodJournalsController < ApplicationController
       fjx.update_attributes!(params[:food_journal_week_x_fields])
     end
   end
+
   def new_food_journal_8
-    school = School.find(@school)
-    stu_name = params[:food_journal][:student_name]
-    week = params[:food_journal][:week_num]
+    school, stu_name = school_and_stu_name
     if not params[:food_journal_week_8_fields].values.all?{|v| v.empty?}
       fj8 = @current_user.food_journals.new
       fj8.school_semester_id = SchoolSemester.find(school).id
@@ -135,5 +132,15 @@ class FoodJournalsController < ApplicationController
       fj8.student_name = stu_name
       fj8.update_attributes!(params[:food_journal_week_8_fields])
     end
+  end
+  
+  def school_and_stu_name
+    if params[:admin]
+      school = School.find(params[:admin][:school_id])
+    else
+      school = School.find(@school)
+    end
+    stu_name = params[:food_journal][:student_name]
+    return school, stu_name
   end
 end

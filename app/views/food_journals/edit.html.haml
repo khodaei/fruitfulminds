@@ -2,6 +2,7 @@
 
 %span
   = form_for @food_journal_main_fields, :url => {:action => :update}  do |l|
+    = render :partial => "admin/schools"
     %table.table
       = label :food_journal, "Student Name"
       = l.text_field "student_name", :class => "text_input_field"

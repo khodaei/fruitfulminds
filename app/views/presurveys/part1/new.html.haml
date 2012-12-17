@@ -3,8 +3,7 @@
 
 %span
   = form_for @presurvey_part1_fields, :url => {:action => :create}, :html => {:class => "form_to_validate"} do |f|
-    -# if @current_user.admin?
-      =# collection_select(:admin, :school_id, School.all, :id, :name)
+    = render :partial => "admin/schools"
     %p Enter the correct number for each section.
     = render :partial => "presurveys/sections", :locals => {:f => f, :section_and_num_questions => section_and_num_questions}
     #submit
