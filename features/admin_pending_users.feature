@@ -10,8 +10,8 @@ Feature: Admin approves/disapproves new users before they are given access to th
       | ambassador |
 
     And the following schools exist:
-      | name    | county  | city     |
-      | school1 | Alameda | Berkeley |
+      | name    | county  | city     | district |
+      | school1 | Alameda | Berkeley | District |
 
     And the following school_semesters exist:
       | school_id | name | year |

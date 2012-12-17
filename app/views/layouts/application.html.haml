@@ -125,6 +125,7 @@
       - if @current_user and @school
         %div#survey_options
           %p= "County: #{@school.county}"
+          %p= "District: #{@school.district}"
           %p= "City: #{@school.city}"
           %p= "School Name: #{@school.name}"
 

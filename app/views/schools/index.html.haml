@@ -5,6 +5,7 @@
     %tr
       %th Name
       %th County
+      %th District
       %th City
   %tbody
     - @all_schools.each do |school|
@@ -13,6 +14,8 @@
           = school.name
         %td
           = school.county
+        %td
+          = school.district
         %td
           = school.city
         %td

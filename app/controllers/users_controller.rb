@@ -30,6 +30,7 @@ class UsersController < ApplicationController
 
         schoolName = params[:school][:name]
         schoolCounty = params[:school][:county]
+        schoolDistrict = params[:school][:district]
         schoolCity = params[:school][:city]
 
         semesterName = params[:semester][:name]
@@ -59,6 +60,7 @@ class UsersController < ApplicationController
                                 :school_name => schoolName,
                                 :school_city => schoolCity,
                                 :school_county => schoolCounty,
+                                :school_district => schoolDistrict,
                                 :semester_name => semesterName,
                                 :semester_year => semesterYear)
             rescue Exception => e
@@ -157,6 +159,7 @@ class UsersController < ApplicationController
         :school_name => puser.school_name,
         :school_city => puser.school_city,
         :school_county => puser.school_county,
+        :school_district => puser.school_district,
         :semester_name => puser.semester_name,
         :semester_year => puser.semester_year
       }
@@ -175,17 +178,21 @@ class UsersController < ApplicationController
         user_college = params[:colleges][uid]
         school_name = params[:school_names][uid]
         school_city = params[:school_cities][uid]
+        school_district = params[:school_districts][uid]
         school_county = params[:school_counties][uid]
         semester_name = params[:semester_names][uid] # Fall, Winter, Spring, Summer
         semester_year = params[:date][uid] # a 4-digit number, e.g 2012
 
         # find school with the given info
+        #puts "name: #{school_name}\tcity: #{school_city}\tdistrict: #{school_district}\tcounty: #{school_county}"
         school = School.where(
-            "lower(name) = :name and lower(city) = :city and lower(county) = :county",
+            "lower(name) = :name and lower(city) = :city and lower(county) = :county and lower(district) = :district",
             :name => school_name.downcase,
             :city => school_city.downcase,
+            :district => school_district.downcase,
             :county => school_county.downcase).first
-
+        #puts "school: #{school}"
+        #puts "schools:\t#{School.all}"
         # ask admin to add the school if this is a new school
         if school.nil?
           # TODO: Add a link to "Add School"

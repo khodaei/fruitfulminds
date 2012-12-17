@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128231117) do
+ActiveRecord::Schema.define(:version => 20121217053337) do
 
   create_table "efficacies", :force => true do |t|
     t.integer  "postsurvey_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20121128231117) do
     t.string   "school_county"
     t.string   "semester_name"
     t.integer  "semester_year"
+    t.string   "school_district"
   end
 
   add_index "pending_users", ["user_id"], :name => "index_pending_users_on_user_id", :unique => true
@@ -150,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20121128231117) do
     t.string   "county"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "district"
   end
 
   create_table "static_contents", :force => true do |t|

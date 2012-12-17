@@ -18,6 +18,7 @@ Given /^I fill in all of the registration text fields$/ do
     And I fill in "College" with "Berkeley City College"
     And I fill in "School Name" with "school1"
     And I fill in "School County" with "Alameda"
+    And I fill in "School District" with "District"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
     And I select "2012" from "date_year"
@@ -34,6 +35,7 @@ Given /^I fill in all registration fields except password fields$/ do
     And I fill in "College" with "Berkeley City College"
     And I fill in "School Name" with "school1"
     And I fill in "School County" with "Alameda"
+    And I fill in "School District" with "District"
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
     And I select "2012" from "date_year"
@@ -48,6 +50,7 @@ Given /^"(.*)" is a pending user for school "(.*)" and semester "(.*)\s*,\s*(.*)
       :school_name => school.name,
       :school_city => school.city,
       :school_county => school.county,
+      :school_district => school.district,
       :semester_name => semester.name,
       :semester_year => semester.year)
 end
