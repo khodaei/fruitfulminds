@@ -66,10 +66,6 @@ pdf.text " "
 pdf.text @static_contents[:summary]
 pdf.text " "
 
-
-
-
-
 pdf.text @static_contents[:behavior_title], :size => 14, :style => :bold
 pdf.text " "
 pdf.text @static_contents[:behavior_intro]
@@ -116,13 +112,21 @@ pdf.text @static_contents[:food_journal_intro]
 pdf.text " "
 pdf.text @static_contents[:fj_increase_header], :style => :bold
 pdf.text " "
+@fj_inc.each do |result|
+  pdf.text "#{result}"
+end
+pdf.text " "
 pdf.text @static_contents[:fj_decrease_header], :style => :bold
 pdf.text " "
-pdf.text @static_contents[:fj_unfavorable_header], :style => :bold
+@fj_dec.each do |result|
+  pdf.text "#{result}"
+end
 pdf.text " "
-pdf.text @static_contents[:fj_nonsig_header], :style => :bold
+pdf.text @fj_unfavorable
 pdf.text " "
-pdf.text @static_contents[:fj_favorable_header], :style => :bold
+pdf.text @fj_nonsig
+pdf.text " "
+pdf.text @fj_favorable
 pdf.text " "
 pdf.text @ambassadorNoteTitle, :size => 14, :style => :bold
 pdf.text " "

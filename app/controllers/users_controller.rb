@@ -33,12 +33,14 @@ class UsersController < ApplicationController
         schoolCity = params[:school][:city]
 
         semesterName = params[:semester][:name]
-        semesterYear = params[:semester][:year]
+        semesterYear = params[:date][:year]
 
         tos = params[:tos]
 
         if tos.nil?
             flash[:warning] = "You have to accept the TOS in order to register"
+        elsif not valid_email?(email)
+            flash[:warning] = "Not a valid email address"
         elsif password.length < 6
             flash[:warning] = "Password must have 6 characters or more"
         elsif not password.eql? confirm
@@ -123,7 +125,7 @@ class UsersController < ApplicationController
         school_city = params[:school_cities][uid]
         school_county = params[:school_counties][uid]
         semester_name = params[:semester_names][uid] # Fall, Winter, Spring, Summer
-        semester_year = params[:semester_years][uid] # a 4-digit number, e.g 2012
+        semester_year = params[:date][uid] # a 4-digit number, e.g 2012
 
         # find school with the given info
         school = School.where(

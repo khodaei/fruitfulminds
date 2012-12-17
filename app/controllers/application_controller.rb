@@ -26,4 +26,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def valid_email?(email, options = {})
+    results = ValidatesEmailFormatOf::validate_email_format(email)
+
+    if results.nil?
+      return true
+    else
+      return false
+    end
+  end
+
 end

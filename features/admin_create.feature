@@ -22,11 +22,21 @@ Scenario: add new admin
   When  I follow "Add New Administrator"
   Then  I should be on the Create New Administrator page
   And   I fill in "user_name" with "names"
-  And   I fill in "user_email" with "counties"
+  And   I fill in "user_email" with "email@example.com"
   And   I fill in "user_password" with "cities"
   And   I fill in "user_confirm_password" with "cities"
   And   I press "Create account"
   Then  I should see "Successfully created new administrator."
+
+Scenario: add new admin
+  When  I follow "Add New Administrator"
+  Then  I should be on the Create New Administrator page
+  And   I fill in "user_name" with "names"
+  And   I fill in "user_email" with "counties"
+  And   I fill in "user_password" with "cities"
+  And   I fill in "user_confirm_password" with "cities"
+  And   I press "Create account"
+  Then  I should see "Not a valid email address"
 
 Scenario: add new admin
   When  I follow "Add New Administrator"

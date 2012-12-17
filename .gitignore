@@ -6,8 +6,11 @@
 
 coverage/
 doc/
+public/assets
+
 # Ignore bundler config
 /.bundle
+
 # Ignore the default SQLite database.
 /db/*.sqlite3*
 

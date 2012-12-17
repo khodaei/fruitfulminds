@@ -107,13 +107,25 @@
 
 %h5= @static_contents[:fj_increase_header]
 
+%table
+  %tr
+  - @fj_inc.each do |result|
+    %tr
+      %td= result
+
 %h5= @static_contents[:fj_decrease_header]
 
-%h5= @static_contents[:fj_unfavorable_header]
+%table
+  %tr
+  - @fj_dec.each do |result|
+    %tr
+      %td= result
 
-%h5= @static_contents[:fj_nonsig_header]
+%h5= @fj_unfavorable
 
-%h5= @static_contents[:fj_favorable_header]
+%h5= @fj_nonsig
+
+%h5= @fj_favorable
 
 %h4= @ambassadorNoteTitle
 -# %p= @report.note

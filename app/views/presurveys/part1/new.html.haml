@@ -2,7 +2,7 @@
 - section_and_num_questions = {1 => 2, 2 => 4, 3 => 6, 4 => 3}
 
 %span
-  = form_for @presurvey_part1_fields, :url => {:action => :create}, :class => "form_to_validate" do |f|
+  = form_for @presurvey_part1_fields, :url => {:action => :create}, :html => {:class => "form_to_validate"} do |f|
     -# if @current_user.admin?
       =# collection_select(:admin, :school_id, School.all, :id, :name)
     %p Enter the correct number for each section.
