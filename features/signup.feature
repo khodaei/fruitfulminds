@@ -33,6 +33,7 @@ Background: users have been added to database
     And I fill in "School Name" with "school1"
     And I fill in "School County" with "Alameda"
     And I fill in "School City" with "Berkeley"
+    And I fill in "School District" with "District"
     And I select "Fall" from "Survey Period"
     And I select "2012" from "date_year"
     And I fill in "Password" with "password"

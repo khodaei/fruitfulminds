@@ -21,3 +21,7 @@ Given /^\s*I initiated the report generation for "(.*)"$/ do |school|
   }
 end
 
+Given /^I should see a valid number as percentage$/ do
+  regexp = /([0-9]+\.[0-9]+%)/ 
+  page.text.should match(regexp) 
+end

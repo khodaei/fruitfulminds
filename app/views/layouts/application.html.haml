@@ -105,6 +105,7 @@
         }
       });
     });
+    
   %body
     %div.background
       %span#header
@@ -124,11 +125,13 @@
       - if @current_user and @school
         %div#survey_options
           %p= "County: #{@school.county}"
+          %p= "District: #{@school.district}"
           %p= "City: #{@school.city}"
           %p= "School Name: #{@school.name}"
-      #main
-        - if flash[:notice]
-          #notice.message= flash[:notice]
-        - elsif flash[:warning]
-          #warning.message= flash[:warning]
-        = yield
+
+    #main
+      - if flash[:notice]
+        #notice.message= flash[:notice]
+      - elsif flash[:warning]
+        #warning.message= flash[:warning]
+      = yield

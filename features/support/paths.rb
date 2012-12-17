@@ -28,6 +28,7 @@ module NavigationHelpers
     when /^the surveys page$/ then '/surveys'
     when /^the reports page$/ then '/reports'
     when /^the generate report page$/ then '/reports/new'
+    when /^the cumulative reports page$/ then '/all_efficacies'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

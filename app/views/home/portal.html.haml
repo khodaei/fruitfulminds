@@ -1,73 +1,9 @@
-%div{:style => "margin-top: 50px; width: 800px; clear: both;"}
-  =render :partial => side_bar
-  %div{:style => "float: right; width: 535px;"}
-    - if not @current_user.postsurveys
-      Total Number of Students:
-      = @current_user.postsurveys.first.number_students
-      %br
-      %br
-    %table.table
-      %thead
-        %tr
-          %th Pre-Survey Part 1
-          %th Pre-Survey Part 2
-          %th Post-Surveys
-          %th Food Journals
-      %tbody
-        %tr
-          %td
-            - @current_user.presurvey_part1s.each do |survey|
-              - survey.attributes.each do |k,v|
-                - if k[/section/]
-                  = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
-                  %br
-              = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_pre_survey_part1_#{survey.id}"
-          %td
-            - @current_user.presurvey_part2s.each do |survey|
-              - survey.attributes.each do |k,v|
-                - if k[/section/]
-                  = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
-                  %br
-              - Efficacy.find_by_part2_id(survey.id).attributes.each do |k,v|
-                - if k[/efficacy/]
-                  = "Efficacy #{k.split('_')[1]}: #{v}"
-                  %br
-              = button_to "Edit Pre-Survey 2", edit_presurveys_part2_path(survey), :method => :get, :id => "edit_pre_survey_part2_#{survey.id}"
-          %td
-            - @current_user.postsurveys.each do |survey|
-              - survey.attributes.each do |k,v|
-                - if k[/section/]
-                  = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
-                  %br
-              - Efficacy.find_by_postsurvey_id(survey.id).attributes.each do |k,v|
-                - if k[/efficacy/]
-                  = "Efficacy #{k.split('_')[1]}: #{v}"
-                  %br
-              = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
-          %td
-            - @current_user.food_journals.each do |journal|
-              -journal.attributes.each do |k,v|
-                - if k[/student_name/]
-                  = "Student Name: #{v}"
-                  %br
-                - if k[/week_num/]
-                  = "Week Number: #{v}"
-                  %br
-                - if k[/fruit/]
-                  = "Fruit: #{v}"
-                  %br
-                - if k[/vegetable/]
-                  = "Vegtable: #{v}"
-                  %br
-                - if k[/sugary_drink/]
-                  = "Sugary Drink: #{v}"
-                  %br
-                - if k[/water/]
-                  = "Water: #{v}"
-                  %br
-              = button_to "Edit Food Journal", edit_foodjournal_path(journal), :method => :get, :id => "edit_food_journal_#{journal.id}"
--#- if @current_user.admin?
+- @subtitle = "Portal"
+
+- if @current_user.admin?
   = link_to("Pending Users", pending_users_path)
+  |
+  = link_to("All Users", all_users_path)
   | 
   = link_to("Add New School", new_school_path)
   | 
@@ -75,14 +11,83 @@
   | 
   = link_to("Add New Administrator", new_admin_path)
   |
--#= link_to "Add Pre-Survey Part 1 Results", new_presurveys_part1_path
--#| 
--#= link_to "Add Pre-Survey Part 2 Results", new_presurveys_part2_path
--#| 
--#= link_to "Add Post-Survey Results", new_postsurvey_path
--#| 
--#= link_to "Add Food Journal", new_foodjournal_path
--#| 
--#= link_to "Preview Report/Add Ambassador Comments", new_report_path
--#%br
--#%br
+  = link_to("Cumulative Reports", all_efficacies_path)
+  |
+= link_to "Add Pre-Survey Part 1 Results", new_presurveys_part1_path
+| 
+= link_to "Add Pre-Survey Part 2 Results", new_presurveys_part2_path
+| 
+= link_to "Add Post-Survey Results", new_postsurvey_path
+| 
+= link_to "Add Food Journal", new_foodjournal_path
+| 
+= link_to "Preview Report/Add Ambassador Comments", new_report_path
+%br
+%br
+
+- if not @current_user.postsurveys
+  Total Number of Students:
+  = @current_user.postsurveys.first.number_students
+  %br
+  %br
+
+%table.table
+  %thead
+    %tr
+      %th Pre-Survey Part 1
+      %th Pre-Survey Part 2
+      %th Post-Surveys
+      %th Food Journals
+  %tbody
+    %tr
+      %td
+        - @current_user.presurvey_part1s.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          = button_to "Edit Pre-Survey 1", edit_presurveys_part1_path(survey), :method => :get, :id => "edit_pre_survey_part1_#{survey.id}"
+      %td
+        - @current_user.presurvey_part2s.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          - Efficacy.find_by_part2_id(survey.id).attributes.each do |k,v|
+            - if k[/efficacy/]
+              = "Efficacy #{k.split('_')[1]}: #{v}"
+              %br
+          = button_to "Edit Pre-Survey 2", edit_presurveys_part2_path(survey), :method => :get, :id => "edit_pre_survey_part2_#{survey.id}"
+      %td
+        - @current_user.postsurveys.each do |survey|
+          - survey.attributes.each do |k,v|
+            - if k[/section/]
+              = "Section #{k.split('_')[1]} Number #{k.split('_')[2]}: #{v}"
+              %br
+          - Efficacy.find_by_postsurvey_id(survey.id).attributes.each do |k,v|
+            - if k[/efficacy/]
+              = "Efficacy #{k.split('_')[1]}: #{v}"
+              %br
+          = button_to "Edit Post-Survey", edit_postsurvey_path(survey), :method => :get, :id => "edit_post_survey_#{survey.id}"
+      %td
+        - @current_user.food_journals.each do |journal|
+          -journal.attributes.each do |k,v|
+            - if k[/student_name/]
+              = "Student Name: #{v}"
+              %br
+            - if k[/week_num/]
+              = "Week Number: #{v}"
+              %br
+            - if k[/fruit/]
+              = "Fruit: #{v}"
+              %br
+            - if k[/vegetable/]
+              = "Vegtable: #{v}"
+              %br
+            - if k[/sugary_drink/]
+              = "Sugary Drink: #{v}"
+              %br
+            - if k[/water/]
+              = "Water: #{v}"
+              %br
+          = button_to "Edit Food Journal", edit_foodjournal_path(journal), :method => :get, :id => "edit_food_journal_#{journal.id}"
