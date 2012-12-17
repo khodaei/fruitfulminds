@@ -99,7 +99,6 @@
         return isValidForm();
       });
     });
-    
   %body
     %div.background
       %span#header
@@ -121,10 +120,9 @@
           %p= "County: #{@school.county}"
           %p= "City: #{@school.city}"
           %p= "School Name: #{@school.name}"
-
-    #main
-      - if flash[:notice]
-        #notice.message= flash[:notice]
-      - elsif flash[:warning]
-        #warning.message= flash[:warning]
-      = yield
+      #main
+        - if flash[:notice]
+          #notice.message= flash[:notice]
+        - elsif flash[:warning]
+          #warning.message= flash[:warning]
+        = yield
