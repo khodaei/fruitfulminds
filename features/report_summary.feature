@@ -38,6 +38,11 @@ Background: Generate report based on survey results
     |      1   | nil | 3 | 4 | 4 | 6 | 5 | 4 |4 | 9 | 9| 4 | 22 |
     |      nil |  1  | 5 | 4 | 5 | 6 | 5 | 7 |4 | 10 | 9| 6 | 22 |
 
+  And the following food journals exist:
+    | student_name | school_semester_id | week_num | fruit | vegetable | sugary_drink | water |
+    |   a name     |        1           |    1     |  34   |   53      |   61         |  43   |
+    |   a name     |        1           |    8     |  34   |   53      |   53         |  24   |
+
   And the following school_semesters exist:
     | school_id | name | year |
     | 1         | Fall | 2011 |

@@ -78,11 +78,27 @@ end
 #    And I fill in email and passwords with: "#{email}", "#{pass}", "#{conf_pass}"
 #  }
 #end
-#
+
 Given /^I fill in email and passwords with: "(.*)", "(.*)", "(.*)"$/ do |email, pass, conf_pass|
   steps %Q{
     Given I fill in "Email" with "#{email}"
     And I fill in "Password" with "#{pass}"
     And I fill in "Confirm Password" with "#{conf_pass}"
   }
+end
+
+Given /\s*I am logged in as amir$/ do
+  steps %Q{
+And I am on the login page
+And I fill in "Email" with "amirk88@gmail.com"
+And I fill in "Pass" with "123f5"
+And I press "Sign In"}
+end
+
+Given /\s*I am logged in as john$/ do
+  steps %Q{
+And I am on the login page
+And I fill in "Email" with "john@gmail.com"
+And I fill in "Pass" with "12345"
+And I press "Sign In"}
 end
