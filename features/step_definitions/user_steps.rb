@@ -89,10 +89,10 @@ end
 
 Given /\s*I am logged in as amir$/ do
   steps %Q{
-And I am on the login page
-And I fill in "Email" with "amirk88@gmail.com"
-And I fill in "Pass" with "123f5"
-And I press "Sign In"}
+    And I am on the login page
+    And I fill in "Email" with "amirk88@gmail.com"
+    And I fill in "Pass" with "123f5"
+    And I press "Sign In"}
 end
 
 Given /\s*I am logged in as john$/ do

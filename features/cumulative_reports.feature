@@ -40,7 +40,7 @@ Background: Computer Cumulative Report based on Pre-Post-Surveys
     |   a name     |        1           |    1     |  34   |   53      |   61         |  43   |
     |   a name     |        1           |    8     |  34   |   53      |   53         |  24   |
 
-  And I am logged in as amir
+  And I am logged in as "amirk88@gmail.com" with "123f5" as my password
   And I am on the portal page
 
   Scenario: See school1 in cumulative reports
