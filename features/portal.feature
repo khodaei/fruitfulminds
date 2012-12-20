@@ -40,8 +40,12 @@ Background: results are to be added to database
 
   Given the following food journals exist:
     | student_name | school_semester_id | week_num | fruit | vegetable | sugary_drink | water |
-    |   a name     |        1           |    1     |  34   |   53      |   61         |  43   |
+    |   a name     |        1           |    1     |  43   |   53      |   61         |  43   |
+    |   a name     |        1           |    3     |  34   |   33      |   32         |  43   |
     |   a name     |        1           |    8     |  34   |   53      |   53         |  24   |
+    |  the name    |        1           |    1     |  34   |   26      |   63         |  24   |
+    |  the name    |        1           |    5     |  41   |   39      |   63         |  24   |
+    |  the name    |        1           |    8     |  34   |   68      |   53         |  24   |
 
   Given the following schools exist:
     | name | county | city | 
