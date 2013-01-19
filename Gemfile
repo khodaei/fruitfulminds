@@ -22,6 +22,7 @@ gem 'haml', :require => "open-uri"
 
 # For email validation
 gem 'validates_email_format_of' #, :git => 'git://github.com/alexdunae/validates_email_format_of.git'
+gem 'bcrypt-ruby'
 
 # For Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
