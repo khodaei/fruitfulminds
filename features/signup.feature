@@ -36,8 +36,8 @@ Background: users have been added to database
     And I fill in "School District" with "District"
     And I select "Fall" from "Survey Period"
     And I select "2012" from "date_year"
-    And I fill in "Password" with "password"
-    And I fill in "Confirm Password" with "password"
+    And I fill in "user_password" with "password"
+    And I fill in "user_confirm_password" with "password"
     And I check "tos"
     And I press "Register"
     Then I should be on the login page
@@ -53,8 +53,8 @@ Background: users have been added to database
   Scenario: passwords entered do not match
     Given I am on the signup page
     And I fill in all registration fields except password fields
-    And I fill in "Password" with "password"
-    And I fill in "Confirm Password" with "something_else"
+    And I fill in "user_password" with "password"
+    And I fill in "user_confirm_password" with "something_else"
     And I check "tos"
     And I press "Register"
     Then I should be on the signup page
@@ -63,8 +63,8 @@ Background: users have been added to database
   Scenario: password too short
     Given I am on the signup page
     And I fill in all registration fields except password fields
-    And I fill in "Password" with "passw"
-    And I fill in "Confirm Password" with "passw"
+    And I fill in "user_password" with "passw"
+    And I fill in "user_confirm_password" with "passw"
     And I check "tos"
     And I press "Register"
     Then I should be on the signup page

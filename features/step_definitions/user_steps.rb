@@ -22,8 +22,8 @@ Given /^I fill in all of the registration text fields$/ do
     And I fill in "School City" with "Berkeley"
     And I select "Fall" from "Survey Period"
     And I select "2012" from "date_year"
-    And I fill in "Password" with "password"
-    And I fill in "Confirm Password" with "password"
+    And I fill in "user_password" with "password"
+    And I fill in "user_confirm_password" with "password"
   }
 end
 
@@ -82,8 +82,8 @@ end
 Given /^I fill in email and passwords with: "(.*)", "(.*)", "(.*)"$/ do |email, pass, conf_pass|
   steps %Q{
     Given I fill in "Email" with "#{email}"
-    And I fill in "Password" with "#{pass}"
-    And I fill in "Confirm Password" with "#{conf_pass}"
+    And I fill in "user_password" with "#{pass}"
+    And I fill in "user_confirm_password" with "#{conf_pass}"
   }
 end
 

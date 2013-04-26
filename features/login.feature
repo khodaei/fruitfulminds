@@ -29,7 +29,7 @@ Background: users have been added to database
 
   Scenario: An admin logs in with no pending user
     Given I fill in "Email" with "amirk88@gmail.com"
-    And I fill in "Password" with "123f5"
+    And I fill in "user_password" with "123f5"
     And I press "Sign In"
     Then I should be on the portal page
     And I should see "Pending Users"
@@ -41,14 +41,14 @@ Background: users have been added to database
   Scenario: An admin logs in with a pending user
     Given "New Amb" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amirk88@gmail.com"
-    And I fill in "Password" with "123f5"
+    And I fill in "user_password" with "123f5"
     And I press "Sign In"
     Then I should be on the pending users page
     And I should see "amb@gmail.com"
 
   Scenario: An ambassador logs in with no pending users
     Given I fill in "Email" with "amb@gmail.com"
-    And I fill in "Password" with "ambpass"
+    And I fill in "user_password" with "ambpass"
     And I press "Sign In"
     Then I should be on the portal page
     And I should see "Add Pre-Survey Part 1 Results"
@@ -60,7 +60,7 @@ Background: users have been added to database
   Scenario: An ambassador logs in with a pending user
     Given "New Amb2" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amb@gmail.com"
-    And I fill in "Password" with "ambpass"
+    And I fill in "user_password" with "ambpass"
     And I press "Sign In"
     Then I should be on the portal page
     And I should see "Add Pre-Survey Part 1 Results"
@@ -72,7 +72,7 @@ Background: users have been added to database
   Scenario: A pending user logs in
     Given "New Amb" is a pending user for school "school1" and semester "Fall, 2012"
     And I fill in "Email" with "amb@gmail.com"
-    And I fill in "Password" with "ambpass"
+    And I fill in "user_password" with "ambpass"
     And I press "Sign In"
     Then I should be on the login page
     And I should see "You are not approved yet"

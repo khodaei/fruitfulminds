@@ -66,8 +66,8 @@ module Fruitfulminds
       :address => 'smtp.gmail.com',
       :port => 587,
       :domain => 'gmail.com',
-      :user_name => 'test.fruitfulminds@gmail.com',
-      :password => 'amirfelix',
+      :user_name => 'fruitful@fruitfulminds.org',
+      :password => 'oranges!',
       :authentication => 'plain'
     }
     config.action_mailer.perform_deliveries = true

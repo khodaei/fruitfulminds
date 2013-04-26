@@ -32,9 +32,10 @@
       = password_field :user, :confirm_password
       %br
       -# name, value, checked, options
+      %div{:style => "margin-top: 15px; margin-bottom: 15px; background-color: #ffffff; border: 1px solid black; width: 100%; height: 200px; overflow: auto;"}
+        = render :partial => "terms_of_service"
       = check_box_tag 'tos', "1", false
-      = "Accept "
-      = link_to "Terms of Service", tos_path, :target => "_blank"
+      = "Accept Terms of Service"
       %br
       %br
       = submit_tag "Register"
