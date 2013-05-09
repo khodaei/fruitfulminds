@@ -41,7 +41,7 @@
         var can_redirect = true;
         $(":text").each(function(index){
           if ($(this).attr('class') == "numeric_input_field"){
-            if (!$.isNumeric($(this).val()) || $(this).val() < 0){
+            if (!$.isNumeric(this.value) || this.value < 0){
               can_redirect = false;
               return false;
             }
@@ -52,7 +52,7 @@
               return false;
             }
             else
-              $(this).val($(this).val().trim());
+              $(this).val(this.value.trim());
           }
         });
         return can_redirect;
@@ -80,28 +80,32 @@
           else
             return true;
         });
+        $(".numeric_input_field").focusin(function(){
+          if (this.value == "Not a Number")
+            $(this).val("");
+        });
         $(".numeric_input_field").focusout(function(){
-          if (!$.isNumeric($(this).val()) || $(this).val() < 0){
+          if (!this.value) {
             $(this).css("background-color", "red");
             $(this).css("color", "white");
-            alert("<" + $(this).val() + ">" + " is an invalid input.");
+            $(this).val("No Input");
           }
-          else{
+          else if (!$.isNumeric(this.value) || this.value < 0){
+            $(this).css("background-color", "red");
+            $(this).css("color", "white");
+            $(this).val("Not a Natural Number");
+          }
+          else {
             $(this).css("background-color", "white");
             $(this).css("color", "black");
           }
         });
         $(".text_input_field").focusout(function(){
-          if (!this.value){
+          if (!this.value || !this.value.trim()){
             $(this).css("background-color", "red");
             $(this).css("color", "white");
-            alert("The field cannot be empty.");
-          }
-          else if (!this.value.trim()){
-            $(this).css("background-color", "red");
-            $(this).css("color", "white");
-            alert("The field cannot only contain white space.");
-            $(this).val($(this).val().trim());
+            $(this).val("No Input");
+            $(this).val(this.value.trim());
           }
           else{
             $(this).css("background-color", "white");

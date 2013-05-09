@@ -27,7 +27,7 @@ class ReportsController < ApplicationController
         @school_intro_title = "Fruitful Minds at #{@school.name}"
         @school_intro = "Fruitful Minds held a nutrition lesson series at #{@school.name} during #{@school_semester.name} #{@school_semester.year}" 
         @school_intro_second = "    #{@school.users.size} students from UC Berkeley #{@ambassadors} were selected as Fruitful Minds ambassadors"    
-        @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the cirriculum material through lectures, games, and various interactive activities."
+        @school_intro_third = "    During each 50-minute lesson, class facilitators delivered the curriculum material through lectures, games, and various interactive activities."
         @eval_intro_first = "Prior to the 7-week curriculum, a pre-curriculum survey was distributed to assess the students\' knowledge in nutrition; a very similar survey was administered during the final class. The goal of the surveys was to determine the retention of key learning objectives from the Fruitful Minds program."
         @efficacy = calculate_efficacy
         @eval_intro_second = "On average, students have shown a #{@efficacy}% improvement after going through seven weeks of classes." 
@@ -744,9 +744,9 @@ class ReportsController < ApplicationController
     end
     if @fj_increase.include?("sugary_drink")
       if unfav.size > 0
-        unfav += "; increase in sugar sweetened beverages"
+        unfav += "; increase in consumption of sugar sweetened beverages"
       else
-        unfav = "increase in sugar sweetened beverages"
+        unfav = "increase in consumption of sugar sweetened beverages"
       end
     end
     if unfav.size > 0
@@ -778,9 +778,9 @@ class ReportsController < ApplicationController
     end
     if (not @fj_decrease.include?("sugary_drink")) and @mean["sugary_drink"] < 0
       if nonsig.size > 0
-        nonsig += "; sugar sweetened beverage decrease"
+        nonsig += "; sugar sweetened beverage consumption decrease"
       else
-        nonsig = "sugar sweetened beverage decrease"
+        nonsig = "sugar sweetened beverage consumption decrease"
       end
     end
     if nonsig.size > 0
